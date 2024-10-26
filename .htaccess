@@ -1,7 +1,0 @@
-RewriteEngine On
-
-# Chuyển hướng đến trang chủ
-RewriteRule ^$ public/index.php [L]
-
-# Điều hướng các trang khác
-RewriteRule ^page/(.*)$ page.php?page=$1 [L]
