@@ -1,15 +1,25 @@
 <?php
-require_once "config/database.php";
-require_once "routes/web.php";
+require_once('connection.php');
 
-// Lấy thông tin route
-$url = isset($_GET['url']) ? rtrim($_GET['url'], '/') : 'home/index';
-$url = explode('/', $url);
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
 
-// Điều hướng đến controller và action
-$controllerName = ucfirst($url[0]) . 'Controller';
-$action = isset($url[1]) ? $url[1] : 'index';
+    if (isset($_GET['controller'])) {
 
-require_once "app/Controllers/{$controllerName}.php";
-$controller = new $controllerName;
-$controller->$action();
+        $controller = $_GET['controller'];
+
+        if (isset($_GET['action'])) {
+            $action = $_GET['action'];
+        } else {
+            $action = 'index';
+        }
+    } else {
+        $controller = 'layouts';
+        $action = 'index';
+    }
+} else {
+    $page = 'main';
+    $controller = 'layouts';
+    $action = 'index';
+}
+require_once('routes.php');
