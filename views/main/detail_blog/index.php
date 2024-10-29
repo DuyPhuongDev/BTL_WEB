@@ -1,6 +1,6 @@
 <?php
 include_once('views/main/navbar.php');
-$id = $_GET['id'];
+$id = $_GET['news_id'];
 ?>
 
 <body>
