@@ -1,5 +1,5 @@
 <?php
-include_once('views/navbar.php');
+include_once('views/main/navbar.php');
 ?>
 
 <body>
@@ -82,5 +82,5 @@ include_once('views/navbar.php');
 </body>
 
 <?php
-include_once('views/footer.php');
+include_once('views/main/footer.php');
 ?>
