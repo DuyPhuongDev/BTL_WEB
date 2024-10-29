@@ -21,6 +21,15 @@ SET time_zone = "+00:00";
 -- Database: `assgnWeb`
 --
 
+CREATE TABLE `admin` (
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `createAt` datetime DEFAULT NULL,
+  `updateAt` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
 -- --------------------------------------------------------
 
 --
