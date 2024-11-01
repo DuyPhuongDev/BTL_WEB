@@ -1,6 +1,7 @@
 <?php
 // $active = "Home";
 include("header.php");
+include("function.php");
 ?>
 <style>
 .product-large {
@@ -14,8 +15,42 @@ include("header.php");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top center;
+
 }
+.product-item {
+            border: 1px solid #ddd; /* Thêm đường viền cho sản phẩm */
+            padding: 10px; /* Khoảng cách bên trong */
+            border-radius: 5px; /* Bo góc cho sản phẩm */
+            text-align: center; /* Căn giữa nội dung */
+            background-color: #fff; /* Màu nền trắng */
+        }
+.pi-pic img {
+            width: 100%; /* Đảm bảo ảnh sản phẩm chiếm toàn bộ chiều rộng */
+            height: auto; /* Giữ tỷ lệ khung hình cho ảnh */
+        }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Owl Carousel JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    $(".owl-carousel").owlCarousel({
+        items: 3, // Số lượng sản phẩm hiển thị
+        loop: true, // Lặp lại carousel
+        margin: 25, // Khoảng cách giữa các sản phẩm
+        autoplay: true, // Tự động chạy carousel
+        autoplayTimeout: 3000, // Thời gian tự động chạy giữa các sản phẩm
+        autoplayHoverPause: true // Dừng khi hover
+    });
+});
+</script>
 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -47,12 +82,6 @@ include("header.php");
 <section class="topProduct-banner spad">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-3 offset-lg-1">
-                <div class="product-large set-bg m-large" data-setbg="img/someproduct.jpg">
-                    <h2>Some Product</h2>
-                    <a href="shop.php?cat_id=1">Discover More</a>
-                </div>
-            </div>
             <div class="col-lg-8">
                 <div class="filter-control">
                     <h3> Products </h3>
@@ -63,7 +92,12 @@ include("header.php");
                     ?>
                 </div>
             </div>
-
+            <div class="col-lg-3 offset-lg-1">
+                <div class="product-large set-bg m-large" data-setbg="views\main\layouts\img\someproduct.png">
+                    <h2>Some Product</h2>
+                    <a href="shop.php?cat_id=1">Discover More</a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -71,8 +105,3 @@ include("header.php");
 <?php
 include('footer.php');
 ?>
-
-
-</body>
-
-</html>

@@ -1,9 +1,16 @@
 <?php
-include('config.php');
+session_start();
+if (!isset($_SESSION['customer_email'])) {
+    $_SESSION['customer_email'] = 'unset';
+} 
+// else {
+//     return;
+// }
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
+
+<head>
 
 <meta charset="UTF-8">
 <meta name="description" content="Inferno Co.">
@@ -16,6 +23,7 @@ include('config.php');
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" charset="utf-8"></script>
 <script src="https://code.jquery.com/jquery-3.6.2.js" integrity="sha256-pkn2CUZmheSeyssYw3vMp1+xyub4m+e+QK4sQskvuo4=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+
 <style>
 .nav-item {
     background: #252525;
@@ -74,19 +82,29 @@ include('config.php');
     color: #fe4231;
     text-decoration: none;
 }  
+.product-item .pi-text .product-price {
+    color: #fe4231;
+    font-size: 20px;
+    font-weight: 700;
+}
+.product-item .pi-pic img {
+    min-width: 100%;
+}
+img {
+    max-width: 100%;
+    vertical-align: middle;
+    border-style: none;
+}
+.product-item .pi-text a h5 {
+    color: #252525;
+}
 </style>
 </head>
 
-<body>
 
-    <!-- Page Pre Load Section-->
-    <div id="preload">
-        <div class="load">
-        </div>
+<body>
+<header class="header-section">
     </div>
-    <!-- Header Section-->
-    <header class="header-section">
-        </div>
         <div class="nav-item">
                 <nav class="nav-menu mobile-menu">
                     <ul>
@@ -101,11 +119,12 @@ include('config.php');
                     <div class="login-hover">
                         <div class="insidelog">
                             <?php if ($_SESSION['customer_email'] == 'unset') {
-                                echo "<a href='login.php' class='btn logbtn' style='width: 200px; height:40px'>Login</a>";
+                                echo "<a href='./login/login.php' class='btn logbtn' style='width: 200px; height:40px'>Login</a>";
                             } else {
                                 echo "<a href='logout.php' class='btn logbtn' style='width: 200px; height:40px'>Log Out</a>";
                             } ?>
                         </div>
                     </div>
-    </header>
+        </div>
+</header>
     <!-- Header End -->

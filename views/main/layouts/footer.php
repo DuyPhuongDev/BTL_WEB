@@ -49,7 +49,8 @@ h5 {
     font-size: 18px;
     color: #ffffff;
     font-weight: 700;
-    margin-bottom: 26px;
+    margin-bottom: 0px;
+    list-style-type: none;
 }
 </style>
 <!-- Footer Section Begin -->
@@ -118,3 +119,5 @@ h5 {
 <script src="js/jquery.slicknav.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
+</body>
+</html>
