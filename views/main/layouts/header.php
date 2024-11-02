@@ -1,11 +1,11 @@
 <?php
-session_start();
-if (!isset($_SESSION['customer_email'])) {
-    $_SESSION['customer_email'] = 'unset';
-} 
-// else {
-//     return;
-// }
+  session_start();
+  if (isset($_SESSION['guest']))
+  {
+    require_once('models/user.php');
+    $data = User::get($_SESSION['guest']);
+  }
+  
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -13,7 +13,7 @@ if (!isset($_SESSION['customer_email'])) {
 <head>
 
 <meta charset="UTF-8">
-<meta name="description" content="Inferno Co.">
+<meta name="description" content="HCMUT.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>HCMUT</title>
@@ -108,21 +108,22 @@ img {
         <div class="nav-item">
                 <nav class="nav-menu mobile-menu">
                     <ul>
-                        <li class="<?php if ($active == 'Home') echo "active" ?>"><a href="index.php">Home</a></li>
-                        <li class="<?php if ($active == 'About') echo "active" ?>"><a href="shop.php">About</a></li>
-                        <li class="<?php if ($active == 'Blog') echo "active" ?>"><a href="contact.php">Blog</a></li>
-                        <li class="<?php if ($active == 'Sale') echo "active" ?>"><a href="index.php">Sale</a></li>
-                        <li class="<?php if ($active == 'Product') echo "active" ?>"><a href="shop.php">Product</a></li>
-                        <li class="<?php if ($active == 'New') echo "active" ?>"><a href="contact.php">New</a></li>
+                        <li class="nav-item"><a href="index.php?page=main&controller=layouts&action=index" class="nav-link">Home</a></li>
+                        <li class="nav-item"><a href="index.php?page=main&controller=about&action=index">About</a></li>
+                        <li class="nav-item"><a href="index.php?page=main&controller=contact&action=index">Contact</a></li>
+                        <li class="nav-item"><a href="index.php?page=main&controller=sale&action=index">Sale</a></li>
+                        <li class="nav-item"><a href="index.php?page=main&controller=products&action=index">Product</a></li>
+                        <li class="nav-item"><a href="index.php?page=main&controller=blog&action=index">News</a></li>
                     </ul>
                 </nav>
                     <div class="login-hover">
                         <div class="insidelog">
-                            <?php if ($_SESSION['customer_email'] == 'unset') {
-                                echo "<a href='./login/login.php' class='btn logbtn' style='width: 200px; height:40px'>Login</a>";
+                            <?php  if (!isset($_SESSION["guest"])){
+                                echo "<a href='index.php?page=main&controller=login&action=index' class='btn logbtn' style='width: 200px; height:40px'>Login</a>";
                             } else {
-                                echo "<a href='logout.php' class='btn logbtn' style='width: 200px; height:40px'>Log Out</a>";
+                                echo "<a href='index.php?page=main&controller=login&action=logout' class='btn logbtn' style='width: 200px; height:40px'>Log Out</a>";
                             } ?>
+                            
                         </div>
                     </div>
         </div>

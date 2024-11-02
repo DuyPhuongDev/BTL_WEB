@@ -1,6 +1,5 @@
 <?php
-// $active = "Home";
-include("header.php");
+include_once('header.php');
 include("function.php");
 ?>
 <style>
@@ -103,5 +102,5 @@ $(document).ready(function(){
 </section>
 <!-- Footer -->
 <?php
-include('footer.php');
+include_once('footer.php');
 ?>
