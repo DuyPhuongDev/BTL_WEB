@@ -1,6 +1,6 @@
 <?php
 include_once('header.php');
-include("function.php");
+include_once("function.php");
 ?>
 <style>
 .product-large {
@@ -29,15 +29,14 @@ include("function.php");
         }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
-    
-    <!-- Owl Carousel CSS -->
+ 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- Owl Carousel JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script>
 $(document).ready(function(){
     $(".owl-carousel").owlCarousel({
@@ -92,7 +91,7 @@ $(document).ready(function(){
                 </div>
             </div>
             <div class="col-lg-3 offset-lg-1">
-                <div class="product-large set-bg m-large" data-setbg="views\main\layouts\img\someproduct.png">
+                <div class="product-large set-bg m-large" data-setbg="views/main/layouts/img/products/someproduct.png">
                     <h2>Some Product</h2>
                     <a href="shop.php?cat_id=1">Discover More</a>
                 </div>
@@ -104,3 +103,5 @@ $(document).ready(function(){
 <?php
 include_once('footer.php');
 ?>
+</body>
+</html>

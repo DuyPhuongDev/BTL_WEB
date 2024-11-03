@@ -5,7 +5,6 @@
     require_once('models/user.php');
     $data = User::get($_SESSION['guest']);
   }
-  
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -45,13 +44,18 @@
     margin: 0;
 }
 
-.login-hover {
+.button-container {
+    display: flex; /* Sử dụng flexbox để đặt các nút bên cạnh nhau */
     position: absolute;
-    right: 20px; /* Adjust this value to control the distance from the right edge */
-    top: 50%; /* Centers vertically within the navbar */
-    transform: translateY(-50%); /* Centers the element vertically */
+    right: 20px; /* Điều chỉnh khoảng cách từ mép phải */
+    top: 50%; /* Căn giữa theo chiều dọc */
+    transform: translateY(-50%); /* Căn giữa theo chiều dọc */
 }
 
+.login-hover,
+.register-hover {
+    margin-left: 10px; /* Khoảng cách giữa hai nút */
+}
 .nav-item .nav-menu li {
   list-style: none;
   display: inline-block;
@@ -116,16 +120,24 @@ img {
                         <li class="nav-item"><a href="index.php?page=main&controller=blog&action=index">News</a></li>
                     </ul>
                 </nav>
-                    <div class="login-hover">
-                        <div class="insidelog">
-                            <?php  if (!isset($_SESSION["guest"])){
-                                echo "<a href='index.php?page=main&controller=login&action=index' class='btn logbtn' style='width: 200px; height:40px'>Login</a>";
-                            } else {
-                                echo "<a href='index.php?page=main&controller=login&action=logout' class='btn logbtn' style='width: 200px; height:40px'>Log Out</a>";
-                            } ?>
-                            
-                        </div>
-                    </div>
+<div class="button-container">
+    <?php if (!isset($_SESSION["guest"])): ?>
+        <div class="register-hover">
+        <div class="insidelog">
+            <a href='index.php?page=main&controller=register&action=index' class='btn logbtn' style='width: 100px; height:40px'>Register</a>
         </div>
+    </div>
+        <div class="login-hover">
+            <div class="insidelog">
+                    <a href='index.php?page=main&controller=login&action=index' class='btn logbtn' style='width: 100px; height:40px'>Login</a>
+                    <?php else: ?>
+                    <div class="insidelog">
+                    <a href='index.php?page=main&controller=login&action=logout' class='btn logbtn' style='width: 100px; height:40px'>Log Out</a>
+                    </div>
+                    <?php endif; ?>
+            </div>
+        </div>
+
+</div>
 </header>
     <!-- Header End -->

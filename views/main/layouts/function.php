@@ -1,7 +1,7 @@
 <?php
 function getMProduct()
 {
-    $db =  mysqli_connect("localhost", "root", "", "đồ án");
+    $db = mysqli_connect("localhost", "root", "", "assignmentweb");
     $get_products = "SELECT * FROM products WHERE product_id > 1 ORDER BY RAND() LIMIT 5";
     $run_products = mysqli_query($db, $get_products);
 
@@ -15,7 +15,7 @@ function getMProduct()
         echo "
         <div class='product-item'>
             <div class='pi-pic' style='max-height:300px'>
-                <img src='img/products/$product_img' alt='$product_name' style='height: 300px'>
+                <img src='views/main/layouts/img/products/$product_img' alt='$product_name' style='height: 300px'>
                 <ul>
                     <li class='quick-view'><a href='product.php?product_id=$product_id' style='background:#fe4231;color:white'></a></li>
                 </ul>

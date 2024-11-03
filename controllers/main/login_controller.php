@@ -16,10 +16,10 @@ class LoginController extends BaseController
 		{
 			header('Location: index.php?page=main&controller=layouts&action=index');
 		}
-		else if (isset($_POST['submit-btn']))
+		else if (isset($_POST['login']))
 		{
-			$username = $_POST['username'];
-			$password = $_POST['password'];
+			$username = $_POST['userName'];
+			$password = $_POST['passWord'];
 			unset($_POST);
 			$check = User::validation($username, $password);
 			if ($check == 1)
@@ -45,6 +45,6 @@ class LoginController extends BaseController
 		session_start();
 		unset($_SESSION["guest"]);
 		session_destroy();
-		header("Location: index.php?page=main&controller=login&action=index");
+		header("Location: index.php?page=main&controller=layouts&action=index");
 	}
 }
