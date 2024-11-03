@@ -60,7 +60,7 @@ $id = $_GET['id'];
   }?>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="public/plugins/jquery/jquery.min.js"></script>
-  <script src="assets\javascripts\blog\index.js"></script>
+  <script src="blog.js"></script>
 </body>
 
 <?php
