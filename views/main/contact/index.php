@@ -1,5 +1,5 @@
 <?php
-include_once('views/main/navbar.php');
+include_once('views/main/header.php');
 ?>
 
 <body>
