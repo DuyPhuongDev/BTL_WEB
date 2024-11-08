@@ -95,7 +95,7 @@
 </head>
 <body>
     <!-- Header Section -->
-    <header class="position-fixed w-100 bg-light header-section">
+    <header class="bg-light header-section">
         <!-- Header Top: Social Icons and Login -->
         <div class="header-top bg-white py-2">
             <div class="container d-flex justify-content-between align-items-center">
