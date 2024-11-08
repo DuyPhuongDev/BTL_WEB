@@ -1,165 +1,170 @@
 <?php
-  session_start();
-  if (isset($_SESSION['guest']))
-  {
-    require_once('models/user.php');
-    $data = User::get($_SESSION['guest']);
-  }
-  
+    
+  // session_start();
+  // print_r($_SESSION);
+  // if (isset($_SESSION['guest']))
+  // {
+  //   require_once('model/User.php');
+  //   $data = User::get($_SESSION['guest']);
+  // }
+    if(sizeof($_GET)==0){
+        $current_page = 'main';
+        $current_controller = 'home';
+        $current_action = 'index';
+    }else{
+        $current_page = isset($_GET['page']) ? $_GET['page'] : '';
+        $current_controller = isset($_GET['controller']) ? $_GET['controller'] : '';
+        $current_action = isset($_GET['action']) ? $_GET['action'] : '';
+    }
+    // echo $current_page.'<br>';
+    // echo $current_controller.'<br>';
+    // echo $current_action.'<br>';
+
+    $folderPath = 'views/'.$current_page.'/'.$current_controller;
 ?>
+
 <!DOCTYPE html>
-<html lang="vi">
-
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inferno Co.</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo $folderPath."/style.css" ?>">
+    <style>
+        /* Custom styles */
+        .navbar-brand {
+            color: #ff4433;
+            font-family: 'Roboto', sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .navbar-nav .nav-link {
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .navbar-nav .nav-link.active {
+            color: #ff4433;
+        }
+        .search-bar {
+            max-width: 300px;
+        }
+        .social-icon a {
+            color: #333;
+            margin-right: 10px;
+        }
+        /* Show dropdown on hover */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        footer {
+            font-family: Arial, sans-serif;
+        }
 
-  <title>BIG FARM - Trang trại quần áo</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+        footer h5, footer h6 {
+            color: #ff4a4a;
+        }
 
-  <!-- Logo -->
-  <link href="assets/images/team_logo.png" rel="icon">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-  
-  <link href="assets/stylesheets/style.css" rel="stylesheet">
-  <link href="assets/stylesheets/stylesheet.css" rel="stylesheet">
-  <link rel="stylesheet" href="assets/stylesheets/star_rating.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" charset="utf-8"></script>
-  <script src="https://code.jquery.com/jquery-3.6.2.js" integrity="sha256-pkn2CUZmheSeyssYw3vMp1+xyub4m+e+QK4sQskvuo4=" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
-  <!-- Link CSS -->
-  <link rel="stylesheet" href="assets/stylesheets/main/services.css">
+        footer p a:hover {
+            color: #ff4a4a;
+        }
+
+        footer .form-control {
+            border-radius: 5px;
+        }
+
+        footer .btn-danger {
+            background-color: #ff4a4a;
+            border: none;
+            border-radius: 5px;
+        }
+
+        footer .btn-danger:hover {
+            background-color: #e84343;
+        }
+
+        footer .text-danger {
+            color: #ff4a4a !important;
+        }
+        
+    </style>
+    
 </head>
-
 <body>
-  <?php
-  if (isset($_SESSION['guest']))
-  {
-  echo '
-    <div class="modal fade" id="EditUserModal" tabindex="-1" role="dialog" aria-labelledby="EditUserModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Chỉnh sửa</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- Header Section -->
+    <header class="position-fixed w-100 bg-light header-section">
+        <!-- Header Top: Social Icons and Login -->
+        <div class="header-top bg-white py-2">
+            <div class="container d-flex justify-content-between align-items-center">
+                <div class="social-icon">
+                    <a href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+                <div class="login">
+                    <a href="#" class="text-dark"><i class="fas fa-user"></i> Login</a>
+                </div>
+            </div>
         </div>
-        <form action="index.php?page=main&controller=register&action=editInfo" enctype="multipart/form-data" method="post">
-          <div class="modal-body">
-            <input type="hidden" name="email">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <div class="row"> </div>
-                  <label>Họ và tên lót</label>
-                  <input class="form-control my-2" type="text" placeholder="Họ và tên lót" name="fname" value="' . $data->fname . '"/>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <div class="row"> </div>
-                  <label>Tên</label>
-                  <input class="form-control my-2" type="text" placeholder="Tên" name="lname" value="' . $data->lname . '"/>
-                </div>
-              </div>
-            </div>
 
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Tuổi</label>
-                  <input class="form-control my-2" type="number" placeholder="Tuổi" name="age" value="' . $data->age . '"/>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Giới tính:</label>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="gender"' . (($data->gender == '1')?'checked':"") . ' value="1" />
-                        <label>Nam</label>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="gender"' . (($data->gender == '0')?'checked':"") . ' value="0" />
-                        <label>Nữ</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        <!-- Header Main: Brand and Search -->
+        <div class="header-main bg-light py-3">
+            <div class="container d-flex justify-content-between align-items-center">
+                <!-- Brand -->
+                <a href="#" class="navbar-brand">BKSHOP Co.</a>
+                <!-- Search bar -->
+                <form class="d-flex search-bar">
+                    <input class="form-control" type="search" placeholder="Search our Store" aria-label="Search">
+                    <button class="btn btn-danger" type="submit"><i class="fas fa-search"></i></button>
+                </form>
             </div>
+        </div>
 
-            <div class="form-group">
-              <label>Số điện thoại</label>
-              <input class="form-control my-2" type="number" placeholder="Số điện thoại" name="phone" value="' . $data->phone . '"/>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <!-- Dropdown for All Categories -->
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-bars"></i> All Categories
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                                <li><a class="dropdown-item" href="#">Jacket</a></li>
+                                <li><a class="dropdown-item" href="#">T-Shirt</a></li>
+                                <li><a class="dropdown-item" href="#">Jeans</a></li>
+                                <li><a class="dropdown-item" href="#">Hoodie</a></li>
+                                <li><a class="dropdown-item" href="#">Shoe</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <!-- Right-side menu links -->
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link <?= ($current_page == 'main' && $current_controller == 'home' && $current_action == 'index') ? 'active' : '' ?>" href="index.php?page=main&controller=home&action=index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= ($current_page == 'main' && $current_controller == 'about' && $current_action == 'index') ? 'active' : '' ?>" href="index.php?page=main&controller=about&action=index">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= ($current_page == 'main' && $current_controller == 'products' && $current_action == 'index') ? 'active' : '' ?>" href="index.php?page=main&controller=products&action=index">Shop</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= ($current_page == 'main' && $current_controller == 'blog' && $current_action == 'index') ? 'active' : '' ?>" href="index.php?page=main&controller=blog&action=index">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= ($current_page == 'main' && $current_controller == 'contact' && $current_action == 'index') ? 'active' : '' ?>" href="index.php?page=main&controller=contact&action=index">Contact</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="form-group">
-              <label>Hình ảnh hiện tại </label>
-              <input class="form-control my-2" type="text" name="img" readonly value="' . $data->profile_photo . '" />
-            </div>
-            <div class="form-group">
-              <label>Hình ảnh mới</label>&nbsp
-              <input type="file" class="form-control my-2" name="fileToUpload" id="fileToUpload" />
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Đóng lại</button>
-            <button class="btn btn-primary" type="submit">Cập nhật</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>';
-  }
-  ?>
-  
-  <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top">
-        <div class="container  align-items-center">
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="public/assets/img/logo.png" alt="" class="img-fluid"></a>-->
-      
-        <nav class="navbar navbar-expand-lg navbar-light bg-white bd-subnavbar py-2">
-            <h1 class="logo "><a href="index.php?page=main&controller=layouts&action=index"><img src="assets/images/team_logo.png" alt="">BIG<span>FARM</span></a></h1>
-            <button class="navbar-toggler ms-5" type="button"  aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse hide" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a href="index.php?page=main&controller=layouts&action=index" class="nav-link">Introduce</a></li>
-                    <li class="nav-item"><a href="index.php?page=main&controller=about&action=index">About</a></li>
-                    <li class="nav-item"><a href="index.php?page=main&controller=blog&action=index">News</a></li>
-                    <li class="nav-item"><a href="index.php?page=main&controller=sale&action=index">Sale</a></li>
-                    <li class="nav-item"><a href="index.php?page=main&controller=products&action=index">Product</a></li>
-                    <li class="nav-item"><a href="index.php?page=main&controller=services&action=index">Service</a></li>
-                    <li class="nav-item"><a href="index.php?page=main&controller=contact&action=index">Contact</a></li>
-
-                    <?php
-                        if (!isset($_SESSION["guest"])){
-                    ?>
-                        <li><a href="index.php?page=main&controller=register&action=index" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Đăng ký"><i class="bu bi-file-lock-fill">Register</i></a></li> <!-- Đăng ký -->
-                        <li><a href="index.php?page=main&controller=login&action=index" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Đăng nhập" class="box-arrow-in-right"><i class="bu bi-person-lines-fill">Login</i></a></li> <!-- Đăng nhập -->
-                            
-                    <?php
-                        }
-                        else{
-                            echo '
-                            <li><a href="" data-bs-toggle="modal" data-bs-target="#EditUserModal"><i class="bu bi-person-badge-fill"></i></a></li>
-                            <li><a href="index.php?page=main&controller=login&action=logout" class="box-arrow-in-right"><i class="bu bi-box-arrow-right"></i></a></li> <!-- Đăng xuất -->
-                            ';
-                        }
-                    ?>
-                </ul>
-                    <!-- <i class="bi bi-list mobile-nav-toggle"></i> -->
-                </ul>
-            </div>
-            
         </nav>
-    </div>
-  </header><!-- End Header -->
-  
+    </header>
+
