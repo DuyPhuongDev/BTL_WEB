@@ -1,6 +1,5 @@
 <?php
-require_once('connection.php');
-
+require_once('./connection.php');
 if (isset($_GET['page'])) {
     $page = $_GET['page'];
 
@@ -14,12 +13,12 @@ if (isset($_GET['page'])) {
             $action = 'index';
         }
     } else {
-        $controller = 'layouts';
+        $controller = 'home';
         $action = 'index';
     }
 } else {
     $page = 'main';
-    $controller = 'layouts';
+    $controller = 'home';
     $action = 'index';
 }
 require_once('routes.php');

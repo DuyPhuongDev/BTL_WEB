@@ -6,8 +6,8 @@ class DB
     {
         if (!isset(self::$instance)) 
         {
-            self::$instance = mysqli_connect("localhost", "root", "", "web");
-            if (mysqli_connect_errno())
+            self::$instance = mysqli_connect("localhost", "root", "root", "assgnWeb");
+            if (mysqli_connect_error())
             {
                 die("Failed to connect to MySQL: " . mysqli_connect_error());
             }

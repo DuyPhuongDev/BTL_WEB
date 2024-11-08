@@ -1,11 +1,11 @@
 <?php
 require_once('controllers/main/base_controller.php');
 
-class LayoutsController extends BaseController
+class HomeController extends BaseController
 {
 	function __construct()
 	{
-		$this->folder = 'layouts';
+		$this->folder = 'home';
 	}
 
 	public function index()
@@ -13,3 +13,4 @@ class LayoutsController extends BaseController
 		$this->render('index');
 	}
 }
+
