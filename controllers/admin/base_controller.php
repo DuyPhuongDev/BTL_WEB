@@ -16,10 +16,10 @@ class BaseController
       require_once($view_file);
       $content = ob_get_clean();
       // Sau khi có kết quả đã được lưu vào biến $content, gọi ra template chung của hệ thống đế hiển thị ra cho người dùng
-      require_once('views/admin/basic_layouts.php');
+      require_once('views/basic_layouts.php');
     } else {
       // Nếu file muốn gọi ra không tồn tại thì chuyển hướng đến trang báo lỗi.
-      header('Location: index.php?page=admin&controller=layouts&action=error');
+       header('Location: index.php?page=admin&controller=error&action=error');
     }
   }
 }

@@ -162,6 +162,9 @@
                         <li class="nav-item">
                             <a class="nav-link <?= ($current_page == 'main' && $current_controller == 'contact' && $current_action == 'index') ? 'active' : '' ?>" href="index.php?page=main&controller=contact&action=index">Contact</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.php?page=admin&controller=home&action=index">Admin</a>
+                        </li>
                     </ul>
                 </div>
             </div>
