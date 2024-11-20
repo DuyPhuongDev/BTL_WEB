@@ -1,10 +1,10 @@
 <?php
   session_start();
-  if (isset($_SESSION['guest']))
-  {
-    require_once('models/user.php');
-    $data = User::get($_SESSION['guest']);
-  }
+//   if (isset($_SESSION['guest']))
+//   {
+//     require_once('models/user.php');
+//     $data = User::get($_SESSION['guest']);
+//   }
 ?>
 <!DOCTYPE html>
 <html lang="vi">
