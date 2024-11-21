@@ -152,6 +152,44 @@ class Product {
         return $products;
     }
     
+    public function getCategoryName() {
+        $db = DB::getInstance();
+        $sql = "SELECT category_name FROM categories WHERE category_id = $this->category_id";
+        $result = $db->query($sql);
+        $category_name = "";
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $category_name = $row['category_name'];
+            }
+        }
+        return $category_name;
+    }
+
+    public static function deleteProduct($product_id) {
+        $db = DB::getInstance();
+        $sql = "DELETE FROM products WHERE product_id = $product_id";
+        if ($db->query($sql) === TRUE) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getProductById(){
+        $db = DB::getInstance();
+        $sql = "SELECT * FROM products WHERE product_id = $this->product_id";
+        $result = $db->query($sql);
+        $product = null;
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $product = new Product($row['product_name'], $row['description'], $row['image_url'], $row['price'], $row['category_id']);
+                $product->product_id = $row['product_id'];
+                $product->created_at = $row['created_at'];
+                $product->updated_at = $row['updated_at'];
+            }
+        }
+        return $product;
+    }
     
 }
 ?>

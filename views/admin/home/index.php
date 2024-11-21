@@ -45,7 +45,7 @@
         </main>
     </div>
 
-    <footer class="bg-light text-center p-3">Footer</footer>
+    <?php require_once 'views/admin/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2Ee6IS/Q9KNy0xk5LRQnv6pPbP4mxlc1ZZ8jn4rJ7DLVxFqPOsmPU9YfUCr" crossorigin="anonymous"></script>
 </body>

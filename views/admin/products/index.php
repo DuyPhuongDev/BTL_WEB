@@ -9,9 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="views/admin/home/style.css">
     <script src="https://kit.fontawesome.com/6fc5ccf10e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <style>
         .cell {
             max-width: 150px;         /* Đặt chiều rộng tối đa cho ô */
@@ -52,15 +52,15 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="content-wrapper col-10">
+        <main class="content-wrapper col-10 mb-2">
             <section class="content-header">
                 <div class="container-fluid">
-                    <div style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+                    <!-- <div style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Quản lý sản phẩm</li>
                         </ol>
-                    </div>
+                    </div> -->
                     <div class="container-fluid row">
                         <div class="my-2">
                             <p class="row">
@@ -75,70 +75,56 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="shadow p-2 rounded">
-                            <div class="dialog">
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProduct">Thêm sản phẩm</button>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="addProduct" tabindex="-1" aria-labelledby="addProductLabel" aria-hidden="true">
-                                    <form id="addProductForm" class="needs-validation" action="index.php?page=admin&controller=product&action=add" method="POST" enctype="multipart/form-data" novalidate>
-                                        <div class="modal-dialog modal-dialog-scrollable">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="addProductLabel">Thêm sản phẩm mới</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <?php 
+                                require_once 'views/admin/products/addProductDialog.php';
+                                require_once 'views/admin/products/editProductDialog.php';
+                                require_once 'views/admin/products/deleteProductDialog.php';
+                            ?>
+                            <!-- table -->
+                            <table id="table-product" class="table table-bordered table-striped">
+                                <thead class="table-dark">
+                                    <tr class="text-center">
+                                        <th scope="col" class="d-none d-lg-table-cell">STT</th>
+                                        <th scope="col" >Tên sản phẩm</th>
+                                        <th scope="col" class="d-none d-lg-table-cell">Giá</th>
+                                        <th scope="col" class="d-none d-lg-table-cell">Loại</th>
+                                        <th scope="col" class="d-none d-lg-table-cell">Mô tả</th>
+                                        <th scope="col" class="d-none d-lg-table-cell">Hình ảnh</th>
+                                        <th scope="col" class="d-none d-lg-table-cell">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($products as $key => $product) : ?>
+                                        <tr class="text-center">
+                                            <td class="d-none d-lg-table-cell"><?php echo $key + 1; ?></td>
+                                            <td class="cell"><?php echo $product->getProductName(); ?></td>
+                                            <td class="d-none d-lg-table-cell"><?php echo number_format($product->getPrice(), 0, ',', '.'); ?> VNĐ</td>
+                                            <td class="d-none d-lg-table-cell"><?php echo $product->getCategoryName(); ?></td>
+                                            <td class="d-none d-lg-table-cell"><?php echo str_replace("\r\n", "<br>", $product->getDescription()); ?></td>
+                                            <td class="d-none d-lg-table-cell"><img src="<?php echo $product->getImageUrl(); ?>" alt="<?php echo $product->getProductName(); ?>" style="width: 100px;"></td>
+                                            <td class="d-none d-lg-table-cell">
+                                                <div class="btn-group" role="group">
+                                                    <button 
+                                                        class="btn btn-warning me-2" id="edit-btn"
+                                                        data-bs-name="<?php echo $product->getProductName(); ?>"
+                                                        data-bs-description="<?php echo $product->getDescription(); ?>"
+                                                        data-bs-imageurl="<?php echo $product->getImageUrl(); ?>"
+                                                        data-bs-price="<?php echo $product->getPrice(); ?>"
+                                                        data-bs-category="<?php echo $product->getCategoryId(); ?>"
+                                                        data-bs-toggle="modal" data-bs-target="#editProduct"  
+                                                    >
+                                                        <i class="fa-solid fa-pen"></i>
+                                                    </button>
+                                                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-id="<?php echo $product->getProductId(); ?>" data-bs-target="#deleteProduct" id="delete-btn">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
                                                 </div>
-                                                <div class="modal-body">
-                                                    <div class="mb-3">
-                                                        <label for="productName" class="form-label">Tên sản phẩm</label>
-                                                        <input type="text" class="form-control" id="productName" name="product_name" required>
-                                                        <div class="invalid-feedback">
-                                                            Vui lòng nhập tên sản phẩm!
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="description" class="form-label">Mô tả</label>
-                                                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
-                                                        <div class="invalid-feedback">
-                                                            Vui lòng nhập mô tả sản phẩm!
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="imageUrl" class="form-label">URL ảnh</label>
-                                                        <input type="file" class="form-control" id="imageUrl" name="image_url" required>
-                                                        <div class="invalid-feedback">
-                                                            Vui lòng thêm hình ảnh cho sản phẩm!
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="price" class="form-label">Giá</label>
-                                                        <input type="number" class="form-control" id="price" name="price" required min="0" step="0.01">
-                                                        <div class="invalid-feedback">
-                                                            Vui lòng nhập giá sản phẩm!
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="categoryId" class="form-label">Danh mục</label>
-                                                        <select class="form-select" id="categoryId" name="category_id" required>
-                                                            <option value="">Chọn danh mục</option>
-                                                            <?php foreach ($categories as $category) : ?>
-                                                                <option value="<?php echo $category->getCategoryId(); ?>"><?php echo $category->getCategoryName(); ?></option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                        <div class="invalid-feedback">
-                                                            Vui lòng chọn danh mục!
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                                    <button type="submit" class="btn btn-primary">Lưu sản phẩm</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                            <!-- end table -->
                         </div>
                     </div>
                 </div>
@@ -146,46 +132,72 @@
         </main>
     </div>
 
-    <footer class="bg-light text-center p-3">Footer</footer>
+    <?php require_once 'views/admin/footer.php'; ?>
 
 
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function () {
-            'use strict'
+        // render table with pagination
+        $(document).ready(function() {
+            $('#table-product').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "dom": '<"row mb-3"<"col-md-6"l><"col-md-6"f>>' +
+                       'rt' +
+                       '<"row my-2"<"col-md-6"i><"col-md-6"p>>',
+                "language": {
+                    "lengthMenu": "Hiển thị _MENU_ hàng",
+                    "info": "Đang hiển thị _START_ đến _END_ trong tổng số _TOTAL_ hàng",
+                    "infoEmpty": "Không có dữ liệu",
+                    "paginate": {
+                        "first": "Đầu",
+                        "last": "Cuối",
+                        "next": "Tiếp",
+                        "previous": "Trước"
+                    },
+                    "search": "Tìm kiếm:"
+                }
+            });
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.querySelectorAll('.needs-validation')
+            // Thay đổi các tùy chọn trong dropdown lengthChange
+            $('#table-product_length select')
+                .empty() // Xóa các tùy chọn hiện tại
+                .append('<option value="5">5</option>') // Thêm các tùy chọn mới
+                .append('<option value="10">10</option>')
+                .append('<option value="15">15</option>')
+                .append('<option value="20">20</option>');
 
-            console.log(forms);
+            // Thiết lập giá trị mặc định là 20
+            $('#table-product_length select').val('10');
+        });
+        // edit product
+        $(document).on('click', '#edit-btn', function() {
+            var name = $(this).data('bs-name');
+            var description = $(this).data('bs-description');
+            var imageUrl = $(this).data('bs-imageurl');
+            var price = $(this).data('bs-price');
+            var category = $(this).data('bs-category');
 
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    console.log('submit');
-                    if (!form.checkValidity()) {
-                        console.log('invalid');
-                    event.preventDefault()
-                    event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-        })();
-
-        // Đảm bảo rằng script này được chạy sau khi modal được đóng
-        var modal = document.getElementById('addProduct');
-        modal.addEventListener('hidden.bs.modal', function (event) {
-            // Reset form khi modal đóng
-            var form = document.getElementById('addProductForm');
-            form.reset();  // Reset các trường nhập liệu
-            form.classList.remove('was-validated');  // Loại bỏ lớp đã xác thực nếu có
+            $('#editname').val(name);
+            $('#editdescription').val(description);
+            $('#editprice').val(price);
+            $('#editimageUrl').val(imageUrl);
+            $('#editcategoryId').val(category);
+            
         });
 
+        // delete product
+        $(document).on('click', '#delete-btn', function() {
+            var productId = $(this).data('bs-id');
+            $('#productId').val(productId);
+        });
     </script>
-
-
 </body>
 </html>

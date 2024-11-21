@@ -1,5 +1,6 @@
 <?php
-require_once './Enum.php';
+require_once ('models/Enum.php');
+require_once('connection.php');
 class User {
     private $user_id;
     private $username;
@@ -9,12 +10,11 @@ class User {
     private $avatar_url;
     private $phone;
     private $address;
-    private UsersStatusEnum $status;
+    private $status;
     private $created_at;
     private $updated_at;
 
-    public function __construct($user_id, $username, $password, $email, $full_name, $avatar_url, $phone, $address, UsersStatusEnum $status, $created_at, $updated_at) {
-        $this->user_id = $user_id;
+    public function __construct($username, $password, $email, $full_name, $avatar_url, $phone, $address, $status, $role_id) {
         $this->username = $username;
         $this->password = $password;
         $this->email = $email;
@@ -23,36 +23,174 @@ class User {
         $this->phone = $phone;
         $this->address = $address;
         $this->status = $status;
+        $this->role_id = $role_id;
+    }
+
+    // Getter and Setter for user_id
+    public function getUserId() {
+        return $this->user_id;
+    }
+
+    public function setUserId($user_id) {
+        $this->user_id = $user_id;
+    }
+
+    // Getter and Setter for username
+    public function getUsername() {
+        return $this->username;
+    }
+
+    public function setUsername($username) {
+        $this->username = $username;
+    }
+
+    // Getter and Setter for password
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function setPassword($password) {
+        $this->password = $password;
+    }
+
+    // Getter and Setter for email
+    public function getEmail() {
+        return $this->email;
+    }
+
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+
+    // Getter and Setter for full_name
+    public function getFullName() {
+        return $this->full_name;
+    }
+
+    public function setFullName($full_name) {
+        $this->full_name = $full_name;
+    }
+
+    // Getter and Setter for avatar_url
+    public function getAvatarUrl() {
+        return $this->avatar_url;
+    }
+
+    public function setAvatarUrl($avatar_url) {
+        $this->avatar_url = $avatar_url;
+    }
+
+    // Getter and Setter for phone
+    public function getPhone() {
+        return $this->phone;
+    }
+
+    public function setPhone($phone) {
+        $this->phone = $phone;
+    }
+
+    // Getter and Setter for address
+    public function getAddress() {
+        return $this->address;
+    }
+
+    public function setAddress($address) {
+        $this->address = $address;
+    }
+
+    // Getter and Setter for status
+    public function getStatus() {
+        return $this->status;
+    }
+
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+
+    // Getter and Setter for created_at
+    public function getCreatedAt() {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt($created_at) {
         $this->created_at = $created_at;
+    }
+
+    // Getter and Setter for updated_at
+    public function getUpdatedAt() {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt($updated_at) {
         $this->updated_at = $updated_at;
     }
 
-    public function save() {
-        // Save or update user in database
+    // Getter and Setter for role_id
+    public function getRoleId() {
+        return $this->role_id;
     }
 
-    public function delete() {
-        // Delete user from database
+    public function setRoleId($role_id) {
+        $this->role_id = $role_id;
     }
-    public function update($username, $password, $email, $full_name, $avatar_url, $phone, $address, UsersStatusEnum $status) {
-        $this->username = $username;
-        $this->password = $password;
-        $this->email = $email;
-        $this->full_name = $full_name;
-        $this->avatar_url = $avatar_url;
-        $this->phone = $phone;
-        $this->address = $address;
-        $this->status = $status;
-        $this->updated_at = date('Y-m-d H:i:s');
 
-        // Assuming you have a mysqli instance $mysqli
-        global $mysqli;
 
-        $sql = "UPDATE users SET username = ?, password = ?, email = ?, full_name = ?, avatar_url = ?, phone = ?, address = ?, status = ?, updated_at = ? WHERE user_id = ?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param('sssssssssi', $this->username, $this->password, $this->email, $this->full_name, $this->avatar_url, $this->phone, $this->address, $this->status, $this->updated_at, $this->user_id);
-
-        return $stmt->execute();
+    // function __get
+    public function __get($property) {
+        if (property_exists($this, $property)) {
+            return $this->$property;
+        }
     }
+
+    // get all users
+    public static function getAllUser() {
+        $db = DB::getInstance();
+        $sql = "SELECT * FROM users";
+        $result = $db->query($sql);
+        $users = [];
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $user = new User($row['username'], $row['password'], $row['email'], $row['full_name'], $row['avatar_url'], $row['phone'], $row['address'], $row['status'], $row['role_id']);
+                $user->user_id = $row['user_id'];
+                $user->created_at = $row['created_at'];
+                $user->updated_at = $row['updated_at'];
+                $users[] = $user;
+            }
+        }
+        return $users;
+    }
+
+    // get user by id
+    public static function getUserById($user_id) {
+        $db = DB::getInstance();
+        $sql = "SELECT * FROM users WHERE user_id = $user_id";
+        $result = $db->query($sql);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $user = new User($row['username'], $row['password'], $row['email'], $row['full_name'], $row['avatar_url'], $row['phone'], $row['address'], $row['status'], $row['role_id']);
+            $user->user_id = $row['user_id'];
+            $user->created_at = $row['created_at'];
+            $user->updated_at = $row['updated_at'];
+            return $user;
+        }
+        return null;
+    }
+
+    // add user
+    public static function addUser($user) {
+        $db = DB::getInstance();
+        $sql = "INSERT INTO users (username, password, email, full_name, avatar_url, phone, address, status, role_id) VALUES ('$user->username', '$user->password', '$user->email', '$user->full_name', '$user->avatar_url', '$user->phone', '$user->address', '$user->status', '$user->role_id')";
+        $result = $db->query($sql);
+        return $result;
+    }
+
+    // update status
+    public static function updateStatus($user_id, $status) {
+        $db = DB::getInstance();
+        $sql = "UPDATE users SET status = '$status' WHERE user_id = '$user_id'";
+        $result = $db->query($sql);
+        return $result;
+    }
+
 }
 ?>

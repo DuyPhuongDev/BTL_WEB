@@ -19,7 +19,7 @@ class ProductController extends BaseController
     }
     public function add() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+            
             // generate id for filename
             $fileId = (string)date("Y_m_d_h_i_sa");
             
@@ -40,12 +40,12 @@ class ProductController extends BaseController
             if (file_exists($target_url)) {
                 echo "Sorry, file already exists.";
             }
-
             // Check file type
             if($fileType != "jpg" && $fileType != "png" && $fileType != "jpeg" && $fileType != "gif" ) {
                     echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
             }
-            if ($_FILES["image_url"]["size"] > 500000) {
+            if ($_FILES["image_url"]["size"] > 10485760) {
+                echo $_FILES["image_url"]["size"]."<br>";
                 echo "Sorry, your file is too large.";
             }
 
@@ -53,11 +53,10 @@ class ProductController extends BaseController
                 echo "Sorry, there was an error uploading your file.";
             }
             
+            
 
             // Tạo đối tượng Product
-            $product = new Product($product_name, $description, $image_url, $price, $category_id);
-
-
+            $product = new Product($product_name, $description, $target_url, $price, $category_id);
 
             // Gọi phương thức addProduct
             if ($product->addProduct()) {
@@ -72,11 +71,20 @@ class ProductController extends BaseController
     }
     public function edit()
     {
-        $this->render('edit');
+        echo "Edit product";
     }
-    public function delete()
-    {
-        $this->render('delete');
+    public function delete(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['productId'])) {
+            $productId = intval($_POST['productId']);
+            if (Product::deleteProduct($productId)) {
+                Header("Location: index.php?page=admin&controller=product&action=index");
+            } else {
+                echo "Failed to delete product.";
+            }   
+        }else{
+            $this->index();
+        }
     }
+
 }
 ?>

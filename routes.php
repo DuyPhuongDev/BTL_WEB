@@ -11,7 +11,7 @@ $controllers = array(
   'product' => ['index', 'add', 'edit', 'delete'],
   'news' => ['index', 'add', 'edit', 'delete', 'hide'],
   'comments' => ['index', 'hide', 'add', 'edit', 'delete'],
-  'user' => ['index', 'add', 'editInfo', 'editPass', 'delete'],
+  'user' => ['index', 'add', 'edit', 'delete'],
   'login' => ['index', 'check', 'logout'],
 
   //Main controller
@@ -36,5 +36,6 @@ if (!array_key_exists($page, $pages) || !array_key_exists($controller, $controll
 // echo $action."<br>";
 include_once('controllers/'.$page.'/' . $controller . '_controller.php');
 $klass = ucfirst($controller) . 'Controller';
+// echo $klass."<br>";
 $controller = new $klass;
 $controller->$action();
