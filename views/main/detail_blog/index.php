@@ -1,6 +1,6 @@
 <?php
-include_once('views/main/header.php');
-$id = $_GET['id'];
+include_once('views/main/navbar.php');
+$id = $_GET['news_id'];
 ?>
 
 <body>
@@ -60,7 +60,7 @@ $id = $_GET['id'];
   }?>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="public/plugins/jquery/jquery.min.js"></script>
-  <script src="blog.js"></script>
+  <script src="script.js"></script>
 </body>
 
 <?php

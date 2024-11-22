@@ -1,5 +1,5 @@
 <?php
-include_once('views/main/header.php');
+include_once('views/main/navbar.php');
 ?>
 
 <body>
@@ -18,8 +18,8 @@ include_once('views/main/header.php');
                         <i class="ti-world"></i>
                     </div>
                     <div class="ci-text">
-                        <span>Chi nhánh:</span>
-                        <p>TP.HCM</p>
+                        <span>Email:</span>
+                        <p>BKshop@hcmut.edu.vn</p>
                     </div>
                 </div>
                 <div class="cw-item">
@@ -28,7 +28,7 @@ include_once('views/main/header.php');
                     </div>
                     <div class="ci-text">
                         <span>Địa chỉ:</span>
-                        <p>268 Lý Thường Kiệt, Phường 14, Quận 10, TP.HCM</p>
+                        <p>Đông Hoà, Dĩ An, Bình Dương</p>
                     </div>
                 </div>
                 <div class="cw-item">
@@ -37,7 +37,7 @@ include_once('views/main/header.php');
                     </div>
                     <div class="ci-text">
                         <span>Số điện thoại:</span>
-                        <p>0 123 456 789</p>
+                        <p>+84 3213352126</p>
                     </div>
                 </div>
             </div>
