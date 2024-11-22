@@ -1,6 +1,6 @@
 <?php
     
-  // session_start();
+  session_start();
   // print_r($_SESSION);
   // if (isset($_SESSION['guest']))
   // {
@@ -104,9 +104,15 @@
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
                 </div>
+                <?php if (!isset($_SESSION["guest"])): ?>
                 <div class="login">
-                    <a href="#" class="text-dark"><i class="fas fa-user"></i> Login</a>
+                    <a href="index.php?page=main&controller=login&action=index" class="text-dark"><i class="fas fa-user"></i> Login</a>
                 </div>
+                <?php else: ?>
+                    <div class="insidelog">
+                    <a href='index.php?page=main&controller=login&action=logout' class='btn logbtn' style='width: 100px; height:40px'>Log Out</a>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
 

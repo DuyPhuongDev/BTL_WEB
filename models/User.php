@@ -1,5 +1,8 @@
 <?php
-require_once './Enum.php';
+require_once('Enum.php');
+if (isset($success_message)) {
+	echo "<script>alert('Tạo tài khoản thành công!');</script>";
+}
 class User {
     private $user_id;
     private $username;
@@ -26,12 +29,49 @@ class User {
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
     }
-
+    static function insert($username, $password, $email, $full_name, $avatar_url, $phone, $address, $role_id, $status)
+    {
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        $db = DB::getInstance();
+        if (empty($avatar_url)) {
+            $avatar_url = NULL;
+        } 
+        $created_at = date('Y-m-d H:i:s');
+        $updated_at = $created_at;
+        $stmt = $db->prepare(
+            "INSERT INTO users (username, password, email, full_name, avatar_url, phone, address, role_id, status, created_at, updated_at) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        );
+        if ($stmt === false) {
+            die('MySQL prepare failed: ' . $db->error);
+        }
+        $stmt->bind_param('sssssssisss', $username, $password, $email, $full_name, $avatar_url, $phone, $address, $role_id, $status, $created_at, $updated_at);
+        $result = $stmt->execute();
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    static function validation($username, $password)
+    {
+        $db = DB::getInstance();
+        $req = $db->query("SELECT * FROM users WHERE username = '$username'");
+        if($result = $req -> fetch_assoc()) {
+            if ($password == $result['password'])
+                return true;
+            else
+                return false;
+        }
+        else {
+            return false;
+        }
+    }
     public function save() {
         // Save or update user in database
     }
 
-    public function delete() {
+    static function delete($email) {
         // Delete user from database
     }
     public function update($username, $password, $email, $full_name, $avatar_url, $phone, $address, UsersStatusEnum $status) {
