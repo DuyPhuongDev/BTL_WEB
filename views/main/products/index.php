@@ -188,48 +188,55 @@ include_once('views/main/navbar.php');
                </div>
             </div>
       </section>
-      <div class="related-products spad">
-         <div class="container">
-            <div class="row">
-               <div class="col-lg-12">
-                  <div class="section-title">
-                     <h2 class="likethis">More like this</h2>
+      <?php
+      if (isset($_GET['viewdetail'])) {
+         ?>
+         <div class="related-products spad">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="section-title">
+                        <h2 class="likethis">More like this</h2>
+                     </div>
                   </div>
                </div>
-            </div>
-            <div class="row">
-               <?php
-               foreach ($likeproducts as $product) {
-                  ?>
-                  <div class='col-lg-3 col-sm-6'>
-                     <div class='product-item'>
-                        <div class='pi-pic' style='max-height:300px'>
-                           <img src='<?php echo $product->image_url; ?>' alt='$p_name' style="width: 100px; object-fit: cover; object-position: center;">
-                           <ul>
-                              <li class='quick-view'><a
-                                    href="index.php?page=main&controller=products&action=index&viewdetail=<?php echo $product->product_id; ?> &cat_id=<?php echo $product->category_id; ?>"
-                                    style='background:#fe4231;color:white'>View Details</a></li>
-                           </ul>
-                        </div>
-                        <div class='pi-text'>
-                           <a href='#'>
-                              <h5><?php echo htmlspecialchars($product->product_name); ?></h5>
+               <div class="row">
+                  <?php
+                  foreach ($likeproducts as $product) {
+                     ?>
+                     <div class='col-lg-3 col-sm-6'>
+                        <div class='product-item'>
+                           <div class='pi-pic' style='max-height:300px'>
+                              <img src='<?php echo $product->image_url; ?>' alt='$p_name'
+                                 style="width: 100px; object-fit: cover; object-position: center;">
+                              <ul>
+                                 <li class='quick-view'><a
+                                       href="index.php?page=main&controller=products&action=index&viewdetail=<?php echo $product->product_id; ?> &cat_id=<?php echo $product->category_id; ?>"
+                                       style='background:#fe4231;color:white'>View Details</a></li>
+                              </ul>
+                           </div>
+                           <div class='pi-text'>
+                              <a href='#'>
+                                 <h5><?php echo htmlspecialchars($product->product_name); ?></h5>
 
-                           </a>
-                           <div class='product-price'>
-                              <?php echo htmlspecialchars($product->price); ?>
-                              Vnđ
+                              </a>
+                              <div class='product-price'>
+                                 <?php echo htmlspecialchars($product->price); ?>
+                                 Vnđ
+                              </div>
                            </div>
                         </div>
                      </div>
-                  </div>
 
-                  <?php
-               }
-               ?>
+                     <?php
+                  }
+                  ?>
+               </div>
             </div>
          </div>
-      </div>
+         <?php
+      }
+      ?>
 
 
    </div>
