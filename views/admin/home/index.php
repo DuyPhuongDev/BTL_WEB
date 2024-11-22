@@ -23,7 +23,7 @@
         </nav>
     </header>
 
-    <div class="d-flex">
+    <div class="container-fluid row">
         <!-- Sidebar -->
         <aside id="sidebar" class="sidebar collapse d-lg-block bg-light col-2">
             <div class="sidebar-header text-center mt-5">
@@ -39,14 +39,204 @@
         </aside>
 
         <!-- Main Content -->
-        <main style="height: 1600px" class="container-fluid p-4">
-            <h1>Welcome to the Admin Dashboard</h1>
-            <!-- Main content goes here -->
+        <main class="container-fluid p-4 col-10">
+            <h1 class="text-center">Welcome to the Admin Dashboard</h1>
+            <!-- Statistics Cards -->
+            <div class="row my-4">
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Sales</h5>
+                            <p class="card-text fs-3">$12,345</p>
+                            <i class="fas fa-dollar-sign fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-success">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Products</h5>
+                            <p class="card-text fs-3">1,234</p>
+                            <i class="fas fa-tshirt fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-warning">
+                        <div class="card-body">
+                            <h5 class="card-title">New Orders</h5>
+                            <p class="card-text fs-3">567</p>
+                            <i class="fas fa-shopping-cart fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-danger">
+                        <div class="card-body">
+                            <h5 class="card-title">Low Stock</h5>
+                            <p class="card-text fs-3">45</p>
+                            <i class="fas fa-box-open fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="row my-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Sales Overview</h5>
+                            <canvas id="salesChart" width="500" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Top Products</h5>
+                            <canvas id="topProductsChart" width="500" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="row my-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Recent Orders</h5>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#1001</td>
+                                        <td>John Doe</td>
+                                        <td>T-shirt</td>
+                                        <td>2</td>
+                                        <td>$50</td>
+                                        <td><span class="badge bg-success">Completed</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#1002</td>
+                                        <td>Jane Smith</td>
+                                        <td>Jeans</td>
+                                        <td>1</td>
+                                        <td>$40</td>
+                                        <td><span class="badge bg-warning">Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#1003</td>
+                                        <td>Sam Wilson</td>
+                                        <td>Jacket</td>
+                                        <td>1</td>
+                                        <td>$120</td>
+                                        <td><span class="badge bg-danger">Cancelled</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
     <?php require_once 'views/admin/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2Ee6IS/Q9KNy0xk5LRQnv6pPbP4mxlc1ZZ8jn4rJ7DLVxFqPOsmPU9YfUCr" crossorigin="anonymous"></script>
+    <!-- Include Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const salesData = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+            datasets: [{
+                label: 'Sales ($)',
+                data: [1200, 1900, 3000, 2500, 4000, 3200],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        const salesConfig = {
+            type: 'bar',
+            data: salesData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Monthly Sales Overview' }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        };
+
+        const salesChart = new Chart(
+            document.getElementById('salesChart'),
+            salesConfig
+        );
+
+
+        // Data for the chart
+        const productData = {
+            labels: ['T-shirt', 'Jeans', 'Jacket', 'Shoes', 'Hats'], // Product names
+            datasets: [{
+                label: 'Units Sold',
+                data: [150, 200, 120, 170, 90], // Units sold for each product
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)', // T-shirt
+                    'rgba(54, 162, 235, 0.2)', // Jeans
+                    'rgba(255, 206, 86, 0.2)', // Jacket
+                    'rgba(75, 192, 192, 0.2)', // Shoes
+                    'rgba(153, 102, 255, 0.2)'  // Hats
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        // Configuration for the chart
+        const productConfig = {
+            type: 'line', // Doughnut chart
+            data: productData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top', // Legend position
+                    },
+                    title: {
+                        display: true,
+                        text: 'Top Products Performance' // Title text
+                    }
+                }
+            }
+        };
+
+        // Render the chart
+        const topProductsChart = new Chart(
+            document.getElementById('topProductsChart'),
+            productConfig
+        );
+    </script>
 </body>
 </html>
