@@ -53,7 +53,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary">Tạo</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Tạo</button>
                     </div>
                 </div>
             </div>

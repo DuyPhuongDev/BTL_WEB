@@ -11,6 +11,7 @@ class User {
     private $phone;
     private $address;
     private $status;
+    private $role_id;
     private $created_at;
     private $updated_at;
 
@@ -134,14 +135,6 @@ class User {
         $this->role_id = $role_id;
     }
 
-
-    // function __get
-    public function __get($property) {
-        if (property_exists($this, $property)) {
-            return $this->$property;
-        }
-    }
-
     // get all users
     public static function getAllUser() {
         $db = DB::getInstance();
@@ -179,7 +172,7 @@ class User {
     // add user
     public static function addUser($user) {
         $db = DB::getInstance();
-        $sql = "INSERT INTO users (username, password, email, full_name, avatar_url, phone, address, status, role_id) VALUES ('$user->username', '$user->password', '$user->email', '$user->full_name', '$user->avatar_url', '$user->phone', '$user->address', '$user->status', '$user->role_id')";
+        $sql = "INSERT INTO users (username, password, email, full_name, avatar_url, phone, address, status, role_id) VALUES ('$user->username', '$user->password', '$user->email', '$user->full_name', '$user->avatar_url', '$user->phone', '$user->address', 'active', '$user->role_id')";
         $result = $db->query($sql);
         return $result;
     }
@@ -188,6 +181,14 @@ class User {
     public static function updateStatus($user_id, $status) {
         $db = DB::getInstance();
         $sql = "UPDATE users SET status = '$status' WHERE user_id = '$user_id'";
+        $result = $db->query($sql);
+        return $result;
+    }
+
+    // delete user
+    public static function deleteUser($user_id) {
+        $db = DB::getInstance();
+        $sql = "DELETE FROM users WHERE user_id = '$user_id'";
         $result = $db->query($sql);
         return $result;
     }

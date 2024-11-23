@@ -37,6 +37,7 @@ class ProductController extends BaseController
             // genearte filename
             $fileId .= "." . $fileType;
             $target_url = $target_dir.basename($fileId);
+            echo $target_url;
             if (file_exists($target_url)) {
                 echo "Sorry, file already exists.";
             }
@@ -55,15 +56,7 @@ class ProductController extends BaseController
             
             
 
-            // Tạo đối tượng Product
-            $product = new Product($product_name, $description, $target_url, $price, $category_id);
-
-            // Gọi phương thức addProduct
-            if ($product->addProduct()) {
-                Header("Location: index.php?page=admin&controller=product&action=index");
-            } else {
-                echo "Failed to add product.";
-            }
+            
         } else {
             // Hiển thị form thêm sản phẩm
             $this->index();

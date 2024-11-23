@@ -110,7 +110,7 @@
                             <?php 
                                 require_once 'views/admin/user/addUserDialog.php';
                                 require_once 'views/admin/user/editUserDialog.php';
-                                // require_once 'views/admin/user/deleteUserDialog.php';
+                                require_once 'views/admin/user/deleteUserDialog.php';
                             ?>
                             <!-- table -->
                             <table id="table-product" class="table table-bordered table-striped">
@@ -237,27 +237,29 @@
         $('#addUserForm').submit(function(e) {
             e.preventDefault();
             let formData = new FormData(this);
-            for (let [key, value] of formData.entries()) {
-                console.log(`${key}: ${value}`);
-            }
-            // $.ajax({
-            //     url: 'index.php?page=admin&controller=user&action=add',
-            //     method: 'POST',
-            //     data: formData,
-            //     success: function(response) {
-            //         var data = JSON.parse(response); // convert string to json
-            //         if(data.status == 200) {
-            //             showToastSuccess("Thêm tài khoản thành công");
-            //             renderTable(data.data.users, roles);
-            //             users = data.data.users; // update users
-            //         } else {
-            //             showToastError("Thêm tài khoản thất bại");
-            //         }
-            //     },
-            //     error: function() {
-            //         showToastError("Có lỗi xảy ra");
-            //     }
-            // })
+            
+            $.ajax({
+                url: 'index.php?page=admin&controller=user&action=add',
+                method: 'POST',
+                data: formData,
+                processData: false, // Tắt xử lý dữ liệu mặc định
+                contentType: false, // Để trình duyệt tự động thiết lập
+                success: function(response) {
+                    var data = JSON.parse(response); // convert string to json
+                    if(data.status == 200) {
+                        console.log(data);
+                        showToastSuccess("Thêm tài khoản thành công");
+                        renderTable(data.data.users, data.data.roles);
+                        users = data.data.users; // update users
+                    } else {
+                        showToastError("Thêm tài khoản thất bại");
+                    }
+                },
+                error: function() {
+                    //showToastError("Có lỗi xảy ra");
+                    alert("Có lỗi xảy ra");
+                }
+            })
         });
         
 
@@ -306,6 +308,35 @@
         });
 
         // handle delete user
+        $(document).on('click', '#delete-user-btn', function() {
+            let userId = $(this).data('id');
+            $('#deleteUserForm input[name="userId"]').val(userId);
+        });
+
+        $("#deleteUserForm").on('submit', function(e) {
+            e.preventDefault();
+            let userId = $('#deleteUserForm input[name="userId"]').val();
+            $.ajax({
+                url: 'index.php?page=admin&controller=user&action=delete',
+                method: 'POST',
+                data: {
+                    userId: userId
+                },
+                success: function(response) {
+                    var data = JSON.parse(response); // convert string to json
+                    if(data.status == 200) {
+                        showToastSuccess("Xoá tài khoản thành công");
+                        renderTable(data.data.users, roles);
+                        users = data.data.users; // update users
+                    } else {
+                        showToastError("Xoá tài khoản thất bại");
+                    }
+                },
+                error: function() {
+                    showToastError("Có lỗi xảy ra");
+                }
+            })
+        });
     </script>
 </body>
 </html>
