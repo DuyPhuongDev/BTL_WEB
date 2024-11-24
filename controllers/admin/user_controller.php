@@ -26,7 +26,7 @@
                 $phone = $_POST['phone'];
                 $address = $_POST['address'];
                 $roleId = $_POST['roleId'];
-                $target_dir = "public/image/users/";
+                $target_dir = "public/img/users/";
                 $fileName = $_FILES['avatar']['name'];
                 $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
                 // genearte filename

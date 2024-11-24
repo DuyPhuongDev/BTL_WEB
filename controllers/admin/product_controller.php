@@ -30,7 +30,7 @@ class ProductController extends BaseController
             $price = $_POST['price'];
             $category_id = $_POST['category_id'];
 
-            $target_dir = "public/image/products/";
+            $target_dir = "public/img/products/";
             $fileName = $_FILES['image_url']['name'];
             $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
             
