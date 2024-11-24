@@ -2,7 +2,7 @@
 require_once("controllers/main/base_controller.php");
 require_once('models/Product.php');
 require_once('models/Category.php');
-require_once('./connection.php');
+require_once('connection.php');
 class ProductsController extends BaseController
 {
     function __construct()
@@ -22,6 +22,7 @@ class ProductsController extends BaseController
             $data3 = array('link' => $link);
             $data4 = array('likeproducts' => $likeproducts);
             $data = $data1 + $data2 + $data3+$data4;
+            print_r($data);
             $this->render('index', $data);
             return;
         }
