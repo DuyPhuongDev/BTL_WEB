@@ -177,6 +177,44 @@ class User {
         return $result;
     }
 
+    static function insert($username, $password, $email, $full_name, $avatar_url, $phone, $address, $role_id, $status)
+    {
+        $password = password_hash($password, PASSWORD_BCRYPT);
+        $db = DB::getInstance();
+        if (empty($avatar_url)) {
+            // hard code default avatar
+            $avatar_url = "https://firebasestorage.googleapis.com/v0/b/fir-42a90.appspot.com/o/avatar-people-user-svgrepo-com.svg?alt=media&token=d19e3ab3-4ff0-4088-a0b8-d2d7bfa6c54d";
+        } 
+        $stmt = $db->prepare(
+            "INSERT INTO users (username, password, email, full_name, avatar_url, phone, address, role_id, status) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        );
+        if ($stmt === false) {
+            die('MySQL prepare failed: ' . $db->error);
+        }
+        $stmt->bind_param('sssssssis', $username, $password, $email, $full_name, $avatar_url, $phone, $address, $role_id, $status);
+        $result = $stmt->execute();
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    static function validation($username, $password)
+    {
+        $db = DB::getInstance();
+        $req = $db->query("SELECT * FROM users WHERE username = '$username'");
+        if($result = $req -> fetch_assoc()) {
+            if ($password == $result['password'])
+                return true;
+            else
+                return false;
+        }
+        else {
+            return false;
+        }
+    }
+
     // update status
     public static function updateStatus($user_id, $status) {
         $db = DB::getInstance();
