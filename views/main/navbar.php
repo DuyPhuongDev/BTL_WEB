@@ -182,6 +182,9 @@ $folderPath = 'views/' . $current_page . '/' . $current_controller;
                             <a class="nav-link <?= ($current_page == 'main' && $current_controller == 'contact' && $current_action == 'index') ? 'active' : '' ?>"
                                 href="index.php?page=main&controller=contact&action=index">Contact</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.php?page=admin&controller=dashboard&action=index">Admin</a>
+                        </li>
                     </ul>
                 </div>
             </div>

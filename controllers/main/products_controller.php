@@ -22,7 +22,6 @@ class ProductsController extends BaseController
             $data3 = array('link' => $link);
             $data4 = array('likeproducts' => $likeproducts);
             $data = $data1 + $data2 + $data3+$data4;
-            print_r($data);
             $this->render('index', $data);
             return;
         }

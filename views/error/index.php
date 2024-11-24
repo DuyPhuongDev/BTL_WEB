@@ -259,7 +259,7 @@
     <div class="container">
         <div class="error">
             <h1>404</h1>
-            <h2>error</h2>
+            <h2>Not Found</h2>
         </div>
         <div class="stack-container">
             <div class="card-container">

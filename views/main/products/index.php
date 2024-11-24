@@ -17,7 +17,7 @@ include_once('views/main/navbar.php');
                      <?php
 
                      if (isset($link)) {
-                        echo "<span> {$link[0]->category_name} </span>";
+                        echo "<span> {$link[0]->getCategoryName()} </span>";
                      }
                      ?>
                   </div>
@@ -39,13 +39,13 @@ include_once('views/main/navbar.php');
                         <?php
                         if (!empty($p_cat)) {
                            foreach ($p_cat as $p_cat_items) {
-                              echo '<a href="index.php?page=main&controller=products&action=index&cat_id=' . $p_cat_items->category_id . '">
-               <li class="hovclass">' . $p_cat_items->category_name . '</li>
+                              echo '<a href="index.php?page=main&controller=products&action=index&cat_id=' . $p_cat_items->getCategoryId() . '">
+               <li class="hovclass">' . $p_cat_items->getCategoryName() . '</li>
             </a>';
                            }
                         } else {
-                           echo '<a href="index.php?page=main&controller=products&action=index&cat_id=' . $p_cat_items->category_id . '">
-            <li class="hovclass">' . $p_cat_items->category_name . '</li>
+                           echo '<a href="index.php?page=main&controller=products&action=index&cat_id=' . $p_cat_items->getCategoryId() . '">
+            <li class="hovclass">' . $p_cat_items->getCategoryName() . '</li>
          </a>';
                         }
                         ?>
@@ -66,19 +66,19 @@ include_once('views/main/navbar.php');
                                  <div class='product-pic-zoom  col-md-6 col-sm-12'
                                     style='min-width: 300px; margin: 0 0 30px 0'>
                                     <img class='product-big-img' style="width:100%; height:auto;"
-                                       src='<?php echo $product->image_url; ?>' alt='<?php echo $product_title; ?>'>
+                                       src='<?php echo $product->getImageUrl(); ?>' alt='<?php echo $product->getProductName(); ?>'>
 
                                  </div>
                                  <div class='product-thumbs'>
                                     <div class='aaaaaaa'>
                                        <div class='small_img' data-imgbigurl='img/products/$product_img1'><img
-                                             style="width:100px; height:auto;" src='<?php echo $product->image_url; ?>'
+                                             style="width:100px; height:auto;" src='<?php echo $product->getImageUrl(); ?>'
                                              alt='$product_title'></div>
                                        <div class='small_img' data-imgbigurl='img/products/$product_img2'><img
-                                             style="width:100px; height:auto;" src='<?php echo $product->image_url; ?>'
+                                             style="width:100px; height:auto;" src='<?php echo $product->getImageUrl(); ?>'
                                              alt='$product_title'></div>
                                        <div class='small_img' data-imgbigurl='img/products/$product_img2'><img
-                                             style="width:100px; height:auto;" src='<?php echo $product->image_url; ?>'
+                                             style="width:100px; height:auto;" src='<?php echo $product->getImageUrl(); ?>'
                                              alt='$product_title'></div>
                                     </div>
                                  </div>
@@ -89,7 +89,7 @@ include_once('views/main/navbar.php');
 
                                        <h3>
                                           <?php
-                                          echo htmlspecialchars($product->product_name);
+                                          echo htmlspecialchars($product->getProductName());
                                           ?>
                                        </h3>
                                     </div>
@@ -110,13 +110,13 @@ include_once('views/main/navbar.php');
                                     <hr class="custom-divider">
 
                                     <p class="product-price">Giá: <span class="price"><?php
-                                    echo htmlspecialchars($product->price);
+                                    echo htmlspecialchars($product->getPrice());
                                     ?> VND</span></p>
                                     <ul class='pd-tags'>
                                        <li><span>CATEGORY</span>:
                                           <?php
                                           if (isset($link)) {
-                                             echo "<span> {$link[0]->category_name} </span>";
+                                             echo "<span> {$link[0]->getCategoryName()} </span>";
                                           }
                                           ?>
 
@@ -141,7 +141,7 @@ include_once('views/main/navbar.php');
                                           </svg>
                                           <span>
                                              <?php
-                                             echo htmlspecialchars($product->price);
+                                             echo htmlspecialchars($product->getPrice());
                                              ?>
                                           </span>
                                        </div>
@@ -158,12 +158,12 @@ include_once('views/main/navbar.php');
                               <div class='col-lg-4 col-sm-6'>
                                  <div class='product-item'>
                                     <div class='pi-pic' style='max-height:350px'>
-                                       <img src='<?php echo $product->image_url ?>' alt='$product_title'
+                                       <img src='<?php echo $product->getImageUrl() ?>' alt='$product_title'
                                           style="width: 100px; object-fit: cover; object-position: center;">
 
                                        <ul>
                                           <li class='quick-view'>
-                                             <a href="index.php?page=main&controller=products&action=index&viewdetail=<?php echo $product->product_id; ?> &cat_id=<?php echo $product->category_id; ?>"
+                                             <a href="index.php?page=main&controller=products&action=index&viewdetail=<?php echo $product->getProductId(); ?> &cat_id=<?php echo $product->getCategoryId(); ?>"
                                                 style="background:#fe4231; color:white;">View Details</a>
                                           </li>
                                        </ul>
@@ -171,10 +171,10 @@ include_once('views/main/navbar.php');
                                     <div class='pi-text'>
                                        <div class='catagory-name'></div>
                                        <a href='product.php?product_id=$products_id'>
-                                          <h5><?php echo htmlspecialchars($product->product_name); ?></h5>
+                                          <h5><?php echo htmlspecialchars($product->getProductName()); ?></h5>
                                        </a>
                                        <div class='product-price'>
-                                          <?php echo htmlspecialchars($product->price); ?>
+                                          <?php echo htmlspecialchars($product->getPrice()); ?>
                                           Vnđ
                                        </div>
                                     </div>
@@ -207,21 +207,21 @@ include_once('views/main/navbar.php');
                      <div class='col-lg-3 col-sm-6'>
                         <div class='product-item'>
                            <div class='pi-pic' style='max-height:300px'>
-                              <img src='<?php echo $product->image_url; ?>' alt='$p_name'
+                              <img src='<?php echo $product->getImageUrl(); ?>' alt='$p_name'
                                  style="width: 100px; object-fit: cover; object-position: center;">
                               <ul>
                                  <li class='quick-view'><a
-                                       href="index.php?page=main&controller=products&action=index&viewdetail=<?php echo $product->product_id; ?> &cat_id=<?php echo $product->category_id; ?>"
+                                       href="index.php?page=main&controller=products&action=index&viewdetail=<?php echo $product->getProductId(); ?> &cat_id=<?php echo $product->category_id; ?>"
                                        style='background:#fe4231;color:white'>View Details</a></li>
                               </ul>
                            </div>
                            <div class='pi-text'>
                               <a href='#'>
-                                 <h5><?php echo htmlspecialchars($product->product_name); ?></h5>
+                                 <h5><?php echo htmlspecialchars($product->getProductName()); ?></h5>
 
                               </a>
                               <div class='product-price'>
-                                 <?php echo htmlspecialchars($product->price); ?>
+                                 <?php echo htmlspecialchars($product->getPrice()); ?>
                                  Vnđ
                               </div>
                            </div>

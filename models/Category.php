@@ -1,22 +1,35 @@
 <?php
 class Category {
-    public $category_id;
-    public $category_name;
-    public $description;
+    private $category_id;
+    private $category_name;
 
-    public function __construct($category_id, $category_name, $description = null) {
+    public function __construct($category_id, $category_name) {
         $this->category_id = $category_id;
         $this->category_name = $category_name;
-        $this->description = $description;
     }
 
-    public function save() {
-        // Save or update category in database
+    // Getter and Setter for category_id
+    public function getCategoryId() {
+        return $this->category_id;
     }
+
+    public function setCategoryId($category_id) {
+        $this->category_id = $category_id;
+    }
+
+    // Getter and Setter for category_name
+    public function getCategoryName() {
+        return $this->category_name;
+    }
+
+    public function setCategoryName($category_name) {
+        $this->category_name = $category_name;
+    }
+
     public static function getAll() {
-        $db = DB::getInstance(); // Giả sử DB::getInstance() trả về kết nối MySQLi
-        $result = $db->query("SELECT * FROM categories");
-
+        $db = DB::getInstance();
+        $sql = "SELECT * FROM categories";
+        $result = $db->query($sql);
         $categories = [];
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
@@ -26,6 +39,7 @@ class Category {
         }
         return $categories;
     }
+
     public static function get($id) {
         $db = DB::getInstance(); // Giả sử DB::getInstance() trả về kết nối MySQLi
         $result = $db->query("SELECT * FROM categories WHERE category_id = $id");
