@@ -190,6 +190,54 @@ class Product {
         }
         return $product;
     }
+
+    // Phương thức static để lấy thông tin một sản phẩm theo id
+    public static function get($id)
+    {
+        $db = DB::getInstance(); // Giả sử DB::getInstance() trả về kết nối MySQLi
+        $req = $db->query("SELECT * FROM products WHERE product_id = $id");
+        // $req = $db->query("SELECT * FROM products");
+        $products = [];
+
+        foreach ($req->fetch_all(MYSQLI_ASSOC) as $product) {
+            $item = new Product(
+                $product['product_name'],
+                $product['description'],
+                $product['image_url'],
+                $product['price'],
+                $product['category_id'],
+            );
+
+            $item->product_id = $product['product_id'];
+            $item->created_at = $product['created_at'];
+            $item->updated_at = $product['updated_at'];
+            $products[] = $item;
+        }
+        return $products;
+    }
+
+    public static function getcate($id)
+    {
+        $db = DB::getInstance(); // Giả sử DB::getInstance() trả về kết nối MySQLi
+        $req = $db->query("SELECT * FROM products WHERE category_id = $id");
+        $products = [];
+
+        foreach ($req->fetch_all(MYSQLI_ASSOC) as $product) {
+            $item = new Product(
+                $product['product_name'],
+                $product['description'],
+                $product['image_url'],
+                $product['price'],
+                $product['category_id'],
+            );
+
+            $item->product_id = $product['product_id'];
+            $item->created_at = $product['created_at'];
+            $item->updated_at = $product['updated_at'];
+            $products[] = $item;
+        }
+        return $products;
+    }
     
 }
 ?>

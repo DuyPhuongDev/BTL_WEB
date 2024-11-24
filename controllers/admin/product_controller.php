@@ -37,7 +37,6 @@ class ProductController extends BaseController
             // genearte filename
             $fileId .= "." . $fileType;
             $target_url = $target_dir.basename($fileId);
-            echo $target_url;
             if (file_exists($target_url)) {
                 echo "Sorry, file already exists.";
             }
@@ -53,10 +52,14 @@ class ProductController extends BaseController
             if(!move_uploaded_file($_FILES["image_url"]["tmp_name"], $target_url)) {
                 echo "Sorry, there was an error uploading your file.";
             }
-            
-            
 
-            
+            // Tạo sản phẩm mới
+            $newProduct = new Product($product_name, $description, $target_url, $price, $category_id);
+            if ($newProduct->addProduct()) {
+                Header("Location: index.php?page=admin&controller=product&action=index");
+            } else {
+                echo "Failed to add product.";
+            }          
         } else {
             // Hiển thị form thêm sản phẩm
             $this->index();

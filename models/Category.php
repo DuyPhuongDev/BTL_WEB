@@ -37,10 +37,24 @@ class Category {
                 $categories[] = $category;
             }
         }
-
-
-
         return $categories;
+    }
+
+    public static function get($id) {
+        $db = DB::getInstance(); // Giả sử DB::getInstance() trả về kết nối MySQLi
+        $result = $db->query("SELECT * FROM categories WHERE category_id = $id");
+
+        $categories = [];
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $category = new Category($row['category_id'], $row['category_name']);
+                $categories[] = $category;
+            }
+        }
+        return $categories;
+    }
+    public function delete() {
+        // Delete category from database
     }
 }
 ?>
