@@ -1,4 +1,3 @@
-
 .rating {
   display: flex;
   flex-direction: row-reverse;
@@ -39,7 +38,6 @@
   font-weight: bold;
   color: #e91e63;
 }
-
 
 .breadcrumb-text {
   border-bottom: 1px solid #ebebeb;
@@ -1543,7 +1541,9 @@ button:hover .hover-btn {
 .section-title p {
   color: #6e6e6e;
 }
-.likethis
-{
+.likethis {
   text-align: center;
+}
+.pagination {
+  justify-content: center;
 }

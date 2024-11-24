@@ -238,6 +238,5 @@ class Product {
         }
         return $products;
     }
-    
 }
 ?>

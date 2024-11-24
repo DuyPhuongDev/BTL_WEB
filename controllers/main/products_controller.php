@@ -24,7 +24,7 @@ class ProductsController extends BaseController
             $data = $data1 + $data2 + $data3+$data4;
             $this->render('index', $data);
             return;
-        }
+        } else
         if (isset($_GET['cat_id'])) {
 
             $products = Product::getcate($_GET['cat_id']);

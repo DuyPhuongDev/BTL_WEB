@@ -66,7 +66,8 @@ include_once('views/main/navbar.php');
                                  <div class='product-pic-zoom  col-md-6 col-sm-12'
                                     style='min-width: 300px; margin: 0 0 30px 0'>
                                     <img class='product-big-img' style="width:100%; height:auto;"
-                                       src='<?php echo $product->getImageUrl(); ?>' alt='<?php echo $product->getProductName(); ?>'>
+                                       src='<?php echo $product->getImageUrl(); ?>'
+                                       alt='<?php echo $product->getProductName(); ?>'>
 
                                  </div>
                                  <div class='product-thumbs'>
@@ -152,8 +153,15 @@ include_once('views/main/navbar.php');
                            }
                            ?>
                            <?php
-                        } else
-                           foreach ($products as $product) {
+                        } else {
+                           $total_pages = ceil(num: count($products) / 6);
+                           if (isset($_GET['pagination'])) {
+                              $start = ($_GET['pagination'] - 1) * 6;
+                              $newArray = array_splice($products, $start, 6);
+                           } else {
+                              $newArray = array_splice($products, 0, 6);
+                           }
+                           foreach ($newArray as $product) {
                               ?>
                               <div class='col-lg-4 col-sm-6'>
                                  <div class='product-item'>
@@ -163,8 +171,9 @@ include_once('views/main/navbar.php');
 
                                        <ul>
                                           <li class='quick-view'>
-                                             <a href="index.php?page=main&controller=products&action=index&viewdetail=<?php echo $product->getProductId(); ?> &cat_id=<?php echo $product->getCategoryId(); ?>"
+                                             <a href="index.php?page=main&controller=products&action=index&viewdetail=<?php echo $product->getProductId(); ?>&cat_id=<?php echo $product->getCategoryId(); ?>"
                                                 style="background:#fe4231; color:white;">View Details</a>
+
                                           </li>
                                        </ul>
                                     </div>
@@ -182,61 +191,112 @@ include_once('views/main/navbar.php');
                               </div>
                               <?php
                            }
+                           ?>
+                           <div class="row" style="display:flex;justify-content:center; padding:14px">
+                              <ul class="pagination">
+
+                                 <?php
+                                 if ($total_pages <= 1) {
+                                    echo "";
+                                 } else {
+
+                                    echo "
+                        
+                        <li class='page-item'>
+                            <a class='page-link' href='http://localhost/BTL_WEB/index.php?page=main&controller=products&action=index&pagination=1'>
+                                First 
+                            </a>
+                        </li>
+                        
+                        ";
+
+
+                                    for ($i = 2; $i < $total_pages; $i++) {
+                                       echo "
+                            <li class='page-item'><a class='page-link' href='http://localhost/BTL_WEB/index.php?page=main&controller=products&action=index&pagination=" . $i . "'>" . $i . "</a></li>
+                            ";
+                                    }
+
+                                    echo "
+                        
+                        <li class='page-item'>
+                            <a class='page-link' href='http://localhost/BTL_WEB/index.php?page=main&controller=products&action=index&pagination=$total_pages'>
+Last
+                            </a>
+                        </li>
+                        
+                        ";
+                                 }
+                                 ?>
+                              </ul>
+                           </div>
+                           <?php
+                        }
                         ?>
                      </div>
                   </div>
                </div>
             </div>
+         </div>
+
       </section>
-      <?php
-      if (isset($_GET['viewdetail'])) {
-         ?>
-         <div class="related-products spad">
-            <div class="container">
-               <div class="row">
-                  <div class="col-lg-12">
-                     <div class="section-title">
-                        <h2 class="likethis">More like this</h2>
+
+
+      <div>
+         <?php
+         if (isset($_GET['viewdetail'])) {
+            ?>
+            <div class="related-products spad">
+               <div class="container">
+                  <div class="row">
+                     <div class="col-lg-12">
+                        <div class="section-title">
+                           <h2 class="likethis">More like this</h2>
+                        </div>
                      </div>
                   </div>
-               </div>
-               <div class="row">
-                  <?php
-                  foreach ($likeproducts as $product) {
-                     ?>
-                     <div class='col-lg-3 col-sm-6'>
-                        <div class='product-item'>
-                           <div class='pi-pic' style='max-height:300px'>
-                              <img src='<?php echo $product->getImageUrl(); ?>' alt='$p_name'
-                                 style="width: 100px; object-fit: cover; object-position: center;">
-                              <ul>
-                                 <li class='quick-view'><a
-                                       href="index.php?page=main&controller=products&action=index&viewdetail=<?php echo $product->getProductId(); ?> &cat_id=<?php echo $product->category_id; ?>"
-                                       style='background:#fe4231;color:white'>View Details</a></li>
-                              </ul>
-                           </div>
-                           <div class='pi-text'>
-                              <a href='#'>
-                                 <h5><?php echo htmlspecialchars($product->getProductName()); ?></h5>
+                  <div class="row">
+                     <?php
+                     foreach ($likeproducts as $product) {
+                        ?>
+                        <div class='col-lg-3 col-sm-6'>
+                           <div class='product-item'>
+                              <div class='pi-pic' style='max-height:350px'>
+                                 <img src='<?php echo $product->getImageUrl() ?>' alt='$product_title'
+                                    style="width: 100px; object-fit: cover; object-position: center;">
 
-                              </a>
-                              <div class='product-price'>
-                                 <?php echo htmlspecialchars($product->getPrice()); ?>
-                                 Vnđ
+                                 <ul>
+                                    <li class='quick-view'>
+                                       <a href="index.php?page=main&controller=products&action=index&viewdetail=<?php echo $product->getProductId(); ?>&cat_id=<?php echo $product->getCategoryId(); ?>"
+                                          style="background:#fe4231; color:white;">View Details</a>
+
+                                    </li>
+                                 </ul>
+                              </div>
+                              <div class='pi-text'>
+                                 <div class='catagory-name'></div>
+                                 <a href='product.php?product_id=$products_id'>
+                                    <h5><?php echo htmlspecialchars($product->getProductName()); ?></h5>
+                                 </a>
+                                 <div class='product-price'>
+                                    <?php echo htmlspecialchars($product->getPrice()); ?>
+                                    Vnđ
+                                 </div>
                               </div>
                            </div>
                         </div>
-                     </div>
-
-                     <?php
-                  }
-                  ?>
+                        <?php
+                     }
+                     ?>
+                  </div>
                </div>
             </div>
-         </div>
-         <?php
-      }
-      ?>
+            <?php
+         }
+         ?>
+      </div>
+
+
 
 
    </div>
