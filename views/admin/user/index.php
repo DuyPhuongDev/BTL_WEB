@@ -51,9 +51,15 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <a class="navbar-brand mx-auto" href="#">Admin Page</a>
-                <button class="btn btn-logout">
-                    <span><i class="fa-solid fa-user"></i> Logout</span>
-                </button>
+                <?php if (!isset($_SESSION['username'])): ?>
+                <div class="login">
+                    <a href="index.php?page=main&controller=login&action=index" class="text-dark" style="text-decoration: none;"><i class="fas fa-user"></i> Login</a>
+                </div>
+                <?php else: ?>
+                    <div class="logout">
+                    <a href='index.php?page=main&controller=login&action=logout' class="text-dark" style="text-decoration: none;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                    </div>
+                <?php endif; ?>
             </div>
         </nav>
     </header>
@@ -118,7 +124,6 @@
                                     <tr class="text-center">
                                         <th scope="col" class="d-none d-lg-table-cell">STT</th>
                                         <th scope="col" >Tài khoản</th>
-                                        <th scope="col" class="d-none d-lg-table-cell">Mật khẩu</th>
                                         <th scope="col" class="d-none d-lg-table-cell">Họ và tên</th>
                                         <th scope="col" class="d-none d-lg-table-cell">Email</th>
                                         <th scope="col" class="d-none d-lg-table-cell">Số điện thoại</th>
@@ -171,7 +176,6 @@
                     <tr class="text-center">
                         <td class="d-none d-lg-table-cell">${index + 1}</td>
                         <td>${user.username}</td>
-                        <td class="d-none d-lg-table-cell">${user.password}</td>
                         <td class="d-none d-lg-table-cell">${user.fullName}</td>
                         <td class="d-none d-lg-table-cell">${user.email}</td>
                         <td class="d-none d-lg-table-cell">${user.phone}</td>
@@ -268,7 +272,6 @@
             let userId = $(this).data('id');
             let user = users.find(user => user.userId == userId);
             $('#editusername').val(user.username);
-            $('#editpassword').val(user.password);
             $('#editfullName').val(user.fullName);
             $('#editemail').val(user.email);
             $('#editphone').val(user.phone);

@@ -29,7 +29,7 @@ class RegisterController extends BaseController
 				  </script>";
 			exit();
 		}
-		if (User::insert($username, $pass, $email, $fullname, 'A1.jpg',$phone,$address,2,'active')) {
+		if (User::insert($username, $pass, $email, $fullname, '',$phone,$address,2,'active')) {
 			$_SESSION["guest"] = $username;
 			echo "<script>
             alert('Tạo tài khoản thành công');

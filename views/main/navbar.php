@@ -1,12 +1,5 @@
 <?php
-    
-  session_start();
-  // print_r($_SESSION);
-  // if (isset($_SESSION['guest']))
-  // {
-  //   require_once('model/User.php');
-  //   $data = User::get($_SESSION['guest']);
-  // }
+    session_start();
     if(sizeof($_GET)==0){
         $current_page = 'main';
         $current_controller = 'home';
@@ -16,9 +9,6 @@
         $current_controller = isset($_GET['controller']) ? $_GET['controller'] : '';
         $current_action = isset($_GET['action']) ? $_GET['action'] : '';
     }
-    // echo $current_page.'<br>';
-    // echo $current_controller.'<br>';
-    // echo $current_action.'<br>';
 
     $folderPath = 'views/'.$current_page.'/'.$current_controller;
 ?>
@@ -117,13 +107,13 @@
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
                 </div>
-                <?php if (!isset($_SESSION["guest"])): ?>
+                <?php if (!isset($_SESSION['username'])): ?>
                 <div class="login">
-                    <a href="index.php?page=main&controller=login&action=index" class="text-dark"><i class="fas fa-user"></i> Login</a>
+                    <a href="index.php?page=main&controller=login&action=index" class="text-dark" style="text-decoration: none;"><i class="fas fa-user"></i> Login</a>
                 </div>
                 <?php else: ?>
-                    <div class="insidelog">
-                    <a href='index.php?page=main&controller=login&action=logout' class='btn logbtn' style='width: 100px; height:40px'>Log Out</a>
+                    <div class="logout">
+                    <a href='index.php?page=main&controller=login&action=logout' class="text-dark" style="text-decoration: none;"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
                     </div>
                 <?php endif; ?>
             </div>
@@ -188,9 +178,9 @@
                             <a class="nav-link <?= ($current_page == 'main' && $current_controller == 'contact' && $current_action == 'index') ? 'active' : '' ?>"
                                 href="index.php?page=main&controller=contact&action=index">Contact</a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="index.php?page=admin&controller=dashboard&action=index">Admin</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>

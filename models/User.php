@@ -171,17 +171,36 @@ class User {
 
     // add user
     public static function addUser($user) {
+        echo "add user";
+        $password = password_hash($password, PASSWORD_BCRYPT);
         $db = DB::getInstance();
-        $sql = "INSERT INTO users (username, password, email, full_name, avatar_url, phone, address, status, role_id) VALUES ('$user->username', '$user->password', '$user->email', '$user->full_name', '$user->avatar_url', '$user->phone', '$user->address', 'active', '$user->role_id')";
-        $result = $db->query($sql);
-        return $result;
+        if ($avatar_url == "") {
+            // hard code default avatar
+            $avatar_url = "https://firebasestorage.googleapis.com/v0/b/fir-42a90.appspot.com/o/avatar-people-user-svgrepo-com.svg?alt=media&token=d19e3ab3-4ff0-4088-a0b8-d2d7bfa6c54d";
+        } 
+        $stmt = $db->prepare(
+            "INSERT INTO users (username, password, email, full_name, avatar_url, phone, address, role_id, status) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        );
+        if ($stmt === false) {
+            die('MySQL prepare failed: ' . $db->error);
+        }
+        $stmt->bind_param('sssssssis', $user->username, $user->password, $user->email, $user->full_name, $user->avatar_url, $user->phone, $user->address, $user->role_id, "active");
+        $result = $stmt->execute();
+        if ($result) {
+            echo "add user success";
+            return true;
+        } else {
+            echo "add user failed";
+            return false;
+        }
     }
 
     static function insert($username, $password, $email, $full_name, $avatar_url, $phone, $address, $role_id, $status)
     {
         $password = password_hash($password, PASSWORD_BCRYPT);
         $db = DB::getInstance();
-        if (empty($avatar_url)) {
+        if ($avatar_url == "") {
             // hard code default avatar
             $avatar_url = "https://firebasestorage.googleapis.com/v0/b/fir-42a90.appspot.com/o/avatar-people-user-svgrepo-com.svg?alt=media&token=d19e3ab3-4ff0-4088-a0b8-d2d7bfa6c54d";
         } 
@@ -203,16 +222,15 @@ class User {
     static function validation($username, $password)
     {
         $db = DB::getInstance();
-        $req = $db->query("SELECT * FROM users WHERE username = '$username'");
+        $stmt = $db->prepare("SELECT * FROM users WHERE username = ?");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $req = $stmt->get_result();
         if($result = $req -> fetch_assoc()) {
-            if ($password == $result['password'])
-                return true;
-            else
-                return false;
+            if (password_verify($password, $result['password']) && $result['status'] == 'active')
+                return ['check'=> 1, 'user_id' => $result['user_id'], 'username'=>$result['username'], 'role_id' => $result['role_id']];
         }
-        else {
-            return false;
-        }
+        return ['check'=> 0];
     }
 
     // update status

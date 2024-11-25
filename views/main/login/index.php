@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign Up</title>
+    <title>Login</title>
     <link rel="stylesheet" href="views\main\login\css\style.css">
     <link rel="stylesheet" href="views\main\login\fonts\material-icon\css\material-design-iconic-font.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -45,13 +45,15 @@
                                 <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
                                 <input type="password" name="your_pass" id="your_pass" placeholder="Password"/>
                             </div>
+                            <div class="invalid" style="color: red;">
+                                <?php if (isset($err)) echo htmlspecialchars($err); ?>
+                            </div>
                             <div class="form-group">
                                 <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
                                 <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
                             </div>
                             <div class="form-group form-button">
-                                <input type="submit" name="signinUser" id="signinUser" class="form-submit" value="Log in with User" style="width: 278px;margin-left: 20px;"/>
-                                <input type="submit" name="signinAdmin" id="signinAdmin" class="form-submit" value="Log in with Admin"style="width: 278px;margin-left: 20px;"/>
+                                <input type="submit" name="signin" id="signin" class="form-submit" value="Login" style="width: 278px;margin-left: 20px;"/>
                             </div>
                         </form>
                         <div class="social-login">
@@ -66,6 +68,5 @@
                 </div>
             </div>
         </section>
-
 </body>
 </html>

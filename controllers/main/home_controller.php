@@ -10,6 +10,8 @@ class HomeController extends BaseController
 
 	public function index()
 	{
+		session_start();
+		//print_r($_SESSION);
 		$this->render('index');
 	}
 }

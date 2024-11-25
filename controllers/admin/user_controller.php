@@ -11,6 +11,7 @@
         }
         public function index()
         {
+            session_start();
             $roles = Role::getAllRoles();
             $users = User::getAllUser();
             $data = array('roles' => $roles, 'users' => $users);
@@ -46,11 +47,9 @@
                 if(!move_uploaded_file($_FILES["avatar"]["tmp_name"], $target_url)) {
                     echo "Sorry, there was an error uploading your file.";
                 }
-                // create new user
-                $newuser = new User($username, $password, $email, $fullName, $target_url, $phone, $address, 'active', $roleId);
                 
                 // save user
-                $result = User::addUser($newuser);
+                $result = User::insert($username, $password, $email, $fullName, $target_url, $phone, $address, $roleId,'active');
                 if ($result){
                     $data = array('roles' => Role::getAllRoles(), 'users' => User::getAllUser());
                     $users = [];
