@@ -43,7 +43,7 @@
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active align-center">
-            <img src="https://i.pinimg.com/564x/72/03/7d/72037db20c65de89dbd9ce3746916cf0.jpg" class="d-block w-100 imageChance" alt="banner1">
+            <img src="public\images\products\slide1.png" class="d-block w-100 imageChance" alt="banner1">
             </div>
             <div class="carousel-item">
             <img src="https://i.pinimg.com/564x/54/a5/b2/54a5b213c3887a3459fe22b83a474e8c.jpg" class="d-block w-100" alt="">
@@ -65,9 +65,8 @@
 <section class="topProduct-banner spad">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-8" style ="padding-top: 40px;">
                 <div class="filter-control">
-                    <h3> Products </h3>
                 </div>
                 <div class="product-slider owl-carousel">
                     <?php
@@ -75,10 +74,10 @@
                     ?>
                 </div>
             </div>
-            <div class="col-lg-3 offset-lg-1">
-                <div class="product-large set-bg m-large" data-setbg="views/main/layouts/img/products/someproduct.png">
-                    <h2>Some Product</h2>
-                    <a href="shop.php?cat_id=1">Discover More</a>
+            <div class="col-lg-3 offset-lg-1"  style ="padding-top: 30px;">
+                <div class="product-large set-bg m-large">
+                    <h2 style ="color:white;font-size: xxx-large;">Some Product</h2>
+                    <a href="shop.php?cat_id=1"style="font-size: xx-large;">Discover More</a>
                 </div>
             </div>
         </div>

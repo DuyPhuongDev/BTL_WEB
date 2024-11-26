@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    // session_start();
     if(sizeof($_GET)==0){
         $current_page = 'main';
         $current_controller = 'home';
