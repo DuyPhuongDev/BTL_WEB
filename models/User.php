@@ -1,5 +1,4 @@
 <?php
-require_once ('models/Enum.php');
 require_once('connection.php');
 class User {
     private $user_id;
@@ -135,6 +134,11 @@ class User {
         $this->role_id = $role_id;
     }
 
+    // toString
+    public function __toString() {
+        return "User: [user_id: {$this->user_id}, username: {$this->username}, password: {$this->password}, email: {$this->email}, full_name: {$this->full_name}, avatar_url: {$this->avatar_url}, phone: {$this->phone}, address: {$this->address}, status: {$this->status}, role_id: {$this->role_id}, created_at: {$this->created_at}, updated_at: {$this->updated_at}]";
+    }
+
     // get all users
     public static function getAllUser() {
         $db = DB::getInstance();
@@ -158,6 +162,24 @@ class User {
         $db = DB::getInstance();
         $sql = "SELECT * FROM users WHERE user_id = $user_id";
         $result = $db->query($sql);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $user = new User($row['username'], $row['password'], $row['email'], $row['full_name'], $row['avatar_url'], $row['phone'], $row['address'], $row['status'], $row['role_id']);
+            $user->user_id = $row['user_id'];
+            $user->created_at = $row['created_at'];
+            $user->updated_at = $row['updated_at'];
+            return $user;
+        }
+        return null;
+    }
+
+    // get user by username
+    public static function getUserByUsername($username) {
+        $db = DB::getInstance();
+        $stmt = $db->prepare("SELECT * FROM users WHERE username = ?");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $user = new User($row['username'], $row['password'], $row['email'], $row['full_name'], $row['avatar_url'], $row['phone'], $row['address'], $row['status'], $row['role_id']);

@@ -1,5 +1,7 @@
 <?php
 require_once("controllers/main/base_controller.php");
+require_once('models/Comment.php');
+require_once('models/News.php');
 class BlogController extends BaseController
 {
     function __construct()
@@ -8,7 +10,11 @@ class BlogController extends BaseController
     }
     public function index()
     {
-        $this->render("index");
+        //$comments = Comment::getAll();
+        $newses = News::getNewsByTopic('news');
+        $salesNews = News::getNewsByTopic('sales');
+        $data = array('newses' => $newses, 'salesNews' => $salesNews);
+        $this->render("index", $data);
     }   
 }
 ?>

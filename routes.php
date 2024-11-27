@@ -21,7 +21,6 @@ $controllers = array(
   'blog' => ['index'],
   'contact' => ['index'],
   'detail_blog' => ['index', 'comment', 'reply'],
-  'blog' => ['index', 'comment', 'reply'],
   'products' => ['index'],
   'register' => ['index', 'submit', 'editInfo'],
   'login' => ['index','logout']
