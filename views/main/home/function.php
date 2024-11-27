@@ -1,7 +1,7 @@
 <?php
 function getMProduct()
 {
-    $db = mysqli_connect("localhost", "root", "", "assignmentwebmain");
+    $db = mysqli_connect("localhost", "root", "root", "assignWeb");
     $get_products = "SELECT * FROM products WHERE product_id > 1 ORDER BY RAND() LIMIT 5";
     $run_products = mysqli_query($db, $get_products);
 

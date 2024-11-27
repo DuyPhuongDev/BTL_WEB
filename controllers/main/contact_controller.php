@@ -7,6 +7,7 @@ class ContactController extends BaseController{
 
     public function index()
     {
+        session_start();
         $this->render("index");
     }
 }

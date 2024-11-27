@@ -6,6 +6,7 @@ class BlogController extends BaseController
 {
     function __construct()
     {
+        session_start();
         $this->folder = "blog";
     }
     public function index()

@@ -4,6 +4,7 @@ class AboutController extends BaseController
 {
     function __construct()
     {
+        session_start();
         $this->folder = "about";
     }
     public function index()

@@ -11,6 +11,7 @@ class ProductsController extends BaseController
     }
     public function index()
     {
+        session_start();
         if (isset($_GET['viewdetail']) && isset($_GET['cat_id'])) {
 
             $products = Product::get($_GET['viewdetail']);
