@@ -41,7 +41,35 @@ class AccountController extends BaseController {
         } else {
             header("Location: index.php?controller=main&action=login");
         }
-    }   
+    } 
+    
+    public function edit(){
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $userId = $_POST['userId'];
+            $email = $_POST['email'];
+            $fullName = $_POST['fullName'];
+            $phone = $_POST['phone'];
+            $address = $_POST['address'];
+
+            // find user to update
+            $user = User::getUserById($userId);
+            // set value to user
+            $user->setEmail($email);
+            $user->setFullName($fullName);
+            $user->setPhone($phone);
+            $user->setAddress($address);
+            // update user
+            $result = User::updateUser($user);
+            if($result){
+                echo json_encode(array('status' => 200, 'message' => 'update user success'));
+            }
+            else{
+                echo json_encode(array('status' => 500, 'message' => 'update user failed'));
+            }
+        }else{
+            echo json_encode(array('status' => 404, 'message' => 'method not allowed'));
+        }
+    }
 }
 
 ?>

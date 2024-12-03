@@ -4,6 +4,9 @@ require_once("views/main/navbar.php");
 ?>
 <div class="container my-5">
     <!-- Thông Tin Cá Nhân -->
+    <?php 
+        require_once 'views/main/account/editUserDialog.php';
+    ?>
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
             <h5>Thông Tin Cá Nhân</h5>
@@ -20,7 +23,15 @@ require_once("views/main/navbar.php");
                     <p><strong>Ngày Tham Gia: </strong><?php echo htmlspecialchars($data['user']->getCreatedAt()); ?></p>
                 </div>
             </div>
-            <a href="#" class="btn btn-primary">Chỉnh Sửa Thông Tin</a>
+            <button id="btn-edit-user" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editUser" 
+                data-id="<?php echo htmlspecialchars($data['user']->getUserId()); ?>"
+                data-fullname="<?php echo htmlspecialchars($data['user']->getFullName()); ?>"
+                data-email="<?php echo htmlspecialchars($data['user']->getEmail()); ?>"
+                data-phone="<?php echo htmlspecialchars($data['user']->getPhone()); ?>"
+                data-address="<?php echo htmlspecialchars($data['user']->getAddress()); ?>"
+            >
+                Chỉnh Sửa Thông Tin
+            </button>
         </div>
     </div>
 

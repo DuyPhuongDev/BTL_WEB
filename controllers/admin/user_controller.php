@@ -85,7 +85,7 @@
                 this->index();
             }
         }
-        public function edit()
+        public function changeStatus()
         {
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $userId = intval($_POST['userId']);
@@ -125,6 +125,54 @@
                 echo json_encode(array('status' => 400, 'message' => 'bad request'));
             }
 
+        }
+
+        public function edit(){
+            if($_SERVER['REQUEST_METHOD']=='POST'){
+                $userId = $_POST['userId'];
+                $username = $_POST['username'];
+                $email = $_POST['email'];
+                $fullName = $_POST['fullName'];
+                $phone = $_POST['phone'];
+                $address = $_POST['address'];
+                $roleId = $_POST['roleId'];
+
+                // find user to update
+                $user = User::getUserById($userId);
+                // set value to user
+                $user->setUsername($username);
+                $user->setEmail($email);
+                $user->setFullName($fullName);
+                $user->setPhone($phone);
+                $user->setAddress($address);
+                $user->setRoleId($roleId);
+                // update user
+                $result = User::updateUser($user);
+                if($result){
+                    $data = array('users' => User::getAllUser());
+                    $users = [];
+                    foreach ($data['users'] as $user) {
+                        $users[] = [
+                            'userId' => $user->getUserId(),
+                            'username' => $user->getUsername(),
+                            'password' => $user->getPassword(),
+                            'email' => $user->getEmail(),
+                            'fullName' => $user->getFullName(),
+                            'avatarUrl' => $user->getAvatarUrl(),
+                            'phone' => $user->getPhone(),
+                            'address' => $user->getAddress(),
+                            'status' => $user->getStatus(),
+                            'roleId' => $user->getRoleId(),
+                            'createdAt' => $user->getCreatedAt(),
+                            'updatedAt' => $user->getUpdatedAt()
+                        ];
+                    }
+                    echo json_encode(array('status' => 200, 'message' => 'update user success', 'data' => $users));
+                }
+                else{
+                    echo json_encode(array('status' => 500, 'message' => 'update user failed'));
+                }
+            }
         }
         public function delete()
         {

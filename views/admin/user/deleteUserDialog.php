@@ -11,7 +11,7 @@
                     </div>
                     <div class="modal-body">
                         <p>Bạn có chắc chắn muốn xoá tài khoản này không?</p>
-                        <input type="text" name="userId" id="userId">
+                        <input type="hidden" name="userId" id="userId">
                     </div>
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>

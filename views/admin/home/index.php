@@ -151,7 +151,7 @@
             datasets: [{
                 label: 'Doanh thu (VND)',
                 data: revenueOf6Months.map(item => item.total_revenue),
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
             }]

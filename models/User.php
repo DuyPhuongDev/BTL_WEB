@@ -284,5 +284,20 @@ class User {
         }
         return 0;
     }
+
+    // update user
+    public static function updateUser($user) {
+        $db = DB::getInstance();
+        $stmt = $db->prepare(
+            "UPDATE users SET username = ?, email = ?, full_name = ?, phone = ?, address = ?, role_id = ? WHERE user_id = ?"
+        );
+        $stmt->bind_param('ssssssi', $user->getUsername(), $user->getEmail(), $user->getFullName(), $user->getPhone(), $user->getAddress(), $user->getRoleId(), $user->getUserId());
+        $result = $stmt->execute();
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 ?>

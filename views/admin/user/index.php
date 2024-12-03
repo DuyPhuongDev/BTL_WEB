@@ -196,7 +196,7 @@
         }
         
         var users = <?php echo json_encode($users); ?>;
-        var roles = <?php echo json_encode($roles); ?>;
+        const roles = <?php echo json_encode($roles); ?>;
         $(document).ready(function() {
             renderTable(users, roles);
             // datatable
@@ -271,12 +271,40 @@
         $(document).on('click', '#edit-user-btn', function() {
             let userId = $(this).data('id');
             let user = users.find(user => user.userId == userId);
+            $('#editUserId').val(user.userId);
             $('#editusername').val(user.username);
             $('#editfullName').val(user.fullName);
             $('#editemail').val(user.email);
             $('#editphone').val(user.phone);
             $('#editaddress').val(user.address);
             $('#editroleId').val(user.roleId);
+        });
+
+        $('#editUserForm').submit(function(e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+            $.ajax({
+                url: 'index.php?page=admin&controller=user&action=edit',
+                method: 'POST',
+                data: formData,
+                processData: false, // Tắt xử lý dữ liệu mặc định
+                contentType: false, // Để trình duyệt tự động thiết lập
+                success: function(response) {
+                    var response = JSON.parse(response); // convert string to json
+                    console.log(response);
+                    console.log(roles);
+                    if(response.status == 200) {
+                        showToastSuccess("Chỉnh sửa tài khoản thành công");
+                        renderTable(response.data, roles);
+                        users = response.data; // update users
+                    } else {
+                        showToastError("Chỉnh sửa tài khoản thất bại");
+                    }
+                },
+                error: function() {
+                    showToastError("Có lỗi xảy ra");
+                }
+            })
         });
 
         // handle change status
@@ -288,7 +316,7 @@
             console.log('clicked');
             console.log(user);
             $.ajax({
-                url: 'index.php?page=admin&controller=user&action=edit',
+                url: 'index.php?page=admin&controller=user&action=changeStatus',
                 method: 'POST',
                 data: {
                     userId: userId,

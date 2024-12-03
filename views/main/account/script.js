@@ -19,3 +19,42 @@ $(document).ready(function () {
     });
     $('#list-orders').html(html);
 });
+
+// handle edit user
+$(document).on('click', '#btn-edit-user', function () {
+    let userId = $(this).data('id');
+    let fullName = $(this).data('fullname');
+    let email = $(this).data('email');
+    let phone = $(this).data('phone');
+    let address = $(this).data('address');
+    // gan gia tri vao form
+    $('#editUserForm #editUserId').val(userId);
+    $('#editUserForm #editfullName').val(fullName);
+    $('#editUserForm #editemail').val(email);
+    $('#editUserForm #editphone').val(phone);
+    $('#editUserForm #editaddress').val(address);
+});
+
+$('#editUserForm').submit(function (e) {
+    e.preventDefault();
+    let formData = new FormData(this);
+    $.ajax({
+        url: 'index.php?page=main&controller=account&action=edit',
+        method: 'POST',
+        data: formData,
+        processData: false, // Tắt xử lý dữ liệu mặc định
+        contentType: false, // Để trình duyệt tự động thiết lập
+        success: function (response) {
+            var response = JSON.parse(response); // convert string to json
+            console.log(response);
+            if (response.status == 200) {
+                window.location.reload();
+            } else {
+                console.log(response.message);
+            }
+        },
+        error: function () {
+            showToastError("Có lỗi xảy ra");
+        }
+    })
+});

@@ -10,14 +10,11 @@ $controllers = array(
   'dashboard' => ['index'], // Bổ sung thêm các hàm trong controllers
   'product' => ['index', 'add', 'edit', 'delete'],
   'news' => ['index', 'add', 'edit', 'delete', 'hide'],
-  'comments' => ['index', 'hide', 'add', 'edit', 'delete'],
-  'user' => ['index', 'add', 'edit', 'delete'],
-  'login' => ['index', 'check', 'logout'],
+  'user' => ['index', 'add', 'edit', 'delete', 'changeStatus'],
 
   //Main controller
   'about' => ['index'],
   'home' => ['index'],
-  //'viewdetail' => ['index'],
   'blog' => ['index'],
   'contact' => ['index'],
   'account' => ['index', 'edit', 'editInfo', 'changePassword'],
