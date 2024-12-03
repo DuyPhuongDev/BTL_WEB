@@ -1,40 +1,6 @@
 <?php
   require_once('views/main/navbar.php');
-  include_once("function.php");
 ?>
-<style>
-.product-large {
-    height: 550px;
-    margin-left: -15px;
-    margin-right: -15px;
-    text-align: center;
-    padding-top: 285px;
-}
-.set-bg {
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: top center;
-
-}
-.product-item {
-            border: 1px solid #ddd;
-            padding: 10px; 
-            border-radius: 5px;
-            text-align: center; 
-            background-color: #fff;
-        }
-.pi-pic img {
-            width: 100%; 
-            height: auto;
-        }
-</style>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-<script src="script.js"></script>
 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -69,9 +35,24 @@
                 <div class="filter-control">
                 </div>
                 <div class="product-slider owl-carousel">
-                    <?php
-                    getMProduct();
-                    ?>
+                <?php foreach($products as $product) : ?>
+                    <div class='product-item'>
+                        <div class='pi-pic' style='max-height:300px'>
+                            <img src='<?php echo htmlspecialchars($product->getImageUrl()); ?>' alt='<?php echo htmlspecialchars($product->getProductName()); ?>' style='height: 300px'>
+                            <ul>
+                                <li class='quick-view'><a href='product.php?product_id=$product_id' style='background:#fe4231;color:white'></a></li>
+                            </ul>
+                        </div>
+                        <div class='pi-text'>
+                            <a href='#'>
+                                <h5><?php echo htmlspecialchars($product->getProductName()); ?></h5>
+                            </a>
+                            <div class='product-price'>
+                                <?php echo htmlspecialchars($product->getPrice()); ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
                 </div>
             </div>
             <div class="col-lg-3 offset-lg-1"  style ="padding-top: 30px;">

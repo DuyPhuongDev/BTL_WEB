@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php 
+ //print_r($data['revenueOf6Months']);
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +9,7 @@
     <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="views/admin/home/style.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://kit.fontawesome.com/6fc5ccf10e.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -23,7 +26,7 @@
                     </div>
                 <?php else: ?>
                     <div class="logout me-2">
-                        <a href='index.php?page=main&controller=login&action=logout' class="text-dark" style="text-decoration: none;"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
+                        <a href='index.php?page=main&controller=login&action=logout' class="text-light btn btn-danger" style="text-decoration: none;"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
                     </div>
                 <?php endif; ?>
             </div>
@@ -53,8 +56,8 @@
                 <div class="col-md-3">
                     <div class="card text-white bg-primary">
                         <div class="card-body">
-                            <h5 class="card-title">Total Sales</h5>
-                            <p class="card-text fs-3">$12,345</p>
+                            <h5 class="card-title">Doanh thu</h5>
+                            <p class="card-text fs-3"><?php echo number_format($data['revenue'], 0, ',', '.') . " VND"; ?></p>
                             <i class="fas fa-dollar-sign fa-2x"></i>
                         </div>
                     </div>
@@ -62,8 +65,8 @@
                 <div class="col-md-3">
                     <div class="card text-white bg-success">
                         <div class="card-body">
-                            <h5 class="card-title">Total Products</h5>
-                            <p class="card-text fs-3">1,234</p>
+                            <h5 class="card-title">Tổng sản phẩm</h5>
+                            <p class="card-text fs-3"><?php echo number_format($data['totalProduct'], 0, ',', '.'); ?></p>
                             <i class="fas fa-tshirt fa-2x"></i>
                         </div>
                     </div>
@@ -71,8 +74,8 @@
                 <div class="col-md-3">
                     <div class="card text-white bg-warning">
                         <div class="card-body">
-                            <h5 class="card-title">New Orders</h5>
-                            <p class="card-text fs-3">567</p>
+                            <h5 class="card-title">Đơn hàng mới</h5>
+                            <p class="card-text fs-3"><?php echo number_format($data['totalOrder'], 0, ',', '.'); ?></p>
                             <i class="fas fa-shopping-cart fa-2x"></i>
                         </div>
                     </div>
@@ -80,9 +83,9 @@
                 <div class="col-md-3">
                     <div class="card text-white bg-danger">
                         <div class="card-body">
-                            <h5 class="card-title">Low Stock</h5>
-                            <p class="card-text fs-3">45</p>
-                            <i class="fas fa-box-open fa-2x"></i>
+                            <h5 class="card-title">Số lượnh thành viên</h5>
+                            <p class="card-text fs-3"><?php echo number_format($data['totalUser'], 0, ',', '.'); ?></p>
+                            <i class="fas fa-user fa-2x"></i>
                         </div>
                     </div>
                 </div>
@@ -108,68 +111,46 @@
                 </div>
             </div>
 
-            <!-- Data Table -->
-            <div class="row my-4">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Recent Orders</h5>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Order ID</th>
-                                        <th>Customer</th>
-                                        <th>Product</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>#1001</td>
-                                        <td>John Doe</td>
-                                        <td>T-shirt</td>
-                                        <td>2</td>
-                                        <td>$50</td>
-                                        <td><span class="badge bg-success">Completed</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>#1002</td>
-                                        <td>Jane Smith</td>
-                                        <td>Jeans</td>
-                                        <td>1</td>
-                                        <td>$40</td>
-                                        <td><span class="badge bg-warning">Pending</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>#1003</td>
-                                        <td>Sam Wilson</td>
-                                        <td>Jacket</td>
-                                        <td>1</td>
-                                        <td>$120</td>
-                                        <td><span class="badge bg-danger">Cancelled</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+            <!-- Danh Sách Đơn Hàng -->
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5>Danh Sách Đơn Hàng</h5>
+                </div>
+                <div class="card-body">
+                    <table id="table-orders" class="table table-bordered table-striped">
+                        <thead class="table-success">
+                            <tr>
+                                <th>#</th>
+                                <th>Mã Đơn Hàng</th>
+                                <th>Ngày Đặt</th>
+                                <th>Tổng Tiền</th>
+                                <th>Phương thức thanh toán</th>
+                                <th>Trạng Thái</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list-orders" data-orders='<?php echo json_encode($data['orders']); ?>'>
+                            <!-- data in here -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </main>
     </div>
 
     <?php require_once 'views/admin/footer.php'; ?>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2Ee6IS/Q9KNy0xk5LRQnv6pPbP4mxlc1ZZ8jn4rJ7DLVxFqPOsmPU9YfUCr" crossorigin="anonymous"></script>
     <!-- Include Chart.js Library -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        var revenueOf6Months = <?php echo json_encode($data['revenueOf6Months']); ?>;
+        console.log(revenueOf6Months);
         const salesData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+            labels: revenueOf6Months.map(item => item.month),
             datasets: [{
-                label: 'Sales ($)',
-                data: [1200, 1900, 3000, 2500, 4000, 3200],
+                label: 'Doanh thu (VND)',
+                data: revenueOf6Months.map(item => item.total_revenue),
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
@@ -244,6 +225,65 @@
             document.getElementById('topProductsChart'),
             productConfig
         );
+
+        $(document).ready(function () {
+        var orders = $('#list-orders').data('orders');
+        html = '';
+        orders.forEach((order, index) => {
+            price = new Intl.NumberFormat('vi-VN').format(order.total) + " VNĐ";
+            method = order.payment_method == "COD" ? 'Thanh toán khi nhận hàng' : 'Chuyển khoản ngân hàng';
+            orderStatus = order.status === "Đang vận chuyển" ? '<span class="badge bg-warning text-dark">Đang vận chuyển</span>' : '<span class="badge bg-success">Đã giao hàng</span>';
+            html += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>ORD${order.payment_id}</td>
+                    <td>${order.payment_date}</td>
+                    <td>${price}</td>
+                    <td>${method}</td>
+                    <td>${orderStatus}</td>
+                </tr>
+            `;
+        });
+        $('#list-orders').html(html);
+         
+
+        // datatables
+        $('#table-orders').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "dom": '<"row mb-3"<"col-md-6"l><"col-md-6"f>>' +
+                       'rt' +
+                       '<"row my-2"<"col-md-6"i><"col-md-6"p>>',
+                "language": {
+                    "lengthMenu": "Hiển thị _MENU_ hàng",
+                    "info": "Đang hiển thị _START_ đến _END_ trong tổng số _TOTAL_ hàng",
+                    "infoEmpty": "Không có dữ liệu",
+                    "paginate": {
+                        "first": "Đầu",
+                        "last": "Cuối",
+                        "next": "Tiếp",
+                        "previous": "Trước"
+                    },
+                    "search": "Tìm kiếm:"
+                }
+            });
+
+            // Thay đổi các tùy chọn trong dropdown lengthChange
+            $('#table-orders_length select')
+                .empty() // Xóa các tùy chọn hiện tại
+                .append('<option value="5">5</option>') // Thêm các tùy chọn mới
+                .append('<option value="10">10</option>')
+                .append('<option value="15">15</option>')
+                .append('<option value="20">20</option>');
+
+            // Thiết lập giá trị mặc định là 20
+            $('#table-orders_length select').val('10');
+        });
     </script>
 </body>
 </html>

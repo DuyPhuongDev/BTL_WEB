@@ -33,11 +33,12 @@ $id = intval($_GET['id']);
           <?php endforeach;?>
       </div>
       <?php if(isset($_GET['topic']) && $_GET['topic'] == 'sales'): ?>
-        <div class="col-4 news-container">
-          <div class="h3">Tin liên quan</div>
+        <div class="col-md-4 news-container">
+          <div class="h3 ms-2 ms-md-0">Tin liên quan</div>
           <div class="row">
             <?php foreach ($salesNews as $news) { ?>
-              <div class="row col-12 mb-3">
+              <?php if ($news->getNewsId() == $id) continue; ?>
+              <div class="row col-12 mx-auto mb-md-3">
                 <div class="col-4">
                   <img style="width:100%" class="float-start" src="<?php echo $news->getImgUrl(); ?>" alt="<?php echo $news->getNewsId(); ?>">
                 </div>
@@ -51,7 +52,7 @@ $id = intval($_GET['id']);
           </div>
         </div>
       <?php else: ?>
-        <div class="col-4 comment-site">
+        <div class="col-md-4 comment-site">
           <div class="h3 ms-3">Bình luận</div>
           <div>
             <?php if (count($comments) > 0): ?>
@@ -69,7 +70,7 @@ $id = intval($_GET['id']);
             <?php endif; ?>
           </div>
 
-          <div class="mt-3">
+          <div class="mt-3 mx-3">
             <form action="index.php?page=main&controller=detail_blog&action=comment" method="post">
               <input type="hidden" name="news_id" value="<?php echo $news->getNewsId(); ?>">
               <div class="mb-3">

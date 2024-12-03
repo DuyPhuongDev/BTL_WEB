@@ -823,30 +823,14 @@
   margin-bottom: 10px;
   position: relative;
   z-index: 1;
-  margin: 0 auto;
+  /* margin: 0 auto; */
 }
 
 .product-pic-zoom img {
   min-width: 100%;
 }
 
-.product-pic-zoom .zoom-icon {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-}
-
-.product-pic-zoom .zoom-icon i {
-  color: #4c4c4c;
-  font-size: 14px;
-  width: 40px;
-  height: 40px;
-  border: 1px solid #d7d7d7;
-  text-align: center;
-  border-radius: 50%;
-  line-height: 37px;
-}
-.aaaaaaa {
+.product-list-img {
   display: flex;
   flex-direction: row;
 }
@@ -1418,7 +1402,7 @@
 }
 
 /* From Uiverse.io by dldrs */
-button {
+.btn-add-cart {
   position: relative;
   overflow: hidden;
   outline: none;
@@ -1546,4 +1530,38 @@ button:hover .hover-btn {
 .likethis
 {
   text-align: center;
+}
+
+#msg {
+  display: none;
+}
+
+#msg.show {
+  display: block;
+  z-index: 1000;
+  background: #f8f1f1;
+  color: red;
+  padding: 8px;
+  width: fit-content;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(94, 93, 93, 0.1);
+  animation: shake 0.5s ease-in-out; /* Thêm animation rung */
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }

@@ -1,5 +1,9 @@
 <?php
 require_once('controllers/main/base_controller.php');
+require_once("models/Product.php");
+require_once("models/Category.php");
+require_once('models/Cart.php');
+require_once('models/CartItem.php');
 
 class HomeController extends BaseController
 {
@@ -11,8 +15,11 @@ class HomeController extends BaseController
 	public function index()
 	{
 		session_start();
+		$products = Product::getAll();
+		$categories = Category::getAll();
+		$data = array('products' => $products, 'categories' => $categories);
 		//print_r($_SESSION);
-		$this->render('index');
+		$this->render('index', $data);
 	}
 }
 

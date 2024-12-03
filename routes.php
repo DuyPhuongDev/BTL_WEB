@@ -1,7 +1,7 @@
 <?php
 $pages = array(
   'error' => ['errors'],
-  'main' => ['home', 'about', 'products', 'blog', 'contact', 'login', 'register', 'detail', 'detail_blog'],
+  'main' => ['home', 'about', 'products', 'blog', 'contact', 'login', 'register', 'viewdetail', 'detail_blog', 'cart', 'account'],
   'admin' => ['dashboard', 'members', 'products', 'news', 'comments']
 );
 $controllers = array(
@@ -17,11 +17,13 @@ $controllers = array(
   //Main controller
   'about' => ['index'],
   'home' => ['index'],
-  'detail' => ['index'],
+  //'viewdetail' => ['index'],
   'blog' => ['index'],
   'contact' => ['index'],
+  'account' => ['index', 'edit', 'editInfo', 'changePassword'],
+  'cart' => ['index', 'deleteItem', 'payment', 'makepayment', 'vnpay_return'],  
   'detail_blog' => ['index', 'comment', 'reply'],
-  'products' => ['index'],
+  'products' => ['index', 'viewdetail', 'addtocart'],
   'register' => ['index', 'submit', 'editInfo'],
   'login' => ['index','logout']
 ); // Các controllers trong hệ thống và các action có thể gọi ra từ controller đó.

@@ -1,5 +1,6 @@
 <?php
 require_once('connection.php');
+require_once('models/Category.php');
 class Product {
     private $product_id;
     private $product_name;
@@ -89,6 +90,12 @@ class Product {
     public function setUpdatedAt($updated_at) {
         $this->updated_at = $updated_at;
     }
+    
+    // toString method
+    public function __toString() {
+        return "Product ID: {$this->product_id}, Product Name: {$this->product_name}, Description: {$this->description}, Image URL: {$this->image_url}, Price: {$this->price}, Category ID: {$this->category_id}, Created At: {$this->created_at}, Updated At: {$this->updated_at}";
+    }
+
     public function addProduct() {
         // Gọi kết nối MySQLi từ DB::getInstance() 
         $db = DB::getInstance();
@@ -175,10 +182,12 @@ class Product {
         }
     }
 
-    public function getProductById(){
+    public static function getProductById($id){
         $db = DB::getInstance();
-        $sql = "SELECT * FROM products WHERE product_id = $this->product_id";
-        $result = $db->query($sql);
+        $stmt = $db->prepare("SELECT * FROM products WHERE product_id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
         $product = null;
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
@@ -218,26 +227,50 @@ class Product {
 
     public static function getcate($id)
     {
-        $db = DB::getInstance(); // Giả sử DB::getInstance() trả về kết nối MySQLi
-        $req = $db->query("SELECT * FROM products WHERE category_id = $id");
+        $db = DB::getInstance();
+        $stmt = $db->prepare("SELECT * FROM products WHERE product_id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        $cat_id = $result['category_id'];
+        $category = Category::getCategoryById($cat_id);
+        return $category;
+    }
+
+    // get products by category id
+    public static function getProductsByCategoryId($id) {
+        $db = DB::getInstance();
+        $stmt = $db->prepare("SELECT * FROM products WHERE category_id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
         $products = [];
-
-        foreach ($req->fetch_all(MYSQLI_ASSOC) as $product) {
-            $item = new Product(
-                $product['product_name'],
-                $product['description'],
-                $product['image_url'],
-                $product['price'],
-                $product['category_id'],
-            );
-
-            $item->product_id = $product['product_id'];
-            $item->created_at = $product['created_at'];
-            $item->updated_at = $product['updated_at'];
-            $products[] = $item;
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $product = new Product($row['product_name'], $row['description'], $row['image_url'], $row['price'], $row['category_id']);
+                $product->product_id = $row['product_id'];
+                $product->created_at = $row['created_at'];
+                $product->updated_at = $row['updated_at'];
+                $products[] = $product;
+            }
         }
         return $products;
     }
-    
+
+    // count all products
+    public static function countAllProducts() {
+        $db = DB::getInstance();
+        $sql = "SELECT COUNT(*) as total FROM products";
+        $result = $db->query($sql);
+        $total = 0;
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $total = $row['total'];
+            }
+        }
+        return $total;
+    }
+
+    // get 
 }
 ?>

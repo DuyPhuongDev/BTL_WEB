@@ -52,12 +52,12 @@
                 </button>
                 <a class="navbar-brand mx-auto" href="#">Admin Page</a>
                 <?php if (!isset($_SESSION['username'])): ?>
-                <div class="login">
-                    <a href="index.php?page=main&controller=login&action=index" class="text-dark" style="text-decoration: none;"><i class="fas fa-user"></i> Login</a>
-                </div>
+                    <div class="login me-2">
+                        <a href="index.php?page=main&controller=login&action=index" class="text-dark" style="text-decoration: none;"><i class="fas fa-user"></i> Login</a>
+                    </div>
                 <?php else: ?>
-                    <div class="logout">
-                    <a href='index.php?page=main&controller=login&action=logout' class="text-dark" style="text-decoration: none;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                    <div class="logout me-2">
+                        <a href='index.php?page=main&controller=login&action=logout' class="text-light btn btn-danger" style="text-decoration: none;"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
                     </div>
                 <?php endif; ?>
             </div>
@@ -119,7 +119,7 @@
                                 require_once 'views/admin/user/deleteUserDialog.php';
                             ?>
                             <!-- table -->
-                            <table id="table-product" class="table table-bordered table-striped">
+                            <table id="table-users" class="table table-bordered table-striped">
                                 <thead class="table-dark">
                                     <tr class="text-center">
                                         <th scope="col" class="d-none d-lg-table-cell">STT</th>
@@ -200,7 +200,7 @@
         $(document).ready(function() {
             renderTable(users, roles);
             // datatable
-            $('#table-product').DataTable({
+            $('#table-users').DataTable({
                 "paging": true,
                 "lengthChange": true,
                 "searching": true,
@@ -226,7 +226,7 @@
             });
 
             // Thay đổi các tùy chọn trong dropdown lengthChange
-            $('#table-product_length select')
+            $('#table-users_length select')
                 .empty() // Xóa các tùy chọn hiện tại
                 .append('<option value="5">5</option>') // Thêm các tùy chọn mới
                 .append('<option value="10">10</option>')
@@ -234,7 +234,7 @@
                 .append('<option value="20">20</option>');
 
             // Thiết lập giá trị mặc định là 20
-            $('#table-product_length select').val('10');
+            $('#table-users_length select').val('10');
         });
 
         // handle add user

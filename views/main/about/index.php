@@ -2,9 +2,8 @@
    include_once('views/main/navbar.php');
 ?>
 
-
+<main class="container">
 <div class="container about-section mt-5">
-        <h1 class="text-center mb-5">Về Chúng Tôi</h1>
         <!-- Company Introduction -->
         <section class="mb-5">
             <h2 class="text-center">Giới Thiệu Công Ty</h2>
@@ -41,26 +40,33 @@
             <h2 class="text-center">Đội Ngũ Của Chúng Tôi</h2>
             <div class="row mt-4">
                 <!-- Team Member 1 -->
-                <div class="col-md-4 text-center team-member">
-                    <img src="https://via.placeholder.com/150" alt="Team Member 1">
-                    <h5 class="mt-3">Nguyễn Văn A</h5>
+                <div class="col-md-3 text-center team-member">
+                    <img src="public/img/users/users.jpg" alt="Team Member 1">
+                    <h5 class="mt-3">Trần Duy Phương</h5>
                     <p>Nhà Sáng Lập</p>
                 </div>
                 <!-- Team Member 2 -->
-                <div class="col-md-4 text-center team-member">
-                    <img src="https://via.placeholder.com/150" alt="Team Member 2">
-                    <h5 class="mt-3">Trần Thị B</h5>
+                <div class="col-md-3 text-center team-member">
+                    <img src="public/img/users/users.jpg" alt="Team Member 2">
+                    <h5 class="mt-3">Hoàng Thiện Bách</h5>
                     <p>Giám Đốc Thiết Kế</p>
                 </div>
                 <!-- Team Member 3 -->
-                <div class="col-md-4 text-center team-member">
-                    <img src="https://via.placeholder.com/150" alt="Team Member 3">
-                    <h5 class="mt-3">Lê Hồng C</h5>
+                <div class="col-md-3 text-center team-member">
+                    <img src="public/img/users/users.jpg" alt="Team Member 3">
+                    <h5 class="mt-3">Quách Trung Hào</h5>
+                    <p>Trưởng Phòng Marketing</p>
+                </div>
+                <!-- Team Member 3 -->
+                <div class="col-md-3 text-center team-member">
+                    <img src="public/img/users/users.jpg" alt="Team Member 3">
+                    <h5 class="mt-3">Trần Văn Thiện</h5>
                     <p>Trưởng Phòng Marketing</p>
                 </div>
             </div>
         </section>
     </div>
+</main>
 
 <?php
    include_once('views/main/footer.php');

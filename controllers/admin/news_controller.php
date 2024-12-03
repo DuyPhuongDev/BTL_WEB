@@ -1,5 +1,6 @@
 <?php
 require_once('controllers/admin/base_controller.php');
+require_once('models/News.php');
 class NewsController extends BaseController
 {
     function __construct()
@@ -8,7 +9,10 @@ class NewsController extends BaseController
     }
     public function index()
     {
-        $this->render('index');
+        session_start();
+        $newslist = News::getAll();
+        $data = array('newses' => $newslist);
+        $this->render('index', $data);
     }
     public function add()
     {

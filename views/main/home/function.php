@@ -4,13 +4,13 @@ function getMProduct()
     $db = mysqli_connect("localhost", "root", "root", "assignWeb");
     $get_products = "SELECT * FROM products WHERE product_id > 1 ORDER BY RAND() LIMIT 5";
     $run_products = mysqli_query($db, $get_products);
-
     while ($row_products = mysqli_fetch_array($run_products)) {
 
         $product_id = $row_products['product_id'];
         $product_name = $row_products['product_name'];
         $product_price = $row_products['price'];
         $product_img = $row_products['image_url'];
+
 
         echo "
         <div class='product-item'>

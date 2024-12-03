@@ -29,9 +29,15 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <a class="navbar-brand mx-auto" href="#">Admin Page</a>
-                <button class="btn btn-logout">
-                    <span><i class="fa-solid fa-user"></i> Logout</span>
-                </button>
+                <?php if (!isset($_SESSION['username'])): ?>
+                    <div class="login me-2">
+                        <a href="index.php?page=main&controller=login&action=index" class="text-dark" style="text-decoration: none;"><i class="fas fa-user"></i> Login</a>
+                    </div>
+                <?php else: ?>
+                    <div class="logout me-2">
+                        <a href='index.php?page=main&controller=login&action=logout' class="text-light btn btn-danger" style="text-decoration: none;"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
+                    </div>
+                <?php endif; ?>
             </div>
         </nav>
     </header>

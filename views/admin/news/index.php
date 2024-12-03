@@ -1,3 +1,15 @@
+<?php
+    $newses = [];
+    foreach ($data['newses'] as $news) {
+        $newses[] = array(
+            'news_id' => $news->getNewsId(),
+            'title' => $news->getTitle(),
+            'topic' => $news->getTopic(),
+            'content' => str_replace("\r\n", "<br>", $news->getContent()),
+            'status' => $news->getStatus(),
+        );
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,9 +37,15 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <a class="navbar-brand mx-auto" href="#">Admin Page</a>
-                <button class="btn btn-logout">
-                    <span><i class="fa-solid fa-user"></i> Logout</span>
-                </button>
+                <?php if (!isset($_SESSION['username'])): ?>
+                    <div class="login me-2">
+                        <a href="index.php?page=main&controller=login&action=index" class="text-dark" style="text-decoration: none;"><i class="fas fa-user"></i> Login</a>
+                    </div>
+                <?php else: ?>
+                    <div class="logout me-2">
+                        <a href='index.php?page=main&controller=login&action=logout' class="text-light btn btn-danger" style="text-decoration: none;"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
+                    </div>
+                <?php endif; ?>
             </div>
         </nav>
     </header>
@@ -70,7 +88,7 @@
                     <div class="container-fluid row">
                         <div class="my-2">
                             <p class="row">
-                            <h1 class="text-center">Quản lý tài khoản</h1>
+                            <h1 class="text-center">Quản lý tin tức</h1>
                             </p>
                         </div>
                     </div>
@@ -82,27 +100,21 @@
                     <div class="row">
                         <div class="shadow p-2 rounded">
                             <?php 
-                                require_once 'views/admin/user/addUserDialog.php';
-                                require_once 'views/admin/user/editUserDialog.php';
-                                require_once 'views/admin/user/deleteUserDialog.php';
+                                // dialog add
                             ?>
                             <!-- table -->
-                            <table id="table-product" class="table table-bordered table-striped">
+                            <table id="table-news" class="table table-bordered table-striped">
                                 <thead class="table-dark">
                                     <tr class="text-center">
                                         <th scope="col" class="d-none d-lg-table-cell">STT</th>
-                                        <th scope="col" >Tài khoản</th>
-                                        <th scope="col" class="d-none d-lg-table-cell">Mật khẩu</th>
-                                        <th scope="col" class="d-none d-lg-table-cell">Họ và tên</th>
-                                        <th scope="col" class="d-none d-lg-table-cell">Email</th>
-                                        <th scope="col" class="d-none d-lg-table-cell">Số điện thoại</th>
-                                        <th scope="col" class="d-none d-lg-table-cell">Địa chỉ</th>
-                                        <th scope="col" class="d-none d-lg-table-cell">Vai trò</th>
+                                        <th scope="col" >Title</th>
+                                        <th scope="col" class="d-none d-lg-table-cell">Chủ đề</th>
+                                        <th scope="col" class="d-none d-lg-table-cell">Nội dung</th>
                                         <th scope="col" class="d-none d-lg-table-cell">Trạng thái</th>
                                         <th scope="col" class="d-none d-lg-table-cell">Thao tác</th>
                                     </tr>
                                 </thead>
-                                <tbody id="user-list">
+                                <tbody id="news-list">
                                     <!-- data in here -->
                                 </tbody>
                             </table>
@@ -136,41 +148,33 @@
         }
         
         // render data
-        function renderTable(users, roles) {
+        function renderTable(newses) {
             let html = '';
-            users.forEach((user, index) => {
-                let status = user.status == 'active' ? '<i class="fa-solid fa-check fa-2xl" style="color: #00ff00;"></i>' :'<i class="fa-solid fa-ban fa-2xl" style="color: #ff0000;"></i>';
-                let statusBtn = user.status == 'active' ? `<button id="change-status" class="change-status btn btn-warning me-2" data-id="${user.userId}"><i class="fa-solid fa-ban"></i></button>` : `<button id="change-status" class="change-status btn btn-success me-2" data-id="${user.userId}"><i class="fa-solid fa-check"></i></button>`;
+            newses.forEach((news, index) => {
                 html += `
                     <tr class="text-center">
                         <td class="d-none d-lg-table-cell">${index + 1}</td>
-                        <td>${user.username}</td>
-                        <td class="d-none d-lg-table-cell">${user.password}</td>
-                        <td class="d-none d-lg-table-cell">${user.fullName}</td>
-                        <td class="d-none d-lg-table-cell">${user.email}</td>
-                        <td class="d-none d-lg-table-cell">${user.phone}</td>
-                        <td class="d-none d-lg-table-cell">${user.address}</td>
-                        <td class="d-none d-lg-table-cell">${roles.find(role => role.roleId === user.roleId).roleName}</td>
-                        <td class="d-none d-lg-table-cell">${status}</td>
+                        <td>${news.title}</td>
+                        <td class="d-none d-lg-table-cell">${news.topic}</td>
+                        <td class="d-none d-lg-table-cell">${news.content}</td>
+                        <td class="d-none d-lg-table-cell">${news.status}</td>
                         <td class="d-none d-lg-table-cell">
                             <div class="d-flex">
-                                <button id="edit-user-btn" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#editUser" data-id="${user.userId}"><i class="fa-solid fa-pen-to-square"></i></button>
-                                ${statusBtn}
-                                <button id="delete-user-btn" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUser" data-id="${user.userId}"><i class="fa-solid fa-trash"></i></button>
+                                <button id="edit-user-btn" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#editUser" data-id="1"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button id="delete-user-btn" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUser" data-id="1"><i class="fa-solid fa-trash"></i></button>
                             </div>
                         </td>
                     </tr>
                 `;
             });
-            $('#user-list').html(html);
+            $('#news-list').html(html);
         }
         
-        var users = <?php echo json_encode($users); ?>;
-        var roles = <?php echo json_encode($roles); ?>;
+        var newses = <?php echo json_encode($newses); ?>;
         $(document).ready(function() {
-            renderTable(users, roles);
+            renderTable(newses);
             // datatable
-            $('#table-product').DataTable({
+            $('#table-news').DataTable({
                 "paging": true,
                 "lengthChange": true,
                 "searching": true,
@@ -196,7 +200,7 @@
             });
 
             // Thay đổi các tùy chọn trong dropdown lengthChange
-            $('#table-product_length select')
+            $('#table-news_length select')
                 .empty() // Xóa các tùy chọn hiện tại
                 .append('<option value="5">5</option>') // Thêm các tùy chọn mới
                 .append('<option value="10">10</option>')
@@ -204,112 +208,7 @@
                 .append('<option value="20">20</option>');
 
             // Thiết lập giá trị mặc định là 20
-            $('#table-product_length select').val('10');
-        });
-
-        // handle add user
-        $('#addUserForm').submit(function(e) {
-            e.preventDefault();
-            let formData = new FormData(this);
-            
-            $.ajax({
-                url: 'index.php?page=admin&controller=user&action=add',
-                method: 'POST',
-                data: formData,
-                processData: false, // Tắt xử lý dữ liệu mặc định
-                contentType: false, // Để trình duyệt tự động thiết lập
-                success: function(response) {
-                    var data = JSON.parse(response); // convert string to json
-                    if(data.status == 200) {
-                        console.log(data);
-                        showToastSuccess("Thêm tài khoản thành công");
-                        renderTable(data.data.users, data.data.roles);
-                        users = data.data.users; // update users
-                    } else {
-                        showToastError("Thêm tài khoản thất bại");
-                    }
-                },
-                error: function() {
-                    //showToastError("Có lỗi xảy ra");
-                    alert("Có lỗi xảy ra");
-                }
-            })
-        });
-        
-
-        // handle edit user
-        $(document).on('click', '#edit-user-btn', function() {
-            let userId = $(this).data('id');
-            let user = users.find(user => user.userId == userId);
-            $('#editusername').val(user.username);
-            $('#editpassword').val(user.password);
-            $('#editfullName').val(user.fullName);
-            $('#editemail').val(user.email);
-            $('#editphone').val(user.phone);
-            $('#editaddress').val(user.address);
-            $('#editroleId').val(user.roleId);
-        });
-
-        // handle change status
-        $(document).on('click', '#change-status', function() {
-            let userId = $(this).data('id');
-            let user = users.find(user => user.userId == userId);
-            let status = user.status;
-            let newStatus = status == 'active' ? 'banned' : 'active';
-            console.log('clicked');
-            console.log(user);
-            $.ajax({
-                url: 'index.php?page=admin&controller=user&action=edit',
-                method: 'POST',
-                data: {
-                    userId: userId,
-                    status: newStatus
-                },
-                success: function(response) {
-                    var data = JSON.parse(response); // convert string to json
-                    if(data.status == 200) {
-                        showToastSuccess("Cập nhật trạng thái thành công");
-                        renderTable(data.data.users, roles);
-                        users = data.data.users; // update users
-                    } else {
-                        showToastError("Cập nhật trạng thái thất bại");
-                    }
-                },
-                error: function() {
-                    showToastError("Có lỗi xảy ra");
-                }
-            })
-        });
-
-        // handle delete user
-        $(document).on('click', '#delete-user-btn', function() {
-            let userId = $(this).data('id');
-            $('#deleteUserForm input[name="userId"]').val(userId);
-        });
-
-        $("#deleteUserForm").on('submit', function(e) {
-            e.preventDefault();
-            let userId = $('#deleteUserForm input[name="userId"]').val();
-            $.ajax({
-                url: 'index.php?page=admin&controller=user&action=delete',
-                method: 'POST',
-                data: {
-                    userId: userId
-                },
-                success: function(response) {
-                    var data = JSON.parse(response); // convert string to json
-                    if(data.status == 200) {
-                        showToastSuccess("Xoá tài khoản thành công");
-                        renderTable(data.data.users, roles);
-                        users = data.data.users; // update users
-                    } else {
-                        showToastError("Xoá tài khoản thất bại");
-                    }
-                },
-                error: function() {
-                    showToastError("Có lỗi xảy ra");
-                }
-            })
+            $('#table-news_length select').val('10');
         });
     </script>
 </body>

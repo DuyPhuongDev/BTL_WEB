@@ -31,4 +31,16 @@ class Role{
         }
         return $roleList;
     }
+
+    // get role by id
+    public static function getRoleById($role_id){
+        $db = DB::getInstance();
+        $stmt = $db->prepare('SELECT * FROM roles WHERE role_id = ?');
+        $stmt->bind_param('i', $role_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $role = new Role($row['role_id'], $row['role_name']);
+        return $role;
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 require_once('connection.php');
+require_once('models/Cart.php');
 class User {
     private $user_id;
     private $username;
@@ -237,6 +238,7 @@ class User {
         $result = $stmt->execute();
         if ($result) {
             return true;
+            Cart::createCart($username);
         } else {
             return false;
         }
@@ -271,5 +273,16 @@ class User {
         return $result;
     }
 
+    // count all users
+    public static function countAllUser() {
+        $db = DB::getInstance();
+        $sql = "SELECT COUNT(*) as total FROM users";
+        $result = $db->query($sql);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['total'];
+        }
+        return 0;
+    }
 }
 ?>

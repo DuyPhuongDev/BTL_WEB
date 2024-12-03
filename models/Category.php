@@ -53,8 +53,21 @@ class Category {
         }
         return $categories;
     }
-    public function delete() {
-        // Delete category from database
+
+    // get category by id
+    public static function getCategoryById($id) {
+        $db = DB::getInstance();
+        $stmt = $db->prepare("SELECT * FROM categories WHERE category_id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $category = null;
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $category = new Category($row['category_id'], $row['category_name']);
+            }
+        }
+        return $category;
     }
 }
 ?>
