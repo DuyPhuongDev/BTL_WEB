@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost
--- Thời gian đã tạo: Th10 27, 2024 lúc 03:12 AM
+-- Thời gian đã tạo: Th12 04, 2024 lúc 01:21 AM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -33,6 +33,13 @@ CREATE TABLE `cart` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `cart`
+--
+
+INSERT INTO `cart` (`cart_id`, `user_id`, `created_at`) VALUES
+(1, 36, '2024-12-01 06:26:19');
+
 -- --------------------------------------------------------
 
 --
@@ -44,6 +51,7 @@ CREATE TABLE `cart_items` (
   `cart_id` int(11) DEFAULT NULL,
   `product_id` int(11) DEFAULT NULL,
   `quantity` int(11) NOT NULL,
+  `size` varchar(3) NOT NULL,
   `added_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -92,7 +100,6 @@ CREATE TABLE `comment` (
 --
 
 INSERT INTO `comment` (`comment_id`, `user_id`, `content`, `news_id`, `created_at`, `status`) VALUES
-(21, 11, 'Test comment 1', 1, '2024-11-25 15:19:58', 'visible'),
 (22, 12, 'Test comment 2', 2, '2024-11-25 15:19:58', 'hidden'),
 (23, 13, 'Test comment 3', 3, '2024-11-25 15:19:58', 'visible'),
 (24, 14, 'Test comment 4', 1, '2024-11-25 15:19:58', 'hidden'),
@@ -100,9 +107,6 @@ INSERT INTO `comment` (`comment_id`, `user_id`, `content`, `news_id`, `created_a
 (26, 16, 'Test comment 6', 3, '2024-11-25 15:19:58', 'hidden'),
 (27, 17, 'Test comment 7', 1, '2024-11-25 15:19:58', 'visible'),
 (28, 18, 'Test comment 8', 2, '2024-11-25 15:19:58', 'hidden'),
-(29, 1, 'Test comment 9', 3, '2024-11-25 15:19:58', 'visible'),
-(30, 11, 'Test comment 10', 1, '2024-11-25 15:19:58', 'hidden'),
-(31, 1, 'Test comment 11', 2, '2024-11-25 15:19:58', 'visible'),
 (32, 12, 'Test comment 12', 3, '2024-11-25 15:19:58', 'hidden'),
 (33, 13, 'Test comment 13', 1, '2024-11-25 15:19:58', 'visible'),
 (34, 14, 'Test comment 14', 2, '2024-11-25 15:19:58', 'hidden'),
@@ -110,15 +114,15 @@ INSERT INTO `comment` (`comment_id`, `user_id`, `content`, `news_id`, `created_a
 (36, 16, 'Test comment 16', 1, '2024-11-25 15:19:58', 'hidden'),
 (37, 17, 'Test comment 17', 2, '2024-11-25 15:19:58', 'visible'),
 (38, 18, 'Test comment 18', 3, '2024-11-25 15:19:58', 'hidden'),
-(39, 1, 'Test comment 19', 1, '2024-11-25 15:19:58', 'visible'),
-(40, 1, 'Test comment 20', 2, '2024-11-25 15:19:58', 'hidden'),
 (41, 36, 'sdadas', 5, '2024-11-26 10:07:21', 'visible'),
 (42, 36, 'sdadas', 5, '2024-11-26 10:07:33', 'visible'),
 (43, 36, 'huhu', 5, '2024-11-26 10:07:44', 'visible'),
 (44, 36, 'huhu', 5, '2024-11-26 10:07:57', 'visible'),
 (45, 36, 'haha', 5, '2024-11-26 10:08:00', 'visible'),
 (46, 36, 'hihi', 5, '2024-11-26 10:08:17', 'visible'),
-(48, 36, 'test cái nữa', 2, '2024-11-27 01:16:33', 'visible');
+(48, 36, 'test cái nữa', 2, '2024-11-27 01:16:33', 'visible'),
+(49, 36, 'hihi', 1, '2024-11-28 14:03:40', 'visible'),
+(50, 36, 'hihi', 1, '2024-12-03 02:30:30', 'visible');
 
 -- --------------------------------------------------------
 
@@ -154,6 +158,34 @@ INSERT INTO `news` (`news_id`, `title`, `topic`, `content`, `img_url`, `status`,
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `payments`
+--
+
+CREATE TABLE `payments` (
+  `payment_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `method` varchar(255) NOT NULL,
+  `total_price` decimal(10,0) NOT NULL,
+  `status` varchar(50) NOT NULL DEFAULT 'Đang vận chuyển',
+  `payment_date` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `payments`
+--
+
+INSERT INTO `payments` (`payment_id`, `user_id`, `method`, `total_price`, `status`, `payment_date`) VALUES
+(12, 36, 'COD', 200000, 'Đã nhận hàng', '2024-11-03 08:23:12'),
+(13, 36, 'COD', 400000, 'Đã nhận hàng', '2024-12-03 08:34:28'),
+(14, 36, 'VNPay', 550000, 'Đã nhận hàng', '2024-12-03 08:44:53'),
+(15, 36, 'VNPay', 550000, 'Đang vận chuyển', '2024-10-03 08:45:24'),
+(16, 36, 'VNPay', 200000, 'Đã nhận hàng', '2024-12-03 08:46:39'),
+(17, 36, 'COD', 51000, 'Đang vận chuyển', '2024-08-03 08:47:53'),
+(18, 36, 'VNPay', 150000, 'Đang vận chuyển', '2024-12-03 08:52:09');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `products`
 --
 
@@ -183,13 +215,14 @@ INSERT INTO `products` (`product_id`, `product_name`, `description`, `image_url`
 (9, 'Quần lửng nam Fasvin T21438.HN vải gió co giãn mềm mát tiện dụng mặc nhà và thể thao', '=>  Các shop có thương hiệu đều luôn giữ gìn uy tín của mình. Đến với Fasvin bạn cũng sẽ được phục vụ tận tình chu đáo.\r\n\r\n=>  Quần lửng nam Fasvin T21438.HN được chế tạo tại nhà máy của FASVIN với quy trình thu hóa nghiệm ngặt. Các sản phẩm đều được những người thợ lâu năm trong nghề làm ra một cách cẩn thận và chắc chắn. Quần rất đa dụng có thể mặc đi chơi, thể thao hay mặc nhà. \r\n\r\n* KIỂU DÁNG : Quần lửng nam thể thao Fasvin có thiết kế dáng lửng dài đến đầu gối, dài hơn các mẫu quần short thường khoảng 5 cm tạo cảm giác  khoẻ khoắn, năng động nhưng không kém phần lịch sự. Quần có thiết kế đơn giản phù hợp với nhiều lứa tuổi từ thanh niên đến trung niên. Quần lửng thể thao Fasvin được may vừa vặn đứng dáng nên tiện dụng  đi chơi  thể thao, dạo phố hay mặc nhà.\r\n\r\n*CHẤT  LIỆU : Vải gió chun thể thao co giãn 4 chiều (95% Polyester + 5% spandex) thoải mái mềm mát. Đây là loại vải dệt thoi chứ không phải dệt kim nên đứng dáng và lịch sự có thể đi chơi hay mặc nhà tiếp khách. Chất vải thoáng mát và bền chắc thích hợp các hoạt động mạnh mẽ. \r\n\r\n* GIÁ CẢ : Chúng tôi luôn không ngừng cải tiến để có thể tạo ra những sản phẩm có chất lượng tốt với giá cả phải chăng nhất. Hơn nữa luôn có các chương trình khuyến mại dành cho quý khách dùng thử và trải nghiệm sản phẩm mới.\r\n\r\n* CHẤT LƯỢNG: Quần lửng nam đã được kiểm định chất lượng bởi cục tiêu chuẩn chất lượng và có tem hợp quy được dán trên thẻ bài.\r\n\r\n* BẢO QUẢN VÀ SỬ DỤNG : Sản phẩm có thể giặt máy, nhanh khô và không bị bạc màu. Đặc biệt nếu bạn là người bận rộn, bạn không cần là lượt trước khi mặc vì vải đã được tích hợp công nghệ chống nhăn, chống nhàu.\r\n', 'public/img/products/5472f307a0db884dadb06f5d9010d5aa.png', 175000.00, 5, '2024-11-08 03:12:50', '2024-11-23 14:34:43'),
 (10, 'Quần Ngố Kaki Nam Túi Hộp Lửng GENVIET Basic Đơn Giản T1303K1026', 'CHÍNH SÁCH MUA HÀNG: \r\n+ Hỗ trợ đổi hàng với những sản phẩm bị lỗi do nhà sản xuất, hoặc những sản phẩm giảm giá dưới 50% mà không vừa size số.\r\n+ Inbox trực tiếp để GENVIET tư vấn size và giải đáp các vấn đề bạn đang quan tâm nhé.\r\n+ Bạn nhận được sản phẩm, vui lòng đánh giá giúp GENVIET nha.\r\n- Chỉ áp dụng đổi với sản phẩm mua nguyên giá.\r\n- Không áp dụng đổi đối với hàng khuyến mại, hàng giảm giá hoặc mua trong chương trình ưu đãi khác.\r\n- Vì lý do sức khỏe, không đổi trả quần áo lót, phụ kiện.\r\n- Sản phẩm chưa qua sử dụng, còn nguyên tem mác, thẻ bài và kèm hóa đơn hoặc biên lai vận chuyển.\r\n------------------------------------------------------\r\nHƯỚNG DẪN GIẶT ỦI\r\n- Không giặt tẩy bằng các chất tẩy rửa mạnh\r\n- Không ngâm nước quá lâu\r\n- Không nên ngâm và giặt chung với sản phẩm khác\r\n- Cách giặt đồ: Lấy 1-2 giọt sữa tắm, dầu gội đầu… đánh bông lên, cho sản phẩm vào -bóp nhẹ, rũ qua sau đó rũ lại bằng nước sạch rồi phơi lên luôn, tránh ngâm lâu.\r\n- Với những sản phẩm chất liệu ren, có phụ kiện không nên giặt sản phẩm cùng với các sản phẩm cầu kì khác như: Có móc, có khóa cứng, có nhiều họa tiết …. sẽ làm ảnh hưởng đến chất liệu sản phẩm. (Sản phẩm ren và lưới hoặc vải mềm mỏng nên giặt bằng tay, nếu giặt máy vui lòng bỏ vào túi lưới để tránh làm hư sợi vải)\r\n- Đối với sản phẩm có chất co giãn mạnh, khi phơi nên phơi ngang, lộn mặt trái sản phẩm khi phơi\r\n- Nên phơi quần áo trong bóng mát, không nên phơi dưới ánh nắng gắt quá lâu tránh mất màu, giòn và rút sợi vải\r\n- Ủi sản phẩm ở nhiệt độ vừa phải.\r\n------------------------------------------------------\r\nMÔ TẢ SẢN PHẨM\r\n T1303K1026 - Quần Ngố GENVIET Kaki Nam Túi Hộp\r\n- Chất liệu: Kaki \r\n-Màu Sắc: hồng đất, xanh ghi, xanh rêu\r\n-Kích cỡ: 27 đến 34\r\nSản phẩm được thiết kế độc quyền bởi thương hiệu thời trang GENVIET  với hệ thống 80 showrooms trên toàn quốc với thương hiệu uy tín, sản phẩm chất lượng mà mang lại vẻ đẹp tuyệt đối cho bạn. GENVIET tin rằng sẽ đem lại sự trải nghiệm tuyệt vời cho các bạn khi sử dụng sản phẩm và dịch vụ của GENVIET\r\n', 'public/img/products/fcdf27ac2a8dc95fcd016f66901213d2.png', 398000.00, 5, '2024-11-08 03:13:29', '2024-11-23 14:34:49'),
 (11, 'Váy trắng tiểu thư trễ vai tay bồng dáng dài hai lớp, đầm trắng dự tiệc bánh bèo', 'Váy trễ vai trắng tay bồng dáng dài, đầm trễ vai tiểu thư dự tiệc màu trắng điệu đà\r\n\r\n Màu trắng\r\n\r\nFree sz < 63kg \r\n\r\n\r\n❤️❤️ vblà xưởng may với niềm đam mê mãnh liệt về thiết kế, và phương châm sản phẩm mang giá trị sử dụng cao cho khách hàng , thảo nguyên cũng luôn hướng tới giá trị cốt lõi và bền vững dựa trên cơ sở lợi ích cho khách hàng luôn là hàng đầu .. ! Và rất mong được sự ủng hộ và đặt niềm tin bên shop.\r\n\r\nTrân trọng và cảm ơn rất nhiều !! Các khách hàng yêu quý của shop 😘\r\n', 'public/img/products/4cb7898954c4dc291ef1ad30d820225e.png', 68000.00, 6, '2024-11-08 03:14:31', '2024-11-23 14:34:56'),
-(12, '[Mã BMLTA50 giảm đến 50K đơn 99K] Áo thun ba lỗ nam thể thao AJEKA, thun lạnh co giãn 4 chiều', 'Sản phẩm áo thun nam ba lỗ mang đến cho người mặc cảm giác năng động khỏe khoắn,áo phông thun lạnh 3 lỗ được may từ vải thun lạnh cao cấp mềm mịn, Áo thun nam ba lỗ có đủ bảng màu cực hot, giúp bạn thêm nhiều sự lựa chọn  \r\n\r\n. \r\n\r\n- Chất liệu thun lạnh cao cấp, co giãn 4 chiều  thấm hút mồ hôi tốt, phù hợp các hoạt động thể thao, Gym, yoga, đá bóng, \r\n\r\n- Tỷ mỉ đến từng đường chỉ may, logo 3D nổi chắc chắn cực sang.\r\n\r\n- Bảng màu cực cá tính, bền màu,  chống nhăn,thấm hút cực tốt.\r\n\r\n- Full size từ M – L – XL – XXL-3XL.. chuẩn size theo form người Việt\r\n\r\n\r\n\r\n*CAM KẾT :\r\n\r\n-  Bảo hành 30 ngày  ( 1 đổi 1)  với đường may, túi khóa và độ bền của vải\r\n\r\n-  Sẵn sàng nhận lại hàng nếu Quý khách không hài lòng và hoàn lại tiền 100%\r\n\r\n-  Cam kết chất lượng và mẫu mã sản phẩm giống với hình ảnh\r\n\r\n-  Hoàn tiền hoặc đổi hàng ngay lập tức nếu sản phẩm bị lỗi do sơ suất của nhà sản xuất \r\n\r\n-  Cam kết được đổi hàng trong vòng 30 ngày. (Sản phẩm còn nguyên tem mác và chưa sử dụng )\r\n\r\n 🚛 FREESHIP EXTRA ĐƠN TỪ 50K.\r\n\r\nHướng dẫn chọn size \r\n\r\nSize M : 51-60kg - Cao < 1m65\r\n\r\nSize L : 61-70 kg - 1m66<Cao< 1m70 \r\n\r\nSize XL : 71- 80kg - 1m74<Cao< 1m75\r\n\r\nSize 2XL : 81-90 kg - Cao> 1m7\r\n\r\nSize 3XL : 91-98 kg - Cao >1m7', 'public/img/products/48a84ebf054c419e102d419fda034dd4.png', 109000.00, 7, '2024-11-08 03:15:23', '2024-11-23 14:35:01'),
+(12, '[Mã BMLTA50 giảm đến 50K đơn 99K] Áo thun ba lỗ nam thể thao AJEKA, thun lạnh co giãn 4 chiều', 'Sản phẩm áo thun nam ba lỗ mang đến cho người mặc cảm giác năng động khỏe khoắn,áo phông thun lạnh 3 lỗ được may từ vải thun lạnh cao cấp mềm mịn, Áo thun nam ba lỗ có đủ bảng màu cực hot, giúp bạn thêm nhiều sự lựa chọn. \r\n\r\n- Chất liệu thun lạnh cao cấp, co giãn 4 chiều  thấm hút mồ hôi tốt, phù hợp các hoạt động thể thao, Gym, yoga, đá bóng,... \r\n\r\n- Tỷ mỉ đến từng đường chỉ may, logo 3D nổi chắc chắn cực sang.\r\n\r\n- Bảng màu cực cá tính, bền màu,  chống nhăn,thấm hút cực tốt.\r\n\r\n- Full size từ M – L – XL – XXL-3XL.. chuẩn size theo form người Việt\r\n\r\n\r\n\r\n*CAM KẾT :\r\n\r\n-  Bảo hành 30 ngày  ( 1 đổi 1)  với đường may, túi khóa và độ bền của vải\r\n\r\n-  Sẵn sàng nhận lại hàng nếu Quý khách không hài lòng và hoàn lại tiền 100%\r\n\r\n-  Cam kết chất lượng và mẫu mã sản phẩm giống với hình ảnh\r\n\r\n-  Hoàn tiền hoặc đổi hàng ngay lập tức nếu sản phẩm bị lỗi do sơ suất của nhà sản xuất \r\n\r\n-  Cam kết được đổi hàng trong vòng 30 ngày. (Sản phẩm còn nguyên tem mác và chưa sử dụng )\r\n\r\n 🚛 FREESHIP EXTRA ĐƠN TỪ 50K.\r\n\r\nHướng dẫn chọn size \r\n\r\nSize M : 51-60kg - Cao < 1m65\r\n\r\nSize L : 61-70 kg - 1m66<Cao< 1m70 \r\n\r\nSize XL : 71- 80kg - 1m74<Cao< 1m75\r\n\r\nSize 2XL : 81-90 kg - Cao> 1m7\r\n\r\nSize 3XL : 91-98 kg - Cao >1m7', 'public/img/products/48a84ebf054c419e102d419fda034dd4.png', 109000.00, 7, '2024-11-08 03:15:23', '2024-11-28 17:03:01'),
 (13, 'Áo croptop nữ sát nách ba lỗ thun không tay kiểu ôm body tank top vải cotton co giãn tốt', '👉 👉 THÔNG TIN SẢN PHẨM: \r\nÁo ba lỗ croptop nữ  dáng áo 3 lỗ ôm chất liệu thun cotton 100% co dãn mạnh.\r\n-------------------------\r\n-Chất liệu : Thun cotton co giãn 4 chiều loại cao cấp dày dặn nhất, rất mát ạ.\r\n* Lưu ý: \r\n+Tuỳ đợt hàng độ dày mỏng của các màu sẽ khác nhau ( <10% ) vẫn đảm bảo chất lượng cao cấp nhất ạ.\r\n+Chất liệu  cotton nên sẽ có sợi bông ạ.\r\n\r\n-Màu sắc : Trắng - Đen - Vàng Đậm - Muối Tiêu - Xanh Ngọc - Đỏ Cam - Nâu - Đỏ Đô - Màu Ngẫu Nhiên( Màu sắc có thể chênh lệch so với thực tế 5% do ánh sáng và các thiết bị hiển thị màu khác nhau )\r\n\r\n-Size : Freesize 40-55kg\r\n\r\n-Kiểu dáng : Dáng áo ba lỗ croptop ôm, chất liệu 100% cotton co dãn 4 chiều cực tốt, dày dặn và mát.\r\nCó thể phối với quần short ngắn, đóng thùng, áo Cardigan, Blazer,... rất năng động và cá tính ạ\r\n--------------------------\r\n\r\n* Lưu ý: \r\n+Thông số áo là thành phẩm, chất co dãn cực tốt nên dễ fix vừa dáng.\r\n+Áo dáng ôm croptop, các chị em thích mặc ôm thì chọn size thông số vừa người nhé ạ.\r\n----------------------------\r\nChỉ có tại ao _thun_vdr: \r\n\r\n+ Cam kết chịu trách nhiệm với mỗi sản phẩm bán ra, Miễn phí đổi trả hàng lỗi trong thời gian sớm nhất ( Hy hữu thôi chứ  ao _thun_vdr   kiểm hàng kĩ lắm ahihi )\r\n\r\n Lưu ý:  Hàng đổi phải còn nguyên tag, mạc, bao bì; chưa có dấu hiệu sử dụng và lỗi do tác động bên ngoài.\r\n----------------------------\r\n🔴 Cam kết hàng Chất lượng do nhà  ao _thun_vdr  tự sản xuất nên chị em yên tâm về form dáng, đường may và chất liệu nhé.\r\n🔴 Cam kết hình chụp thật, hàng đẹp, Shop sẽ nhận lại hàng và hoàn tiền nếu hàng xấu và không giống hình ạ.\r\n#aobalo #aohaiday #aocoban #aocaocap #kamong #ao #3 #lo #nu #2 #ao3lo #satnach #aosatnach #co #gian #om #ao3lonu #100% #cotton #ao3lotrang #ao3loden #ao #ba #lo #aocroptop#aothun #aothunnu #aothundep #aothunnure\r\n#aothunteen #aothunteensi #aothuncroptop \r\n#aothundinhkimsa #aothungiare', 'public/img/products/c3182e84bfa137bcecbfb1bb51959fb5.png', 110000.00, 8, '2024-11-08 03:16:01', '2024-11-23 14:35:05'),
 (14, '[Xả Kho] Áo Ba Lỗ Nam Co Giãn, Thấm Hút Mồ Hôi hàng VNXK(Hà Nội)', '🎁 Áo ba lỗ nam, Áo Lót Nam loại mỏng, chất liệu cotton mỏng\r\n👉👉 MỀM MẠI – KHÔ THOÁNG – MẶC NHƯ KHÔNG MẶC! ----- \r\n➦ Chất vải sợi tự nhiên, rất mềm mại. Thấm hút mồ hôi, thoát hơi và kháng khuẩn rất tốt.\r\n ➦ Kiểu dáng thiết kế trẻ trung, mềm mại\r\n ➦ Rất bền và không phai màu, không bai nhão trong thời dài sử dụng.\r\ni ➦ màu trắng đơn giản, sang trọng\r\n ➦ Mặc thoáng mát, thoải mái không gò bó\r\n➦ Không bai dãn, sổ lông trong quá trình sử dụng \r\n➦ Sản phẩm hot và được ưa chuộng nhất năm\r\n➦  Có các size M (50 - 62KG) , L(60 - 72 KG), 2L(70 - 82KG)\r\n ➦ Chính sách giá ưu đãi tốt nhất thị trường\r\n ➦Áo được thiết kế đơn giản, dễ mặc cho nam giới phong cách năng động và khỏe khoắn hơn.\r\n 👉👉 Mua ngay Áo ba lỗ nam Hà Nội ngay hôm nay để nhận ƯU ĐÃI KHỦNG!!!', 'public/img/products/f4a695003d10825a8ee6337a278600fd.png', 51000.00, 7, '2024-11-08 03:16:43', '2024-11-23 14:35:09'),
 (15, 'Quần Jeans Đen Bạc Dáng Rộng Cạp Cao Ống Rộng 2 Túi Vuông Cá Tính Tôn Dáng', 'QUẦN TÚI VUÔNG 301\r\n___\r\n     Chất liệu: Bò / Jeans\r\nBẢNG SIZE THAM KHẢO\r\nXS: Eo 64cm Mông 93cm Dài quần 101cm Đùi 54cm Chu vi gấu quần 42cm\r\nS:   Eo 68cm Mông 96cm Dài quần 102cm Đùi 56cm Chu vi gấu quần 43cm\r\nM:  Eo 72cm Mông 100cm Dài quần 102cm Đùi 58cm Chu vi gấu quần 43.5cm\r\nL:   Eo 76cm Mông 104cm Dài quần 103cm Đùi 60cm Chu vi gấu quần 44cm\r\nXL: Eo 80cm Mông 108cm Dài quần 104cm Đùi 62cm  Chu vi gấu quần 45cm\r\n2XL: Eo 84cm Mông 112cm Dài quần 105cm Đùi 65cm Chu vi gấu quần 45cm\r\n\r\n💓Kích thước trên mô tả được đô thủ công, vì vậy có thể bị sai lệch 1-2cm\r\nINBOX để được hỗ trợ tư vấn size\r\n\r\nCHÍNH SÁCH ĐỔI TRẢ\r\n- Đối với trường hợp xảy ra nhầm lẫn trong đơn hàng hoặc có lỗi phía nhà sản xuất, bạn vui lòng liên hệ cho shop kèm hình ảnh và video bóc hàng để được hỗ trợ đổi hàng miễn phí nhanh chóng.\r\n- Lưu ý: Sản phẩm còn nguyên tag và không có tình trạng đã qua sử dụng.\r\n_________\r\n💓Cam kết nguồn gốc sản phẩm 100% là Hàng QCCC, được nhà Chanh đặt trực tiếp không qua trung gian nên giá cả rất hợp lý\r\n💓Những sản phẩm đăng bán là những sản phẩm được nhà Chanh tuyển chọn qua chất lượng vải, đường may, kiểu dáng nên các bạn hoàn toàn yên tâm khi mua hàng tại nhà Chanh', 'public/img/products/1c686be9cea18b4c687d4199c8a3dcf6.png', 51000.00, 4, '2024-11-08 03:17:17', '2024-11-23 14:35:12'),
 (16, 'Quần Jeans Đen Bạc Dáng Rộng Cạp Cao Ống Rộng 2 Túi Vuông Cá Tính Tôn Dáng', 'QUẦN TÚI VUÔNG 301\n___\n     Chất liệu: Bò / Jeans\nBẢNG SIZE THAM KHẢO\nXS: Eo 64cm Mông 93cm Dài quần 101cm Đùi 54cm Chu vi gấu quần 42cm\nS:   Eo 68cm Mông 96cm Dài quần 102cm Đùi 56cm Chu vi gấu quần 43cm\nM:  Eo 72cm Mông 100cm Dài quần 102cm Đùi 58cm Chu vi gấu quần 43.5cm\nL:   Eo 76cm Mông 104cm Dài quần 103cm Đùi 60cm Chu vi gấu quần 44cm\nXL: Eo 80cm Mông 108cm Dài quần 104cm Đùi 62cm  Chu vi gấu quần 45cm\n2XL: Eo 84cm Mông 112cm Dài quần 105cm Đùi 65cm Chu vi gấu quần 45cm\n\n💓Kích thước trên mô tả được đô thủ công, vì vậy có thể bị sai lệch 1-2cm\nINBOX để được hỗ trợ tư vấn size\n\nCHÍNH SÁCH ĐỔI TRẢ\n- Đối với trường hợp xảy ra nhầm lẫn trong đơn hàng hoặc có lỗi phía nhà sản xuất, bạn vui lòng liên hệ cho shop kèm hình ảnh và video bóc hàng để được hỗ trợ đổi hàng miễn phí nhanh chóng.\n- Lưu ý: Sản phẩm còn nguyên tag và không có tình trạng đã qua sử dụng.\n_________\n💓Cam kết nguồn gốc sản phẩm 100% là Hàng QCCC, được nhà Chanh đặt trực tiếp không qua trung gian nên giá cả rất hợp lý\n💓Những sản phẩm đăng bán là những sản phẩm được nhà Chanh tuyển chọn qua chất lượng vải, đường may, kiểu dáng nên các bạn hoàn toàn yên tâm khi mua hàng tại nhà Chanh', 'public/img/products/1c686be9cea18b4c687d4199c8a3dcf6.png', 205000.00, 4, '2024-11-08 03:17:55', '2024-11-23 14:35:17'),
 (17, 'Áo choàng bông thú lông mịn mùa đông', ' Tăm tia bao lâu nay cúi cùng shop cũng nhả sêu cho em gom này~~~ đông mà lười là toàn chùm em nó thuii ấm dã man mà xinh xỉu áaaa\r\n\r\nĐi lang thang trong nhà ko sợ lạnh, mà có chẳng may phải chạy ra ngoài thì vẫn ấm áp ạ.\r\nNhìn gấu cưng dễ sợ lunnn á 😚😚 \r\nHeheee sắm 1 e để đi đầu trend nàoooo \r\n\r\n🐶 5 mẫu em đánh số\r\nSize S-M-L-XL\r\nS: 40-47kg\r\nM: 47-54kg\r\nL: 54-60kg\r\nXL: 60-67kg', 'public/img/products/sg-11134201-22100-ofm9emsngjiv6c.png', 240000.00, 8, '2024-11-08 03:18:38', '2024-11-23 14:35:25'),
-(18, 'Áo len nam cổ lọ dài tay Gman vải len tăm công nghệ dệt kim cao cấp phong cách hàn quốc', '  1. THÔNG TIN SẢN PHẨM: Áo Len Nam cổ lọ dài tay - thời trang nam\r\n✔️ Áo len nam cổ lọ là món phụ kiện thời trang đơn giản nhưng không kém phần đẹp, thời trang. Các anh có thể mặc đi làm, đi chơi hay đi dự tiệc lại rất dễ phối đồ dù là với quần vải, quần jean, quần kaki hay với các sản phẩm áo măng tô, áo vest.\r\n\r\n✔️ Chất liệu: vải len cotton thiên nhiên mềm mại có bề mặt mềm mịn, thoát mồ hôi giữ ấm, nhanh tạo cảm giác vô cùng thoải mái cho người mặc và đặc biệt là không bị Xù Lông, Không phai màu, Giặt máy tốt. \r\n\r\n✔️ Màu sắc áo len cổ lọ nam : 9 màu\r\nĐEN - TRẮNG - XÁM - GHI - NÂU ĐẤT - XANH THAN - RÊU - ĐỎ ĐÔ - BE \r\n\r\n✔️ Size áo len tay dài : L, XL\r\n\r\n    2. HƯỚNG DẪN CHỌN SIZE ÁO LEN NAM\r\n📍 Size L: Cân nặng 45-65kg, cao dưới 1m70\r\n📍 Size XL: Cân nặng 65-78kg, cao dưới 1m80.\r\n(Nếu bạn gặp khó khăn khi chọn size, vui lòng INBOX, cung cấp chiều cao, cân nặng để SHOP TƯ VẤN SIZE)\r\n\r\n   3.  Mẹo Nhỏ Giúp Bạn Bảo Quản Quần áo nam : \r\n💌  Đối với sản phẩm quần áo mới mua về, nên giặt tay lần đầu tiên để tránh phai màu sang quần áo khác\r\n💌 Khi giặt nên lộn mặt trái ra để đảm bảo độ bền \r\n💌 Sản phẩm phù hợp cho giặt máy (có túi giặt)/giặt tay\r\n💌 Không giặt chung đồ Trắng và đồ Tối màu \r\n\r\n    4. CHÍNH SÁCH\r\n✔️ Cam kết chất lượng và loại mã sản phẩm giống với hình ảnh.\r\n✔️ Trả hàng hoàn tiền trong 3 ngày nếu như sản phẩm không đúng mô tả\r\n✔️ Shop sẽ đổi trả trong các trường hợp: shop giao nhầm size, nhầm màu, nhầm sản phẩm khác, thiếu hàng, áo bị lỗi và các lỗi khác của nhà sản xuất.\r\n✔️ Trong các trường hợp: khách không ưng, mặc không hợp, khách chọn nhầm sản phẩm,... quý khách vui lòng  INBOX để shop hướng dẫn đổi size phù hợp\r\n\r\n    5. LƯU Ý\r\n🍀 Quay video khi mở / bóc / khui sản phẩm để được giải quyết nếu có sự cố\r\n🍀 Màu sắc của sản phẩm thực tế có thể đậm, nhạt hơn ảnh mô tả do ánh sáng và màn hình thiết bị khác nhau.\r\n🍀 Kích thước sản phẩm dung sai cho phép ±2cm.', 'public/img/products/4e738af4c439269f606dc20f38bd69f8.png', 220000.00, 7, '2024-11-08 03:19:22', '2024-11-23 14:35:29');
+(18, 'Áo len nam cổ lọ dài tay Gman vải len tăm công nghệ dệt kim cao cấp phong cách hàn quốc', '  1. THÔNG TIN SẢN PHẨM: Áo Len Nam cổ lọ dài tay - thời trang nam\r\n✔️ Áo len nam cổ lọ là món phụ kiện thời trang đơn giản nhưng không kém phần đẹp, thời trang. Các anh có thể mặc đi làm, đi chơi hay đi dự tiệc lại rất dễ phối đồ dù là với quần vải, quần jean, quần kaki hay với các sản phẩm áo măng tô, áo vest.\r\n\r\n✔️ Chất liệu: vải len cotton thiên nhiên mềm mại có bề mặt mềm mịn, thoát mồ hôi giữ ấm, nhanh tạo cảm giác vô cùng thoải mái cho người mặc và đặc biệt là không bị Xù Lông, Không phai màu, Giặt máy tốt. \r\n\r\n✔️ Màu sắc áo len cổ lọ nam : 9 màu\r\nĐEN - TRẮNG - XÁM - GHI - NÂU ĐẤT - XANH THAN - RÊU - ĐỎ ĐÔ - BE \r\n\r\n✔️ Size áo len tay dài : L, XL\r\n\r\n    2. HƯỚNG DẪN CHỌN SIZE ÁO LEN NAM\r\n📍 Size L: Cân nặng 45-65kg, cao dưới 1m70\r\n📍 Size XL: Cân nặng 65-78kg, cao dưới 1m80.\r\n(Nếu bạn gặp khó khăn khi chọn size, vui lòng INBOX, cung cấp chiều cao, cân nặng để SHOP TƯ VẤN SIZE)\r\n\r\n   3.  Mẹo Nhỏ Giúp Bạn Bảo Quản Quần áo nam : \r\n💌  Đối với sản phẩm quần áo mới mua về, nên giặt tay lần đầu tiên để tránh phai màu sang quần áo khác\r\n💌 Khi giặt nên lộn mặt trái ra để đảm bảo độ bền \r\n💌 Sản phẩm phù hợp cho giặt máy (có túi giặt)/giặt tay\r\n💌 Không giặt chung đồ Trắng và đồ Tối màu \r\n\r\n    4. CHÍNH SÁCH\r\n✔️ Cam kết chất lượng và loại mã sản phẩm giống với hình ảnh.\r\n✔️ Trả hàng hoàn tiền trong 3 ngày nếu như sản phẩm không đúng mô tả\r\n✔️ Shop sẽ đổi trả trong các trường hợp: shop giao nhầm size, nhầm màu, nhầm sản phẩm khác, thiếu hàng, áo bị lỗi và các lỗi khác của nhà sản xuất.\r\n✔️ Trong các trường hợp: khách không ưng, mặc không hợp, khách chọn nhầm sản phẩm,... quý khách vui lòng  INBOX để shop hướng dẫn đổi size phù hợp\r\n\r\n    5. LƯU Ý\r\n🍀 Quay video khi mở / bóc / khui sản phẩm để được giải quyết nếu có sự cố\r\n🍀 Màu sắc của sản phẩm thực tế có thể đậm, nhạt hơn ảnh mô tả do ánh sáng và màn hình thiết bị khác nhau.\r\n🍀 Kích thước sản phẩm dung sai cho phép ±2cm.', 'public/img/products/4e738af4c439269f606dc20f38bd69f8.png', 220000.00, 7, '2024-11-08 03:19:22', '2024-11-23 14:35:29'),
+(32, 'Áo Khoác Nỉ Hoodie Zip COTTON Thêu NQ30 AM Form Rộng Nam Nữ Unisex', 'Áo Khoác Nỉ Bông NQ30 FORUM Form Rộng Nam Nữ Unisex\r\n\r\nÁo khoác nỉ bông mịn bông dày mặc mùa đông ấm áp, áo có các chi tiết thêu tinh tế, tag tay tag sườn, tag cổ, có bo chun ở tay, nón to trùm đầu, , đặc biệt áo có túi trong ạ\r\n\r\n\r\n\r\nNỉ bên shop là nỉ COTTON nên sẽ không xù mặt ngoài mặc thời gian tính bằng năm nhưng sẽ đổ lông mặt trong các bạn giặt qua vài lần sẽ hết lông thừa bên trong ạ, shop không làm nỉ pha poly vì sẽ xù hết mặt ngoài sau vài lần mặc và giá thành sẽ rẻ hơn 1 nửa so với nỉ COTTON, các bạn nên lưu ý về vấn đề này !!!\r\n\r\n\r\n\r\n- NỈ BÔNG: ẤM ÁP, DÀY DẶN THÍCH HỢP MẶC MÙA ĐÔNG HOẶC CHỐNG NẮNG.\r\n\r\n- NỈ 2 DA (NỈ ÉP HÀN): MỎNG NHƯNG SĂN, THÍCH HỢP MẶC MÙA HÈ MẶC MÁT, KHÔNG ĐỔ LÔNG MẶT TRONG, CÓ CHỐNG TIA UV.\r\n\r\nĐỊNH LƯỢNG VẢI: 380gsm\r\n\r\n\r\n\r\nBảng size chi tiết:\r\n\r\nSize M: dài 70cm, rộng 62cm\r\n\r\nSize L: dài 72cm, rộng 64cm\r\n\r\nSize Xl: dài 74cm, rộng 66cm\r\n\r\n\r\n\r\nBảng size phù hợp 80-90% khách hàng:\r\n\r\nSize M dưới 55kg, cao dưới 1m60\r\n\r\nSize L dưới 65kg, cao dưới 1m70\r\n\r\nSize Xl dưới 75kg, cao dưới 1m75\r\n#aokhoacnu#aokhoacni#aokhoaczip#hoodiezip#aokhoachoodiezip#aokhoacformrong', 'public/img/products/2024_12_03_03_38_45pm.jpg', 269000.00, 1, '2024-12-03 14:38:45', '2024-12-03 14:38:45');
 
 -- --------------------------------------------------------
 
@@ -252,18 +285,17 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `full_name`, `avatar_url`, `phone`, `address`, `role_id`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'tester1', '$2y$10$tL5O4Ay4W4r///idCfsYJeJCvnh1S45IcrqVI1JKo.tkgOCNdbSaq', 'test1@gmail.com', 'test 1', 'https://pin.it/2MvAtiRZI', '12345678', 'ho chi minh', 2, 'active', '2024-11-18 14:45:30', '2024-11-27 02:10:50'),
-(11, 'tester2', '$2y$10$1.Cgq8vvbqrizD4vRp/cN.7hZbeyjdQbz5r/hw0OISvzmoshoHQj6', 'test2@gmail.com', 'Test User 2', 'https://pin.it/2MvAtiRZI', '12345679', 'Da Nang', 2, 'banned', '2024-11-18 14:49:14', '2024-11-27 02:08:55'),
-(12, 'tester3', '$2y$10$XaOY2qliK7OIKqCTVBm92ebr479JddQIfFEXMAVEa2IFQZBJ/0VxW', 'test3@gmail.com', 'Test User 3', 'https://pin.it/2MvAtiRZI', '12345680', 'Hanoi', 2, 'active', '2024-11-18 14:49:14', '2024-11-27 02:10:55'),
+(12, 'tester3', '$2y$10$XaOY2qliK7OIKqCTVBm92ebr479JddQIfFEXMAVEa2IFQZBJ/0VxW', 'testsda3@gmail.com', 'Test User 3', 'https://pin.it/2MvAtiRZI', '123456802', 'hcm', 2, 'active', '2024-11-18 14:49:14', '2024-12-03 13:57:47'),
 (13, 'tester4', '$2y$10$2vyOlUYGSDUTHAzXcBnRW.jCeK4U.78Q4LBvtc2ASZ4UdSu9/1oou', 'test4@gmail.com', 'Test User 4', 'https://pin.it/2MvAtiRZI', '12345681', 'Ho Chi Minh', 2, 'deleted', '2024-11-18 14:49:14', '2024-11-27 02:09:17'),
 (14, 'tester5', '$2y$10$aLn3Y4tL.p7CbjwutJUsO.AZ.GgWfN6Sto2PeT0PP/vHNo0RZquDK', 'test5@gmail.com', 'Test User 5', 'https://pin.it/2MvAtiRZI', '12345682', 'Hai Phong', 2, 'banned', '2024-11-18 14:49:14', '2024-11-27 02:11:01'),
 (15, 'tester6', '$2y$10$jkmTodplQUJvtKvBB1o2x.OvUNfgXz0CHm5bDZDeizDJu4y9Dh.Bm', 'test6@gmail.com', 'Test User 6', 'https://pin.it/2MvAtiRZI', '12345683', 'Can Tho', 2, 'active', '2024-11-18 14:49:14', '2024-11-27 02:09:41'),
 (16, 'tester7', '$2y$10$n7SS48hxZZ0St2PnKp/jIOlNTd/feBPRgxSMO8ATJXddnSOBD3S2q', 'test7@gmail.com', 'Test User 7', 'https://pin.it/2MvAtiRZI', '12345684', 'Nha Trang', 2, 'deleted', '2024-11-18 14:49:14', '2024-11-27 02:11:06'),
 (17, 'tester8', '$2y$10$HpRnW4aeBYUHOqPdLsLjgutcaOsVkyVuRf7j/DdiKfYrtZFg4lDrO', 'test8@gmail.com', 'Test User 8', 'https://pin.it/2MvAtiRZI', '12345685', 'Vung Tau', 2, 'banned', '2024-11-18 14:49:14', '2024-11-27 02:10:02'),
 (18, 'tester9', '$2y$10$AkmA2hpz4zP8XGiT18iJ2.cl2SveLor.3Ugd1IApTjyHA70MkaRJ2', 'test9@gmail.com', 'Test User 9', 'https://pin.it/2MvAtiRZI', '12345686', 'Hue', 2, 'banned', '2024-11-18 14:49:14', '2024-11-27 02:11:09'),
-(36, 'locbao', '$2y$10$KVW2QrJnhyYmDru8eGIk/Om1PwLPyi79v.jEhMUqN0RQm0xlPv/.G', 'loc@gmail.com', 'tran vam loc', 'https://firebasestorage.googleapis.com/v0/b/fir-42a90.appspot.com/o/avatar-people-user-svgrepo-com.svg?alt=media&token=d19e3ab3-4ff0-4088-a0b8-d2d7bfa6c54d', '0231312323', 'ho chi minh', 2, 'active', '2024-11-24 19:34:04', '2024-11-24 19:34:04'),
+(36, 'locbao', '$2y$10$KVW2QrJnhyYmDru8eGIk/Om1PwLPyi79v.jEhMUqN0RQm0xlPv/.G', 'locbao@gmail.com', 'Trần Văn Lộc', 'https://firebasestorage.googleapis.com/v0/b/fir-42a90.appspot.com/o/avatar-people-user-svgrepo-com.svg?alt=media&token=d19e3ab3-4ff0-4088-a0b8-d2d7bfa6c54d', '0231312323', 'Ký túc xá Khu A ĐH Quốc gia TP. Hồ Chí Minh', 2, 'active', '2024-11-24 19:34:04', '2024-12-03 14:29:49'),
 (37, 'admin', '$2y$10$ntigj7eu9wh9f.F8NBrXzuDSUH1Swa4ptF/02OL9/tTDAZSge8VDW', 'tesdasdt@gmail.com', 'admin', 'public/img/users/admin.png', '0383811208', 'ha noi', 1, 'active', '2024-11-24 21:27:20', '2024-11-24 21:27:20'),
-(38, 'tester', '$2y$10$wN0l4Jm1q55DP2HlqJShReq5RwoLKRuQ5GdonTTV9RGlFhXmzmdya', 't@gmail.com', 'tester', 'https://firebasestorage.googleapis.com/v0/b/fir-42a90.appspot.com/o/avatar-people-user-svgrepo-com.svg?alt=media&token=d19e3ab3-4ff0-4088-a0b8-d2d7bfa6c54d', '0383811208', 'ha noi', 2, 'active', '2024-11-26 00:20:02', '2024-11-26 00:20:02');
+(38, 'tester', '$2y$10$wN0l4Jm1q55DP2HlqJShReq5RwoLKRuQ5GdonTTV9RGlFhXmzmdya', 't@gmail.com', 'tester', 'https://firebasestorage.googleapis.com/v0/b/fir-42a90.appspot.com/o/avatar-people-user-svgrepo-com.svg?alt=media&token=d19e3ab3-4ff0-4088-a0b8-d2d7bfa6c54d', '0383811208', 'ha noi', 2, 'active', '2024-11-26 00:20:02', '2024-11-26 00:20:02'),
+(39, 'haha', '$2y$10$.A6dJ/Zeqgdfu0HvVw.WSuvLQMg.lzD1nmYjAxsH2kBIURuLHEiB2', 'haha@gmail.com', 'tet toacbere', 'public/img/users/haha.png', '0348234728', 'ho chi minh city', 2, 'active', '2024-12-03 12:41:38', '2024-12-03 12:41:38');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -305,6 +337,13 @@ ALTER TABLE `news`
   ADD PRIMARY KEY (`news_id`);
 
 --
+-- Chỉ mục cho bảng `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`payment_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Chỉ mục cho bảng `products`
 --
 ALTER TABLE `products`
@@ -342,13 +381,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cart_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -360,7 +399,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT cho bảng `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT cho bảng `news`
@@ -369,10 +408,16 @@ ALTER TABLE `news`
   MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT cho bảng `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT cho bảng `ratings`
@@ -390,7 +435,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -417,10 +462,16 @@ ALTER TABLE `comment`
   ADD CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`news_id`) REFERENCES `news` (`news_id`) ON DELETE CASCADE;
 
 --
+-- Các ràng buộc cho bảng `payments`
+--
+ALTER TABLE `payments`
+  ADD CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+
+--
 -- Các ràng buộc cho bảng `products`
 --
 ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`);
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `ratings`
