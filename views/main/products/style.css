@@ -992,7 +992,6 @@
 }
 
 .product-details .pd-size-choose .sc-item input {
-  position: absolute;
   visibility: hidden;
 }
 

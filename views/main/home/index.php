@@ -9,7 +9,7 @@
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active align-center">
-            <img src="public\images\products\slide1.png" class="d-block w-100 imageChance" alt="banner1">
+            <img src="public/img/slides/slide1.png" class="d-block w-100 imageChance" alt="banner1">
             </div>
             <div class="carousel-item">
             <img src="https://i.pinimg.com/564x/54/a5/b2/54a5b213c3887a3459fe22b83a474e8c.jpg" class="d-block w-100" alt="">
@@ -28,27 +28,24 @@
         </button>
 </div>
 
-<section class="topProduct-banner spad">
-    <div class="container-fluid">
+<section class="topProduct-banner spad container">
+    <div class="container">
         <div class="row">
             <div class="col-lg-8" style ="padding-top: 40px;">
                 <div class="filter-control">
                 </div>
                 <div class="product-slider owl-carousel">
                 <?php foreach($products as $product) : ?>
-                    <div class='product-item'>
+                    <div class='product-item d-none d-md-block' style="height: 500px;">
                         <div class='pi-pic' style='max-height:300px'>
                             <img src='<?php echo htmlspecialchars($product->getImageUrl()); ?>' alt='<?php echo htmlspecialchars($product->getProductName()); ?>' style='height: 300px'>
-                            <ul>
-                                <li class='quick-view'><a href='product.php?product_id=$product_id' style='background:#fe4231;color:white'></a></li>
-                            </ul>
                         </div>
                         <div class='pi-text'>
                             <a href='#'>
                                 <h5><?php echo htmlspecialchars($product->getProductName()); ?></h5>
                             </a>
                             <div class='product-price'>
-                                <?php echo htmlspecialchars($product->getPrice()); ?>
+                                <?php echo number_format($product->getPrice(), 0, ',', '.') . " VND"; ?>
                             </div>
                         </div>
                     </div>
@@ -58,7 +55,7 @@
             <div class="col-lg-3 offset-lg-1"  style ="padding-top: 30px;">
                 <div class="product-large set-bg m-large">
                     <h2 style ="color:white;font-size: xxx-large;">Some Product</h2>
-                    <a href="shop.php?cat_id=1"style="font-size: xx-large;">Discover More</a>
+                    <a href="index.php?page=main&controller=products&action=index"style="font-size: xx-large;">Discover More</a>
                 </div>
             </div>
         </div>

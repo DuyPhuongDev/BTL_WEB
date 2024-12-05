@@ -271,6 +271,15 @@ class Product {
         return $total;
     }
 
-    // get 
+    // update product
+    public static function updateProduct($product){
+        $db = DB::getInstance();
+        $stmt =  $db->prepare("UPDATE products SET product_name = ?, description = ?, image_url = ?, price = ?, category_id = ? WHERE product_id = ?");
+        $stmt->bind_param("sssdii", $product->product_name, $product->description, $product->image_url, $product->price, $product->category_id, $product->product_id);
+        if($stmt->execute()){
+            return true;
+        }
+        return false;
+    }
 }
 ?>

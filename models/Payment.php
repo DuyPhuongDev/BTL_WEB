@@ -103,7 +103,7 @@ class Payment {
     // get all payments by user id
     public static function getPaymentsByUserId($userId){
         $db = DB::getInstance();
-        $stmt = $db->prepare("SELECT * FROM payments WHERE user_id = ?");
+        $stmt = $db->prepare("SELECT * FROM payments WHERE user_id = ? ORDER BY payment_date DESC");
         $stmt->bind_param("i", $userId);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -177,7 +177,7 @@ class Payment {
     // get all payments
     public static function getAllPayments(){
         $db = DB::getInstance();
-        $stmt = $db->prepare("SELECT * FROM payments");
+        $stmt = $db->prepare("SELECT * FROM payments ORDER BY payment_date DESC");
         $stmt->execute();
         $result = $stmt->get_result();
         $payments = [];

@@ -68,7 +68,27 @@ class ProductController extends BaseController
     }
     public function edit()
     {
-        echo "Edit product";
+        if($_SERVER['REQUEST_METHOD']=='POST'){
+            $productId = $_POST['productId'];
+            $product_name = $_POST['name'];
+            $description = $_POST['description'];
+            $image_url = $_POST['imageUrl'];
+            $price = $_POST['price'];
+            $category_id = $_POST['categoryId'];
+            $product = Product::getProductById(intval($productId));
+            //set new value
+            $product->setProductName($product_name);
+            $product->setDescription($description);
+            $product->setImageUrl($image_url);
+            $product->setPrice($price);
+            $product->setCategoryId($category_id);
+            // update product
+            if(Product::updateProduct($product)){
+                Header("Location: index.php?page=admin&controller=product&action=index");
+            }else{
+                echo "<script>alert('Chỉnh sửa thông tin sản phẩm thất bại!.'); window.location.href = 'index.php?page=admin&controller=product&action=index';</script>";
+            }
+        }
     }
     public function delete(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['productId'])) {

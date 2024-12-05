@@ -112,6 +112,7 @@
                                                 <div class="btn-group" role="group">
                                                     <button 
                                                         class="btn btn-warning me-2" id="edit-btn"
+                                                        data-bs-id = "<?php echo $product->getProductId(); ?>"
                                                         data-bs-name="<?php echo $product->getProductName(); ?>"
                                                         data-bs-description="<?php echo $product->getDescription(); ?>"
                                                         data-bs-imageurl="<?php echo $product->getImageUrl(); ?>"
@@ -185,12 +186,14 @@
         });
         // edit product
         $(document).on('click', '#edit-btn', function() {
+            var productId = $(this).data('bs-id');
             var name = $(this).data('bs-name');
             var description = $(this).data('bs-description');
             var imageUrl = $(this).data('bs-imageurl');
             var price = $(this).data('bs-price');
             var category = $(this).data('bs-category');
 
+            $('#editproductId').val(productId);
             $('#editname').val(name);
             $('#editdescription').val(description);
             $('#editprice').val(price);

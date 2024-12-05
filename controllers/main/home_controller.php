@@ -14,11 +14,12 @@ class HomeController extends BaseController
 
 	public function index()
 	{
+		//echo "Home page";
 		session_start();
 		$products = Product::getAll();
 		$categories = Category::getAll();
 		$data = array('products' => $products, 'categories' => $categories);
-		//print_r($_SESSION);
+		// //print_r($_SESSION);
 		$this->render('index', $data);
 	}
 }

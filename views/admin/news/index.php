@@ -33,7 +33,7 @@
     <header class="header-section">
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
-                <button class="navbar-toggler">
+                <button class="navbar-toggler"`>
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <a class="navbar-brand mx-auto" href="#">Admin Page</a>
@@ -53,13 +53,13 @@
     <div class="container-fluid row">
         <!-- toast -->
         <div class="toast-container position-fixed top-0 end-0 p-3">
-            <div id="success-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="1000" style="background-color: #00FF00;">
+            <div id="success-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" style="border: 2px solid #00FF00;">
                 <div class="d-flex">
                     <div class="toast-body"></div>
                     <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
             </div>
-            <div id="error-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="1000" style="--bs-toast-bg: #FF0000;">
+            <div id="error-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" style="border: 2px solid #ff0000;">
                 <div class="d-flex">
                     <div class="toast-body"></div>
                     <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -80,7 +80,7 @@
                 <a href="index.php?page=admin&controller=news&action=index" class="list-group-item list-group-item-action"><i class="fa-solid fa-newspaper"></i> Quản lý bài viết</a>
             </div>
         </aside>
-
+        
         <!-- Main Content -->
         <main class="content-wrapper col-10 mb-2">
             <section class="content-header">
@@ -101,6 +101,9 @@
                         <div class="shadow p-2 rounded">
                             <?php 
                                 // dialog add
+                                require_once 'views/admin/news/addNewsDialog.php';
+                                require_once 'views/admin/news/editNewsDialog.php';
+                                require_once 'views/admin/news/deleteNewsDialog.php';
                             ?>
                             <!-- table -->
                             <table id="table-news" class="table table-bordered table-striped">
@@ -160,8 +163,8 @@
                         <td class="d-none d-lg-table-cell">${news.status}</td>
                         <td class="d-none d-lg-table-cell">
                             <div class="d-flex">
-                                <button id="edit-user-btn" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#editUser" data-id="1"><i class="fa-solid fa-pen-to-square"></i></button>
-                                <button id="delete-user-btn" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUser" data-id="1"><i class="fa-solid fa-trash"></i></button>
+                                <button id="edit-news-btn" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#editNews" data-id="${news.news_id}"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button id="delete-news-btn" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteNews" data-id="${news.news_id}"><i class="fa-solid fa-trash"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -210,6 +213,84 @@
             // Thiết lập giá trị mặc định là 20
             $('#table-news_length select').val('10');
         });
+
+        // edit news
+        $(document).on('click', '#edit-news-btn', function() {
+            const newsId = $(this).data('id');
+            const news = newses.find(news => news.news_id == newsId);
+            var content = news.content.replace(/<br>/g, "\r\n");
+            $('#editNewsForm #news-id').val(news.news_id);
+            $('#editNewsForm #news-title').val(news.title);
+            $('#editNewsForm #news-topic').val(news.topic);
+            $('#editNewsForm #content').val(content);
+            $('#editNewsForm #status').val(news.status);
+        });
+
+        $('#editNewsForm').submit(function(e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+            $.ajax({
+                url: 'index.php?page=admin&controller=news&action=edit',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    const res = JSON.parse(response);
+                    console.log(res);
+                    if (res.status === 200) {
+                        showToastSuccess(res.message);
+                        const newsId = res.data.news_id;
+                        const index = newses.findIndex(news => news.news_id == newsId);
+                        newses[index] = {
+                            news_id: newsId,
+                            title: res.data.title,
+                            topic: res.data.topic,
+                            content: res.data.content.replace(/\r\n/g, "<br>"),
+                            status: res.data.status
+                        };
+                        renderTable(newses);
+                    } else {
+                        showToastError(res.message);
+                    }
+                },
+                error: function() {
+                    showToastError('Có lỗi xảy ra!');
+                }
+            });
+        });
+
+        // handle delete news
+        $(document).on('click', '#delete-news-btn', function() {
+            const newsId = $(this).data('id');
+            $('#del-news-id').val(newsId);
+        });
+
+        $("#deleteNewsForm").submit(function(e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+            $.ajax({
+                url: 'index.php?page=admin&controller=news&action=delete',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    const res = JSON.parse(response);
+                    if (res.status === 200) {
+                        showToastSuccess(res.message);
+                        newses = newses.filter(news => news.news_id != res.data);
+                        renderTable(newses);
+                    } else {
+                        showToastError(res.message);
+                    }
+                },
+                error: function() {
+                    showToastError('Có lỗi xảy ra!');
+                }
+            });
+        });
+
     </script>
 </body>
 </html>

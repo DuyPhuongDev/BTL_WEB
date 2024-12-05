@@ -51,6 +51,9 @@
 <script src="<?php echo $folderPath."/script.js" ?>"></script>
 <script> 
     var cartItems = <?php echo json_encode($data['cartItems']); ?>;
+    if (cartItems === null) {
+        cartItems = [];
+    }
     function renderCart(cartItems){
         $("#product-list").html('');
         html = '';

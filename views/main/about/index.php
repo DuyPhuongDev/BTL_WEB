@@ -8,7 +8,7 @@
         <section class="mb-5">
             <h2 class="text-center">Giới Thiệu Công Ty</h2>
             <p class="text-center mt-4">
-                Chào mừng đến với **FashionHub**, thương hiệu thời trang hàng đầu với sứ mệnh mang đến phong cách sống đẳng cấp, hiện đại. 
+                Chào mừng đến với <strong>BKShop Co. </strong>, thương hiệu thời trang hàng đầu với sứ mệnh mang đến phong cách sống đẳng cấp, hiện đại. 
                 Chúng tôi luôn tự hào với những sản phẩm chất lượng cao, mang đậm tính thẩm mỹ và đổi mới.
             </p>
         </section>
@@ -41,25 +41,25 @@
             <div class="row mt-4">
                 <!-- Team Member 1 -->
                 <div class="col-md-3 text-center team-member">
-                    <img src="public/img/users/users.jpg" alt="Team Member 1">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSagzO0S1vQarh0Z9O_eLKfEgf6lNW4L1Wuhg&s" alt="Team Member 1">
                     <h5 class="mt-3">Trần Duy Phương</h5>
                     <p>Nhà Sáng Lập</p>
                 </div>
                 <!-- Team Member 2 -->
                 <div class="col-md-3 text-center team-member">
-                    <img src="public/img/users/users.jpg" alt="Team Member 2">
+                    <img src="https://i.seadn.io/gae/U5CPeK3FlFboSOAXx26VRzGTmqr2fTFGfXS4iZMxqVIN2n1qAziWZGWceJG-ilNMdFxMKATGZiY2_ltjIUXD9DzKuG3Q55ol0SjpDg?auto=format&dpr=1&w=1000" alt="Team Member 2">
                     <h5 class="mt-3">Hoàng Thiện Bách</h5>
                     <p>Giám Đốc Thiết Kế</p>
                 </div>
                 <!-- Team Member 3 -->
                 <div class="col-md-3 text-center team-member">
-                    <img src="public/img/users/users.jpg" alt="Team Member 3">
+                    <img src="https://i.seadn.io/gae/U5CPeK3FlFboSOAXx26VRzGTmqr2fTFGfXS4iZMxqVIN2n1qAziWZGWceJG-ilNMdFxMKATGZiY2_ltjIUXD9DzKuG3Q55ol0SjpDg?auto=format&dpr=1&w=1000" alt="Team Member 3">
                     <h5 class="mt-3">Quách Trung Hào</h5>
                     <p>Trưởng Phòng Marketing</p>
                 </div>
                 <!-- Team Member 3 -->
                 <div class="col-md-3 text-center team-member">
-                    <img src="public/img/users/users.jpg" alt="Team Member 3">
+                    <img src="https://i.seadn.io/gae/U5CPeK3FlFboSOAXx26VRzGTmqr2fTFGfXS4iZMxqVIN2n1qAziWZGWceJG-ilNMdFxMKATGZiY2_ltjIUXD9DzKuG3Q55ol0SjpDg?auto=format&dpr=1&w=1000" alt="Team Member 3">
                     <h5 class="mt-3">Trần Văn Thiện</h5>
                     <p>Trưởng Phòng Marketing</p>
                 </div>

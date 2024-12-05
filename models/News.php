@@ -86,7 +86,7 @@ class News {
 
     // toString
     public function __toString() {
-        return $this->title . ' - ' . $this->content . ' - ' . $this->status . ' - ' . $this->topic . ' - ' . $this->img_url;
+        return $this->news_id . " - " . $this->title . ' - ' . $this->content . ' - ' . $this->status . ' - ' . $this->topic . ' - ' . $this->img_url;
     }
 
     // Get all news
@@ -108,7 +108,7 @@ class News {
     // Get news by topic
     public static function getNewsByTopic($topic) {
         $db = DB::getInstance();
-        $stmt = $db->prepare("SELECT * FROM news WHERE topic = ?");
+        $stmt = $db->prepare("SELECT * FROM news WHERE topic = ? ORDER BY created_at DESC LIMIT 5");
         $stmt->bind_param("s", $topic);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -139,6 +139,42 @@ class News {
             $news->setUpdatedAt($item['updated_at']);
         }
         return $news;
+    }
+
+    // save news
+    public static function save($title, $topic, $content, $img_url, $status) {
+        $db = DB::getInstance();
+        $stmt = $db->prepare("INSERT INTO news (title, topic, content, img_url, status) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $title, $topic, $content, $img_url, $status);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    // update news
+    public static function updateNews($news){
+        $db = DB::getInstance();
+        $stmt = $db->prepare('UPDATE news SET title = ?, topic = ?, content = ?, img_url = ?, status = ? WHERE news_id = ?');    
+        $stmt->bind_param("sssssi", $news->getTitle(), $news->getTopic(), $news->getContent(), $news->getImgUrl(), $news->getStatus(), $news->getNewsId()); 
+        $stmt->execute();   
+        if ($stmt->affected_rows > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    // delete news by id
+    public static function deleteNews($news_id) {
+        $db = DB::getInstance();
+        $stmt = $db->prepare("DELETE FROM news WHERE news_id = ?");
+        $stmt->bind_param("i", $news_id);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            return true;
+        }
+        return false;
     }
 }
 ?>

@@ -9,6 +9,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <input type="hidden" id="editproductId" name="productId">
                     <div class="mb-3">
                         <label for="editname" class="form-label">Tên sản phẩm</label>
                         <input type="text" class="form-control" id="editname" name="name" required>
